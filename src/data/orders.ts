@@ -1,0 +1,145 @@
+import { Order } from "@/types";
+
+export const ORDERS_DATA: Order[] = [
+  {
+    id: 1,
+    total_price: 100,
+    status: "paid",
+    state: "pending",
+    table: {
+      id: 1,
+      name: "Table 1",
+      created_at: "2021-01-01",
+      updated_at: "2021-01-01",
+    },
+    order_items: [
+      {
+        id: 11,
+        name: "Product 1",
+        price: 100,
+        quantity: 1,
+        note: "Demo note",
+        addons: [
+          {
+            id: 1,
+            name: "Addon 1",
+            price: 10,
+            created_at: "2021-01-01",
+            updated_at: "2021-01-01",
+          },
+        ],
+        created_at: "2021-01-01",
+        updated_at: "2021-01-01",
+      },
+      {
+        id: 11,
+        name: "Product 2",
+        price: 100,
+        quantity: 1,
+        note: "Demo note",
+        addons: [
+          {
+            id: 1,
+            name: "Addon 1",
+            price: 10,
+            created_at: "2021-01-01",
+            updated_at: "2021-01-01",
+          },
+        ],
+        created_at: "2021-01-01",
+        updated_at: "2021-01-01",
+      },
+    ],
+    customer: {
+      id: 54,
+      name: "Customer 1",
+      email: "",
+      created_at: "2021-01-01",
+      updated_at: "2021-01-01",
+    },
+    created_at: "2021-01-01",
+    updated_at: "2021-01-01",
+  },
+  {
+    id: 1,
+    total_price: 140,
+    status: "paid",
+    state: "confirmed",
+    table: {
+      id: 1,
+      name: "Table 4",
+      created_at: "2021-01-01",
+      updated_at: "2021-01-01",
+    },
+    order_items: [
+      {
+        id: 11,
+        name: "Product 1",
+        price: 100,
+        quantity: 1,
+        note: "Demo note",
+        addons: [
+          {
+            id: 1,
+            name: "Addon 1",
+            price: 10,
+            created_at: "2021-01-01",
+            updated_at: "2021-01-01",
+          },
+        ],
+        created_at: "2021-01-01",
+        updated_at: "2021-01-01",
+      },
+    ],
+    customer: {
+      id: 54,
+      name: "Customer 1",
+      email: "",
+      created_at: "2021-01-01",
+      updated_at: "2021-01-01",
+    },
+    created_at: "2021-01-01",
+    updated_at: "2021-01-01",
+  },
+  {
+    id: 1,
+    total_price: 176,
+    status: "paid",
+    state: "pending",
+    table: {
+      id: 1,
+      name: "Table 2",
+      created_at: "2021-01-01",
+      updated_at: "2021-01-01",
+    },
+    order_items: [
+      {
+        id: 11,
+        name: "Product 1",
+        price: 100,
+        quantity: 1,
+        note: "Demo note",
+        addons: [
+          {
+            id: 1,
+            name: "Addon 1",
+            price: 10,
+            created_at: "2021-01-01",
+            updated_at: "2021-01-01",
+          },
+        ],
+        created_at: "2021-01-01",
+        updated_at: "2021-01-01",
+      },
+    ],
+    customer: {
+      id: 54,
+      name: "Customer 1",
+      email: "",
+      created_at: "2021-01-01",
+      updated_at: "2021-01-01",
+    },
+    created_at: "2021-01-01",
+    updated_at: "2021-01-01",
+  },
+];
