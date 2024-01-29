@@ -5,11 +5,16 @@ import Tabs from "@/components/ui/tabs";
 
 import CategoryForm from "@/components/Forms/CategoryForm/CategoryForm";
 import ProductForm from "@/components/Forms/ProductForm/ProductForm";
+import { useGetCategoriesQuery } from "@/services/api/menu-api.service";
 
 const TabItems = ["Categories", "Products"];
 
 const Menu = () => {
   const [activeTab, setActiveTab] = React.useState(TabItems[0]);
+
+  const { data, isLoading } = useGetCategoriesQuery({});
+
+  console.log("=======DATA======", data);
 
   return (
     <>
