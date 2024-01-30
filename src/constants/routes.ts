@@ -1,5 +1,5 @@
 const ROUTES = {
-  dashboard: "/",
+  dashboard: "/orders",
   login: "/login",
   forgotPassword: "/forgot-password",
 };

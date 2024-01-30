@@ -1,21 +1,24 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Layout from "@/components/Layout/layout";
 import TableCard from "@/components/ui/table-card";
-import { RootState } from "@/app/store";
 import { openModal } from "@/features/modal/modalSlice";
 import Button from "@/components/ui/button";
+import { useGetAllTablesQuery } from "@/services/data/table.data";
 
 interface Props {}
 
 const Tables: React.FC<Props> = () => {
-  const { tables, tableName } = useSelector((state: RootState) => state.table);
+  // const { tables, tableName } = useSelector((state: RootState) => state.table);
+  const { data, isLoading } = useGetAllTablesQuery();
 
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
     dispatch(openModal({ view: "ADD_TABLE", data: { title: "Add Table" } }));
   };
+
+  console.log(data);
 
   return (
     <>
@@ -28,8 +31,8 @@ const Tables: React.FC<Props> = () => {
             </Button>
           </div>
           <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-20">
-            {tables.map((table: any, index) => {
-              return <TableCard key={index} tableName={table} />;
+            {(data || []).map((table, index) => {
+              return <TableCard key={index} table={table} />;
             })}
           </div>
         </div>

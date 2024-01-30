@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import SmallNavbar from "./SmallNavbar";
 import { useRouter } from "next/router";
+import { useLogoutMutation } from "@/services/data/auth.data";
 
 export const navbarItems = [
   {
@@ -42,9 +43,21 @@ interface Props {
 
 const Navbar: React.FC<Props> = (className) => {
   const router = useRouter();
+  const { mutate } = useLogoutMutation();
 
   const isActiveRoute = (route: string) => {
     return router.pathname === route;
+  };
+
+  const onLogout = () => {
+    mutate(
+      {},
+      {
+        onSuccess(data, variables, context) {
+          router.push("/login");
+        },
+      }
+    );
   };
 
   return (
@@ -73,7 +86,10 @@ const Navbar: React.FC<Props> = (className) => {
           </ul>
         </nav>
       </div>
-      <div className="md:flex md:justify-center hidden">
+      <div
+        className="md:flex md:justify-center hidden cursor-pointer"
+        onClick={onLogout}
+      >
         <LogoutIcon fill="#fff" />
       </div>
       <div className="md:hidden">

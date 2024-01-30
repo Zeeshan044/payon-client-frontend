@@ -15,7 +15,11 @@ const ViewTableModal: React.FC<Props> = ({}) => {
       <>
         <ModalContent>
           <div className="mb-4 items-center flex justify-center">
-            <QRCode value={JSON.stringify(data?.id)} size={200} />
+            <QRCode
+              type="url"
+              value={JSON.stringify(data?.qr_link)}
+              size={200}
+            />
           </div>
         </ModalContent>
         <ModalFooter>
