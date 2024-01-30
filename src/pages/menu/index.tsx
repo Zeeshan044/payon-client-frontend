@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout/Layout";
+import Layout from "@/components/Layout/layout";
 import React from "react";
 import MenuRow from "@/components/ui/menu-row";
 import Tabs from "@/components/ui/tabs";

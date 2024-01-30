@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Layout from "@/components/Layout/Layout";
+import Layout from "@/components/Layout/layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import OrderItemCard from "@/components/ui/order-item-card";

@@ -1,6 +1,6 @@
 import React from "react";
 import { Order, TableOrderState } from "@/types";
-import Layout from "@/components/Layout/Layout";
+import Layout from "@/components/Layout/layout";
 import OrderCard from "@/components/ui/order-card";
 import Overlay from "@/components/ui/overlay";
 import Spinner from "@/components/ui/spinner";
