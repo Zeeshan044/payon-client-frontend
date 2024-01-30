@@ -20,7 +20,9 @@ const MenuRow = ({ title, description, price, image, onClick }: Props) => {
     >
       <div className="flex flex-col self-stretch">
         <h3 className="font-bold">{title}</h3>
-        <p className="">{description}</p>
+        <div>
+          <p className="text-sm line-clamp-1">{description}</p>
+        </div>
         {price && (
           <span className="text-primary font-bold">{convertToUSD(price)}</span>
         )}
