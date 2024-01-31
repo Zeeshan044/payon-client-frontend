@@ -5,6 +5,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   variant?: "primary" | "secondary";
   size?: "sm" | "md" | "lg";
+  onClick: () => any
 }
 
 const Button = React.forwardRef<HTMLButtonElement, Props>(

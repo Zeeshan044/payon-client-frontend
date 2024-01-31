@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout/layout";
+import Layout from "@/components/Layout/Layout";
 import UserProfile from "@/components/user-profile/user-profile";
 
 const index = () => {

@@ -30,3 +30,14 @@ export function useCreateTableMutation() {
     },
   });
 }
+export function useDeleteTableMutation() {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => {
+      return tableClient.delete(id);
+    },
+    onSuccess: (data, id) => {
+      client.invalidateQueries("tables/getOne");
+    },
+  });
+}

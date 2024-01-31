@@ -20,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ManagedModal />
         <ToastContainer />
       </QueryClientProvider>
+
     </Provider>
   );
 }

@@ -1,11 +1,10 @@
-import Layout from "@/components/Layout/layout";
+import Layout from "@/components/Layout/Layout";
 import React from "react";
 import MenuRow from "@/components/ui/menu-row";
 import Tabs from "@/components/ui/tabs";
 
 import CategoryForm from "@/components/Forms/CategoryForm/CategoryForm";
 import ProductForm from "@/components/Forms/ProductForm/ProductForm";
-import { useGetCategoriesQuery } from "@/services/api/category-api.service";
 import PageLoader from "@/components/ui/page-loader";
 
 const TabItems = ["Categories", "Products"];
@@ -13,11 +12,10 @@ const TabItems = ["Categories", "Products"];
 const Menu = () => {
   const [activeTab, setActiveTab] = React.useState(TabItems[0]);
 
-  const { data, isLoading } = useGetCategoriesQuery({});
+  // const { data, isLoading } = useGetCategoriesQuery({});
 
-  if (isLoading) {
-    return <PageLoader />;
-  }
+  // if (isLoading) {
+  // }
 
   return (
     <>
@@ -28,7 +26,7 @@ const Menu = () => {
         <div className="grid grid-cols-5 gap-8 mt-4">
           <div className="col-span-2 bg-primary/10 rounded-md p-6">
             <div className="flex flex-col gap-3">
-              {data?.map((category) => (
+              {Array(3).fill('')?.map((category) => (
                 <MenuRow
                   key={category.id}
                   title={category.name}

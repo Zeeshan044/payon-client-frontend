@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 // Create an Axios instance
 const Axios: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: "http://192.168.100.97:8000/api",
   headers: {
     "Content-Type": "application/json",
   },
