@@ -9,6 +9,7 @@ import {
   CategoryFormValues,
 } from "@/schema/category-form.schema";
 import IMAGES from "@/constants/images";
+import { useCreateCategoryMutation } from "@/services/data/category.data";
 
 const CategoryForm: React.FC = () => {
   const fileRef = React.useRef<HTMLInputElement>(null);
@@ -17,9 +18,12 @@ const CategoryForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(CategoryFormSchema),
   });
+
+  const { mutate: createCategory, isLoading } = useCreateCategoryMutation();
 
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
@@ -27,19 +31,25 @@ const CategoryForm: React.FC = () => {
   });
 
   const onSubmit = (data: CategoryFormValues) => {
-    console.log(data);
+    const formData = new FormData();
+    // formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("image", imageInfo.file || "");
+    console.log(formData);
+    createCategory(formData, {
+      onSuccess() {
+        reset();
+        setImageInfo({ file: null, src: "" });
+      },
+    });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const file = e.target.files?.[0] || null;
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) =>
-        setImageInfo({ file, src: event.target?.result as string });
-      reader.readAsDataURL(file);
-    } else {
-      setImageInfo({ file: null, src: "" });
+    if (e.target.files) {
+      setImageInfo({
+        file: e.target.files[0],
+        src: URL.createObjectURL(e.target.files[0]),
+      });
     }
   };
 

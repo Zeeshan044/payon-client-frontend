@@ -10,9 +10,19 @@ interface Props {
   price?: number;
   image?: string;
   onClick?: () => void;
+  onDelete?: () => void;
+  onEdit?: () => void;
 }
 
-const MenuRow = ({ title, description, price, image, onClick }: Props) => {
+const MenuRow = ({
+  title,
+  description,
+  price,
+  image,
+  onClick,
+  onDelete,
+  onEdit,
+}: Props) => {
   return (
     <div
       onClick={onClick}
@@ -37,8 +47,14 @@ const MenuRow = ({ title, description, price, image, onClick }: Props) => {
           />
         </div>
         <div className="flex flex-col justify-around">
-          <HiTrash className="text-red-500 h-5 w-5" />
-          <HiPencil className="text-blue-500 h-5 w-5" />
+          <HiTrash
+            className="text-red-500 h-5 w-5 cursor-pointer"
+            onClick={onDelete}
+          />
+          <HiPencil
+            className="text-blue-500 h-5 w-5 cursor-pointer"
+            onClick={onEdit}
+          />
         </div>
       </div>
     </div>

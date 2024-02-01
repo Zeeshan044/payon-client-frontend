@@ -4,6 +4,7 @@ import axios, {
   AxiosInstance,
   AxiosError,
   InternalAxiosRequestConfig,
+  AxiosRequestConfig,
 } from "axios";
 import router from "next/router";
 import { toast } from "react-toastify";
@@ -30,7 +31,8 @@ Axios.interceptors.response.use(
         return router.push(ROUTES.login);
       }
 
-      toast.error(error.response.data.message);
+      // @ts-ignore
+      toast.error(error.response.data?.errors?.name?.join(", "));
     } else if (error.request) {
       // Handle network errors (e.g., no internet connection)
       // console.error('Network Error:', error.request);
@@ -74,7 +76,11 @@ export class HttpClient {
     return response.data.data;
   }
 
-  static async post<T>(url: string, data: unknown, options?: any) {
+  static async post<T>(
+    url: string,
+    data: unknown,
+    options?: AxiosRequestConfig<any>
+  ) {
     const response = await Axios.post<IAPIResponse<T>>(url, data, options);
     return response.data.data;
   }

@@ -1,14 +1,26 @@
 import React from "react";
 import { RootState } from "@/app/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import QRCode from "react-qr-code";
 import { ModalContent, ModalFooter } from "../ui/modal";
 import Button from "../ui/button";
+import { useDeleteTableMutation } from "@/services/data/table.data";
+import { closeModal } from "@/features/modal/modalSlice";
 
 interface Props {}
 
 const ViewTableModal: React.FC<Props> = ({}) => {
   const { data } = useSelector((state: RootState) => state.modal);
+  const { mutate, isLoading } = useDeleteTableMutation();
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    mutate(data?.id, {
+      onSuccess: () => {
+        dispatch(closeModal());
+      },
+    });
+  };
 
   return (
     <div>
@@ -24,8 +36,8 @@ const ViewTableModal: React.FC<Props> = ({}) => {
         </ModalContent>
         <ModalFooter>
           <div className="flex justify-end gap-6">
-            <Button onClick={() => {}} className="bg-red-500">
-              Delete
+            <Button onClick={handleDelete} className="bg-red-500">
+              {isLoading ? "Deleting..." : "Delete"}
             </Button>
             <Button onClick={() => {}}>Download</Button>
           </div>

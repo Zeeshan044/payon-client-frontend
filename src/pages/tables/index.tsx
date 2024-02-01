@@ -5,11 +5,11 @@ import TableCard from "@/components/ui/table-card";
 import { openModal } from "@/features/modal/modalSlice";
 import Button from "@/components/ui/button";
 import { useGetAllTablesQuery } from "@/services/data/table.data";
+import PageLoader from "@/components/ui/page-loader";
 
 interface Props {}
 
 const Tables: React.FC<Props> = () => {
-  // const { tables, tableName } = useSelector((state: RootState) => state.table);
   const { data, isLoading } = useGetAllTablesQuery();
 
   const dispatch = useDispatch();
@@ -30,11 +30,17 @@ const Tables: React.FC<Props> = () => {
               Add Table
             </Button>
           </div>
-          <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-20">
-            {(data || []).map((table, index) => {
-              return <TableCard key={index} table={table} />;
-            })}
-          </div>
+          {isLoading ? (
+            <PageLoader />
+          ) : (
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-20">
+              <>
+                {(data || []).map((table, index) => {
+                  return <TableCard key={index} table={table} />;
+                })}
+              </>
+            </div>
+          )}
         </div>
       </Layout>
     </>
