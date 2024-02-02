@@ -20,8 +20,12 @@ export function useCreateCategoryMutation() {
   const client = useQueryClient();
   return useMutation({
     mutationFn: (data: FormData) => categoryClient.create(data),
-    onSuccess: () => {
+    onSuccess: (data, variables, context) => {
+      console.log("Create category successful:", data);
       client.invalidateQueries("categories/getAll");
+    },
+    onError: (error, variables, context) => {
+      console.error("Create category error:", error);
     },
   });
 }

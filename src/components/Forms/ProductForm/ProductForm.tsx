@@ -10,21 +10,24 @@ import {
 } from "@/schema/product-form.schema";
 import IMAGES from "@/constants/images";
 import { convertToUSD } from "@/utils";
+import { useCreateProductMutation } from "@/services/data/product.data";
 
 const ProductForm: React.FC = () => {
   const fileRef = React.useRef<HTMLInputElement>(null);
-
-  const [addons, setAddons] = useState<{ name: string; price: number }[]>([]);
-  const [addonName, setAddonName] = useState("");
-  const [addonPrice, setAddonPrice] = useState(0);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm({
     resolver: yupResolver(ProductFormSchema),
   });
+
+  const [addons, setAddons] = useState<{ name: string; price: number }[]>([]);
+  const [addonName, setAddonName] = useState("");
+  const [addonPrice, setAddonPrice] = useState(0);
+  const { mutate: createProduct } = useCreateProductMutation()
+
 
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
@@ -33,6 +36,23 @@ const ProductForm: React.FC = () => {
 
   const onSubmit = (data: ProductFormValues) => {
     console.log(data);
+    const formData = new FormData()
+    if (imageInfo.file) {
+      formData.append("image", imageInfo.file);
+    }
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("ingredients", data.ingredients)
+    formData.append("price", data.price.toString());
+
+    console.log("FormData:", formData);
+    console.log("FormData:", formData);
+    // createProduct(formData, {
+    //   onSuccess() {
+    //     reset();
+    //     setImageInfo({ file: null, src: "" });
+    //   },
+    // });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,9 +73,9 @@ const ProductForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="aspect-video rounded bg-slate-100 relative">
-            <Image
+            <img
               src={imageInfo?.src || IMAGES.NO_IMAGE}
-              fill
+              // fill
               alt=""
               className="w-full h-full object-cover"
             />

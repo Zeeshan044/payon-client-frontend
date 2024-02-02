@@ -22,20 +22,21 @@ const CategoryForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(CategoryFormSchema),
   });
-
   const { mutate: createCategory, isLoading } = useCreateCategoryMutation();
-
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
     src: "",
   });
 
   const onSubmit = (data: CategoryFormValues) => {
+    console.log("Image File:", imageInfo.file);
     const formData = new FormData();
-    // formData.append("name", data.name);
+    if (imageInfo.file) {
+      formData.append("image", imageInfo.file);
+    }
+    formData.append("name", data.name);
     formData.append("description", data.description);
-    formData.append("image", imageInfo.file || "");
-    console.log(formData);
+    console.log("FormData:", formData);
     createCategory(formData, {
       onSuccess() {
         reset();
@@ -43,7 +44,6 @@ const CategoryForm: React.FC = () => {
       },
     });
   };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImageInfo({
@@ -58,9 +58,9 @@ const CategoryForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="aspect-video rounded bg-primary/50 relative">
-            <Image
+            <img
               src={imageInfo.src || IMAGES.NO_IMAGE}
-              fill
+              // fill
               alt=""
               className="w-full h-full object-cover"
             />

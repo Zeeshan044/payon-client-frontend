@@ -1,14 +1,11 @@
-import Layout from "@/components/Layout/layout";
+import Layout from "@/components/Layout/Layout";
 import React from "react";
 import Tabs from "@/components/ui/tabs";
-
 import CategoryForm from "@/components/Forms/CategoryForm/CategoryForm";
 import ProductForm from "@/components/Forms/ProductForm/ProductForm";
 import CategoryList from "@/components/categories/category-list";
 import ProductList from "@/components/products/product-list";
-
 const TabItems = ["Categories", "Products"];
-
 const Menu = () => {
   const [activeTab, setActiveTab] = React.useState(TabItems[0]);
 
