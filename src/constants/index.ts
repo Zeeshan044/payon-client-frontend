@@ -4,4 +4,5 @@ export const API_ENDPOINTS = {
   TABLE: "/tables",
   CATEGORY: "/categories",
   PRODUCT: "/products",
+  USERPROFILE: "/user",
 };

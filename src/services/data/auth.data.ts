@@ -7,8 +7,10 @@ export function useLoginMutation() {
       authClient.login({ email, password }),
     onSuccess: (data) => {
       if (!data) return;
+      console.log("Data received on successful login:", data);
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      console.log("Token:", data.token);
     },
   });
 }

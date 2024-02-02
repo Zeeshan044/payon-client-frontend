@@ -11,7 +11,10 @@ import {
 import IMAGES from "@/constants/images";
 import { useCreateCategoryMutation } from "@/services/data/category.data";
 
-const CategoryForm: React.FC = () => {
+interface Props {
+  defaultValues?: CategoryFormValues | null;
+}
+const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
   const fileRef = React.useRef<HTMLInputElement>(null);
 
   const {
@@ -21,6 +24,8 @@ const CategoryForm: React.FC = () => {
     reset,
   } = useForm({
     resolver: yupResolver(CategoryFormSchema),
+    defaultValues: defaultValues || { name: "", description: "" },
+
   });
   const { mutate: createCategory, isLoading } = useCreateCategoryMutation();
   const [imageInfo, setImageInfo] = useState({
@@ -58,9 +63,9 @@ const CategoryForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="aspect-video rounded bg-primary/50 relative">
-            <img
+            <Image
               src={imageInfo.src || IMAGES.NO_IMAGE}
-              // fill
+              fill
               alt=""
               className="w-full h-full object-cover"
             />
@@ -101,7 +106,7 @@ const CategoryForm: React.FC = () => {
           placeholder="Description"
           error={errors.description?.message}
         />
-        <Button className="mt-4 w-full" type="submit">
+        <Button className="mt-4 w-full" type="submit" >
           Add Category
         </Button>
       </form>

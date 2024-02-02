@@ -73,9 +73,9 @@ const ProductForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="aspect-video rounded bg-slate-100 relative">
-            <img
+            <Image
               src={imageInfo?.src || IMAGES.NO_IMAGE}
-              // fill
+              fill
               alt=""
               className="w-full h-full object-cover"
             />

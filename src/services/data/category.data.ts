@@ -29,7 +29,6 @@ export function useCreateCategoryMutation() {
     },
   });
 }
-
 export function useUpdateCategoryMutation() {
   const client = useQueryClient();
   return useMutation({
@@ -40,7 +39,6 @@ export function useUpdateCategoryMutation() {
     },
   });
 }
-
 export function useDeleteCategoryMutation() {
   const client = useQueryClient();
   return useMutation({

@@ -6,17 +6,17 @@ import {
 import PageLoader from "../ui/page-loader";
 import MenuRow from "../ui/menu-row";
 import IMAGES from "@/constants/images";
+import { CategoryFormValues } from "@/schema/category-form.schema";
 
-export default function CategoryList() {
+interface CategoryListProps {
+  onUpdateCategory: (category: CategoryFormValues) => void;
+}
+const CategoryList: React.FC<CategoryListProps> = ({ onUpdateCategory }) => {
   const { data, isLoading } = useGetAllCategoriesQuery();
   const { mutate: deleteCategory, isLoading: isLoadingDelete } =
     useDeleteCategoryMutation();
 
-  const { mutate: updateCategory, data: category } = useUpdateCategoryMutation()
-  // const onUpdateCategory = async (id: number) => {
-  //   console.log("update category : ", id);
-  //    updateCategory(category);
-  // };
+  // const { mutate: updateCategory, data: category } = useUpdateCategoryMutation()
 
   const onDeleteCategory = (id: number) => {
     const confirmation = confirm(
@@ -37,10 +37,11 @@ export default function CategoryList() {
           title={category.name}
           description={category.description}
           image={category?.image || IMAGES.NO_IMAGE}
-          // onEdit={() => onUpdateCategory(category.id)}
+          onEdit={() => onUpdateCategory(category)}
           onDelete={() => onDeleteCategory(category.id)}
         />
       ))}
     </>
   );
 }
+export default CategoryList;

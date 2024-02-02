@@ -43,3 +43,12 @@ export interface IProductResponse extends IProductRequest {
   created_at: string;
   updated_at: string;
 }
+
+export interface IUserResponse {
+  name: string;
+  description: string;
+  email: string;
+  image: string | null;
+  phone: string;
+  address: string;
+}
