@@ -11,8 +11,7 @@ import { toast } from "react-toastify";
 
 // Create an Axios instance
 const Axios: AxiosInstance = axios.create({
-  baseURL:
-    "https://1647-2407-aa80-116-dee2-a81e-4a66-c6a0-496a.ngrok-free.app/api",
+  baseURL: process.env.NEXT_BASE_API_URL || "http://localhost:8000/api",
   headers: {
     "Content-Type": "multipart/form-data",
     "ngrok-skip-browser-warning": "true",
@@ -23,18 +22,18 @@ const Axios: AxiosInstance = axios.create({
 Axios.interceptors.response.use(
   (response) => response,
   (error: AxiosError<IAPIErrorResponse>) => {
+    console.log(error);
     toast.error(error.message);
     // Handle different error types here
     if (error.response) {
+      // @ts-ignore
+      toast.error(error.response.data?.errors?.join(", "));
       // Handle 401 Unauthorized responses
       if (error.response.status === 401) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         return router.push(ROUTES.login);
       }
-
-      // @ts-ignore
-      toast.error(error.response.data?.errors?.name?.join(", "));
     } else if (error.request) {
       // Handle network errors (e.g., no internet connection)
       // console.error('Network Error:', error.request);

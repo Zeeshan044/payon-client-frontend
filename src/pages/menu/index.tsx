@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import Tabs from "@/components/ui/tabs";
-import CategoryForm from "@/components/Forms/CategoryForm/CategoryForm";
+import CategoryForm from "@/components/forms/category-form";
 import CategoryList from "@/components/categories/category-list";
 import ProductList from "@/components/products/product-list";
 import { CategoryFormValues } from "@/schema/category-form.schema";
-import ProductForm from "@/components/Forms/ProductForm/ProductForm";
-import Layout from "@/components/Layout/Layout";
+import ProductForm from "@/components/forms/product-form";
+import Layout from "@/components/layout/layout";
 
 const TabItems = ["Categories", "Products"];
 
 const Menu = () => {
   const [activeTab, setActiveTab] = useState(TabItems[0]);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryFormValues | null>(null);
+  const [selectedCategory, setSelectedCategory] =
+    useState<CategoryFormValues | null>(null);
 
   const onUpdateCategory = (category: CategoryFormValues) => {
     console.log("Update category:", category);

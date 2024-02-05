@@ -1,10 +1,12 @@
 import React, { ReactNode } from "react";
+import { LuLoader } from "react-icons/lu";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   children?: ReactNode;
   variant?: "primary" | "secondary";
   size?: "sm" | "md" | "lg";
+  loading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, Props>(
@@ -15,6 +17,7 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
       variant = "primary",
       size = "md",
       onClick,
+      loading: isLoading,
       ...props
     },
     ref
@@ -55,8 +58,9 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
           {...props}
           ref={ref}
           onClick={onClick}
-          className={`rounded-md cursor-pointer flex items-center justify-center ${sizeClass} ${variantClass} ${className}`}
+          className={`rounded-md cursor-pointer flex gap-2 items-center justify-center ${sizeClass} ${variantClass} ${className}`}
         >
+          {isLoading && <LuLoader className="animate-spin" />}
           {children}
         </button>
       </>

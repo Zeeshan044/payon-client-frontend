@@ -12,7 +12,7 @@ import {
 } from "@/components/SvgIcon";
 
 import Link from "next/link";
-import SmallNavbar from "./SmallNavbar";
+import SmallNavbar from "./small-navbar";
 import { useRouter } from "next/router";
 import { useLogoutMutation } from "@/services/data/auth.data";
 

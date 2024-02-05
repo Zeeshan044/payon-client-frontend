@@ -9,7 +9,7 @@ export const productClient = {
   get: (id: number) => {
     return HttpClient.get<IProductResponse>(`${API_ENDPOINTS.PRODUCT}/${id}`);
   },
-  create: (data: IProductRequest) => {
+  create: (data: FormData) => {
     return HttpClient.post(API_ENDPOINTS.PRODUCT, data, {
       headers: { "Content-Type": "multipart/form-data" },
     });

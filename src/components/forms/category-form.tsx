@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Input from "@/components/ui/input";
-import Button from "../../ui/button";
+import Button from "../ui/button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -25,7 +25,6 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
   } = useForm({
     resolver: yupResolver(CategoryFormSchema),
     defaultValues: defaultValues || { name: "", description: "" },
-
   });
   const { mutate: createCategory, isLoading } = useCreateCategoryMutation();
   const [imageInfo, setImageInfo] = useState({
@@ -41,7 +40,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
     }
     formData.append("name", data.name);
     formData.append("description", data.description);
-    console.log("FormData:", formData);
+
     createCategory(formData, {
       onSuccess() {
         reset();
@@ -106,7 +105,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
           placeholder="Description"
           error={errors.description?.message}
         />
-        <Button className="mt-4 w-full" type="submit" >
+        <Button loading={isLoading} className="mt-4 w-full" type="submit">
           Add Category
         </Button>
       </form>

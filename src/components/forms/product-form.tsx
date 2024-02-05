@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Input from "@/components/ui/input";
-import Button from "../../ui/button";
+import Button from "../ui/button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,6 +11,8 @@ import {
 import IMAGES from "@/constants/images";
 import { convertToUSD } from "@/utils";
 import { useCreateProductMutation } from "@/services/data/product.data";
+import { useGetAllCategoriesQuery } from "@/services/data/category.data";
+import { toast } from "react-toastify";
 
 const ProductForm: React.FC = () => {
   const fileRef = React.useRef<HTMLInputElement>(null);
@@ -18,7 +20,7 @@ const ProductForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
     resolver: yupResolver(ProductFormSchema),
   });
@@ -26,8 +28,9 @@ const ProductForm: React.FC = () => {
   const [addons, setAddons] = useState<{ name: string; price: number }[]>([]);
   const [addonName, setAddonName] = useState("");
   const [addonPrice, setAddonPrice] = useState(0);
-  const { mutate: createProduct } = useCreateProductMutation()
 
+  const { data, isLoading: isLoadingCategories } = useGetAllCategoriesQuery();
+  const { mutate: createProduct, isLoading } = useCreateProductMutation();
 
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
@@ -35,36 +38,36 @@ const ProductForm: React.FC = () => {
   });
 
   const onSubmit = (data: ProductFormValues) => {
-    console.log(data);
-    const formData = new FormData()
-    if (imageInfo.file) {
-      formData.append("image", imageInfo.file);
-    }
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("ingredients", data.ingredients)
-    formData.append("price", data.price.toString());
+    const { description, ingredients, name, price, category_id } = data;
 
-    console.log("FormData:", formData);
-    console.log("FormData:", formData);
-    // createProduct(formData, {
-    //   onSuccess() {
-    //     reset();
-    //     setImageInfo({ file: null, src: "" });
-    //   },
-    // });
+    const formData = new FormData();
+    if (imageInfo.file) {
+      formData.append("image", imageInfo.file as Blob);
+    }
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("ingredients", ingredients);
+    formData.append("price", price.toString());
+    formData.append("category_id", category_id.toString());
+
+    createProduct(formData, {
+      onSuccess() {
+        reset();
+        setImageInfo({ file: null, src: "" });
+      },
+    });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const file = e.target.files?.[0] || null;
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) =>
-        setImageInfo({ file, src: event.target?.result as string });
-      reader.readAsDataURL(file);
-    } else {
-      setImageInfo({ file: null, src: "" });
+    try {
+      if (e.target.files) {
+        setImageInfo({
+          file: e.target.files[0],
+          src: URL.createObjectURL(e.target.files[0]),
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to load the image");
     }
   };
 
@@ -132,17 +135,18 @@ const ProductForm: React.FC = () => {
           <label htmlFor="category">Choose Category</label>
           <select
             className="w-full rounded-md bg-slate-200 px-3 py-2"
-            name="category"
             id="category"
             defaultValue={"default"}
+            {...register("category_id")}
           >
             <option value="default" disabled>
               Select Category
             </option>
-            <option value="cat1">Select Category</option>
-            <option value="cat2">Category 1</option>
-            <option value="cat3">Category 2</option>
-            <option value="cat4">Category 3</option>
+            {data?.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -186,7 +190,7 @@ const ProductForm: React.FC = () => {
             </div>
           ))}
         </div>
-        <Button className="mt-4 w-full" type="submit">
+        <Button loading={isLoading} className="mt-4 w-full" type="submit">
           Add Product
         </Button>
       </form>

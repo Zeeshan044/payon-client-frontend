@@ -39,8 +39,8 @@ const MenuRow = ({
       </div>
       <div className="flex gap-3">
         <div className="aspect-[4/3] w-24 rounded bg-primary/50 overflow-hidden relative shadow">
-          <Image
-            fill
+          <img
+            // fill
             src={image || IMAGES.NO_IMAGE}
             alt={title}
             className="w-full h-full object-cover"

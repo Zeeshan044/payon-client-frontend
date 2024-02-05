@@ -19,7 +19,7 @@ export function useGetProductQuery(id: number) {
 export function useCreateProductMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (data: IProductRequest) => productClient.create(data),
+    mutationFn: (data: FormData) => productClient.create(data),
     onSuccess: () => {
       client.invalidateQueries(["products"]);
     },
