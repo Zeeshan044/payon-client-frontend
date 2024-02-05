@@ -20,14 +20,6 @@ const UserProfile = () => {
     resolver: yupResolver(UserProfileFormSchema),
   });
 
-  // const userId = 123;
-  // const { data, isLoading, isError } = useGetProfileQuery(userId);
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-  // if (isError) {
-  //   return <div>Error loading user data</div>;
-  // }
   useEffect(() => {
     const storedUserData = localStorage.getItem("user");
     if (storedUserData) {
@@ -36,8 +28,6 @@ const UserProfile = () => {
     }
   }, [reset]);
 
-  // const { name, description, email, phone, address, image } = data as IUserResponse;
-
   const onSubmit = async (formData: UserProfileFormValues) => {
     console.log("Updating user data:", formData);
     localStorage.setItem("user", JSON.stringify(formData));
@@ -45,43 +35,23 @@ const UserProfile = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="max-w-2xl mx-auto">
-        <div className="aspect-video relative shadow-lg rounded-md border">
+      <div className="max-w-2xl lg:max-w-96 md:mx-20 m-5 flex flex-col items-center">
+        <div className="md:w-40 md:h-40 w-24 h-24 rounded-full  border shadow relative">
           <Image
             src={IMAGES.NO_IMAGE}
             alt=""
-            className="w-full h-full object-cover rounded-md"
+            className="w-full h-full rounded-full object-cover"
           />
-          <div className="absolute -bottom-3 right-5 -translate-x-1/2 text-black z-10 bg-primary rounded-full ">
+          <div className="absolute bottom-0 -right-2 -translate-x-1/2 text-black z-10 bg-blue-500 rounded-full ">
             <div className="h-8 w-8 flex items-center justify-center">
               <HiPencil className="h-4 w-4 text-white" />
             </div>
           </div>
-          <div className="md:w-40 md:h-40 w-24 h-24 rounded-full absolute -bottom-12 md:-bottom-20 left-1/2 -translate-x-1/2 border shadow">
-            <Image
-              src={IMAGES.NO_IMAGE}
-              alt=""
-              className="w-full h-full rounded-full object-cover"
-            />
-            <div className="absolute bottom-0 -right-2 -translate-x-1/2 text-black z-10 bg-blue-500 rounded-full ">
-              <div className="h-8 w-8 flex items-center justify-center">
-                <HiPencil className="h-4 w-4 text-white" />
-              </div>
-            </div>
-          </div>
         </div>
-        <div className="my-24">
+        <div className="mt-4 w-full">
           <Input
             {...register("name")}
             id="name" name="name" placeholder="name" label="Name" error={errors.name?.message}
-          />
-          <Input
-            {...register("description")}
-            id="description"
-            name="description"
-            placeholder="description"
-            label="Description"
-            error={errors.description?.message}
           />
           <Input
             {...register("email")}

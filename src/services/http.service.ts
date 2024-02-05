@@ -11,7 +11,8 @@ import { toast } from "react-toastify";
 
 // Create an Axios instance
 const Axios: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_BASE_API_URL || "http://localhost:8000/api",
+  baseURL:
+    "https://78e4-2407-aa80-116-4c28-953e-6601-c3bb-e61d.ngrok-free.app/api",
   headers: {
     "Content-Type": "multipart/form-data",
     "ngrok-skip-browser-warning": "true",
