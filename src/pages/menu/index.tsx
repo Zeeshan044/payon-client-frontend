@@ -39,7 +39,7 @@ const Menu = () => {
             {activeTab === "Categories" ? (
               <CategoryForm defaultValues={selectedCategory} />
             ) : (
-              <ProductForm />
+              <ProductForm onClose={() => { }} />
             )}
           </div>
         </div>

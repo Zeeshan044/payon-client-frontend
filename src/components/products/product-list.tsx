@@ -1,18 +1,25 @@
+import React, { useState } from "react";
 import PageLoader from "../ui/page-loader";
 import MenuRow from "../ui/menu-row";
 import IMAGES from "@/constants/images";
-import {
-  useDeleteProductMutation,
-  useGetAllProductsQuery,
-} from "@/services/data/product.data";
+import { useDeleteProductMutation, useGetAllProductsQuery } from "@/services/data/product.data";
+import Button from "../ui/button";
+import ProductForm from "../forms/product-form";
+import { useDispatch } from "react-redux";
+import { openModal } from "@/features/modal/modalSlice";
 
 export default function ProductList() {
   const { data, isLoading } = useGetAllProductsQuery();
-  const { mutate: deleteProduct, isLoading: isLoadingDelete } =
-    useDeleteProductMutation();
+  const { mutate: deleteProduct, isLoading: isLoadingDelete } = useDeleteProductMutation();
+  const dispatch = useDispatch()
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
+
+  const handleAddProduct = () => {
+    dispatch(openModal({ view: "ADD_PRODUCT", data: { title: "Add Product" } }));
+  };
 
   const onDeleteProduct = (id: number) => {
-    const confirmation = confirm(
+    const confirmation = window.confirm(
       "Are you sure you want to delete this item? This will delete all the addons in this product."
     );
     if (!confirmation) return;
@@ -22,8 +29,15 @@ export default function ProductList() {
   if (isLoading || isLoadingDelete) {
     return <PageLoader />;
   }
+
   return (
-    <>
+    <div className="w-full">
+      <Button className="lg:hidden block" onClick={handleAddProduct}>
+        Add Product
+      </Button>
+      {isAddingProduct && (
+        <ProductForm onClose={() => setIsAddingProduct(false)} />
+      )}
       {data?.map((product) => (
         <MenuRow
           key={product.id}
@@ -34,6 +48,6 @@ export default function ProductList() {
           onDelete={() => onDeleteProduct(product.id)}
         />
       ))}
-    </>
+    </div>
   );
 }

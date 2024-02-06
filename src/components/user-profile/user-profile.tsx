@@ -35,7 +35,7 @@ const UserProfile = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="max-w-2xl lg:max-w-96 md:mx-20 m-5 flex flex-col items-center">
+      <div className="mx-5 flex flex-col items-center">
         <div className="md:w-40 md:h-40 w-24 h-24 rounded-full  border shadow relative">
           <Image
             src={IMAGES.NO_IMAGE}

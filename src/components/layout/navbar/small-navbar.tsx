@@ -6,7 +6,9 @@ export const navbarItems = [
   { to: "/tables", title: "Tables" },
   { to: "/menu", title: "Menu" },
   { to: "/stats", title: "Stats" },
+  { to: "/staff", title: "Staff" },
   { to: "/profile", title: "Profile" },
+
 ];
 const SmallNavbar = () => {
   const [nav, setNav] = useState(false);

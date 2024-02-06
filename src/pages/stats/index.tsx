@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Layout from "@/components/layout/layout";
 import StatCard from "@/components/ui/stat-card";
-import StatChart from "@/components/ui/stat-chart";
+import StatChart from "@/components/ui/stat-revenue-chart";
+import AverageOrdersChart from "@/components/ui/stat-averageOrders-chart";
 
 const Stats: React.FC = () => {
   return (
@@ -13,7 +14,10 @@ const Stats: React.FC = () => {
           <StatCard title="Orders" value="0" />
           <StatCard title="Average Order" value="0" />
         </div>
-        <StatChart title="" />
+        <div className=" grid grid-cols-1 md:grid-cols-2 gap-6">
+          <StatChart title="Revenue" />
+          <AverageOrdersChart title=" Average Order" />
+        </div>
       </div>
     </Layout>
   );

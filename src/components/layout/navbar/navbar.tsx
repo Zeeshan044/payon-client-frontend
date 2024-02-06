@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useLogoutMutation } from "@/services/data/auth.data";
-import SmallNavbar from "./small-navbar";
+import SmallNavbar from "@/components/layout/navbar/small-navbar";
 
 export const navbarItems = [
   {

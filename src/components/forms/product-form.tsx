@@ -4,24 +4,25 @@ import Button from "../ui/button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  ProductFormSchema,
-  ProductFormValues,
-} from "@/schema/product-form.schema";
+import { ProductFormSchema, ProductFormValues } from "@/schema/product-form.schema";
 import IMAGES from "@/constants/images";
 import { convertToUSD } from "@/utils";
 import { useCreateProductMutation } from "@/services/data/product.data";
 import { useGetAllCategoriesQuery } from "@/services/data/category.data";
 import { toast } from "react-toastify";
 
-const ProductForm: React.FC = () => {
+interface ProductFormProps {
+  onClose: () => void;
+}
+
+const ProductForm: React.FC<ProductFormProps> = ({ onClose }) => {
   const fileRef = React.useRef<HTMLInputElement>(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<ProductFormValues>({
     resolver: yupResolver(ProductFormSchema),
   });
 
@@ -54,6 +55,7 @@ const ProductForm: React.FC = () => {
       onSuccess() {
         reset();
         setImageInfo({ file: null, src: "" });
+        onClose();
       },
     });
   };
@@ -72,7 +74,7 @@ const ProductForm: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className=" ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="aspect-video rounded bg-slate-100 relative">
