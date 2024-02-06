@@ -6,6 +6,7 @@ export type ModalViews =
   | "VIEW_ORDER"
   | "ADD_PRODUCT"
   | "VIEW_RESTURANT"
+  | "ADD_STAFF"
   | null;
 
 interface ModalState {

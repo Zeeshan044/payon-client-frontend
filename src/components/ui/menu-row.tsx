@@ -26,7 +26,7 @@ const MenuRow = ({
   return (
     <div
       onClick={onClick}
-      className="flex items-center justify-between bg-white p-2 rounded-md shadow"
+      className="flex items-center justify-between bg-white p-2 mb-3 rounded-md shadow"
     >
       <div className="flex flex-col self-stretch">
         <h3 className="font-bold">{title}</h3>

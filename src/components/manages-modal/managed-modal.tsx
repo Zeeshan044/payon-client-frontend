@@ -12,6 +12,7 @@ const ViewTableModal = lazy(
 );
 const AddProductModal = lazy(() => import("@/components/Modals/add-product.modal"))
 const ViewResturant = lazy(() => import("@/components/Modals/view-resturant.modal"))
+const AddStaff = lazy(() => import("@/components/Modals/add-staff.modal"))
 function renderView(view: ModalViews) {
   switch (view) {
     case "VIEW_TABLE":
@@ -24,6 +25,8 @@ function renderView(view: ModalViews) {
       return <AddProductModal isOpen={true} onClose={() => { }} />;
     case "VIEW_RESTURANT":
       return <ViewResturant />
+    case "ADD_STAFF":
+      return <AddStaff />
     default:
       return <></>;
   }
