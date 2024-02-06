@@ -1,4 +1,3 @@
-// UserRestaurants component
 import React from "react";
 import Button from "../ui/button";
 import Image from "next/image";
@@ -36,7 +35,6 @@ const UserRestaurants = () => {
                         </div>
                     </div>
                 </div>
-                {/* Add more restaurant cards here if needed */}
             </div>
         </div>
     );
