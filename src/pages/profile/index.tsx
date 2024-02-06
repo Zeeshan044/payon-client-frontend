@@ -1,13 +1,17 @@
 import Layout from "@/components/layout/layout";
 import UserProfile from "@/components/user-profile/user-profile";
-import UserResturants from "@/components/user-profile/user-resturants";
+import UserRestaurants from "@/components/user-profile/user-resturants";
 
 const Profile = () => {
   return (
     <Layout>
-      <div className=" grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <UserProfile />
-        <UserResturants />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-16">
+        <div>
+          <UserProfile />
+        </div>
+        <div className="col-span-2">
+          <UserRestaurants />
+        </div>
       </div>
     </Layout>
   );

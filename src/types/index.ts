@@ -113,3 +113,17 @@ export interface Order {
   created_at: string;
   updated_at: string;
 }
+
+export interface Restaurant {
+  id: number;
+  user_id: number;
+  name: string;
+  description: string;
+  cover_image: string;
+  profile_image: string;
+  email: string;
+  phone: string;
+  address: string;
+  created_at: string;
+  updated_at: string;
+}
