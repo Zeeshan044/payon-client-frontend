@@ -11,7 +11,15 @@ const UserRestaurants = () => {
   const dispatch = useDispatch();
   const { data, isLoading } = useGetUserRestaurantsQuery(1);
 
-  const handleViewMore = () => {
+  const handleAddResturant = () => {
+    dispatch(
+      openModal({
+        view: "ADD_RESTURANT",
+        data: { title: "Add Restaurant" },
+      })
+    );
+  };
+  const handleViewResturant = () => {
     dispatch(
       openModal({
         view: "VIEW_RESTURANT",
@@ -30,7 +38,7 @@ const UserRestaurants = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-bold mb-6 text-gray-700">Restaurants</h1>
         <div>
-          <Button>
+          <Button onClick={handleAddResturant}>
             <HiPlus className="w-4 h-4" />
             <span>Add</span>
           </Button>
@@ -69,7 +77,7 @@ const UserRestaurants = () => {
                   >
                     <div
                       className="hover:text-primary duration-200 cursor-pointer"
-                      onClick={handleViewMore}
+                      onClick={handleViewResturant}
                     >
                       {restaurant.name}
                     </div>
@@ -79,8 +87,8 @@ const UserRestaurants = () => {
                   <td className="px-6 py-4">{restaurant.email}</td>
                   <td className="px-6 py-4">
                     <div className="flex justify-end gap-4">
-                      <HiTrash className="h-5 w-5 text-red-500" />
-                      <HiPencil className="h-5 w-5 text-blue-500" />
+                      <HiTrash className="h-5 w-5 text-red-500 cursor-pointer" />
+                      <HiPencil className="h-5 w-5 text-blue-500 cursor-pointer" onClick={handleViewResturant} />
                     </div>
                   </td>
                 </tr>

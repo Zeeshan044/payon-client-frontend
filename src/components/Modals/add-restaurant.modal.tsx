@@ -33,7 +33,7 @@ const ViewRestaurant = () => {
   // }
 
   return (
-    <form onSubmit={() => {}}>
+    <form onSubmit={() => { }}>
       <ModalContent>
         <div className="max-w-2xl mx-auto">
           <div className="aspect-video relative shadow-lg rounded-md border">
@@ -106,7 +106,7 @@ const ViewRestaurant = () => {
       </ModalContent>
       <ModalFooter>
         <Button className="w-full" type="submit">
-          Update
+          Add Resturant
         </Button>
       </ModalFooter>
     </form>

@@ -7,6 +7,9 @@ import PageLoader from "../ui/page-loader";
 import MenuRow from "../ui/menu-row";
 import IMAGES from "@/constants/images";
 import { CategoryFormValues } from "@/schema/category-form.schema";
+import { useDispatch } from "react-redux";
+import { openModal } from "@/features/modal/modalSlice";
+import Button from "../ui/button";
 
 interface CategoryListProps {
   onUpdateCategory: (category: CategoryFormValues) => void;
@@ -15,7 +18,12 @@ const CategoryList: React.FC<CategoryListProps> = ({ onUpdateCategory }) => {
   const { data, isLoading } = useGetAllCategoriesQuery();
   const { mutate: deleteCategory, isLoading: isLoadingDelete } =
     useDeleteCategoryMutation();
+  const dispatch = useDispatch()
 
+  const handleAddCategory = () => {
+    dispatch(openModal({ view: "ADD_CATEGORY", data: { title: "Add Category" } }));
+
+  };
   // const { mutate: updateCategory, data: category } = useUpdateCategoryMutation()
 
   const onDeleteCategory = (id: number) => {
@@ -31,6 +39,10 @@ const CategoryList: React.FC<CategoryListProps> = ({ onUpdateCategory }) => {
   }
   return (
     <>
+      <Button className="lg:hidden block mb-2" onClick={handleAddCategory}>
+        Add Category
+      </Button>
+
       {data?.map((category) => (
         <MenuRow
           key={category.id}

@@ -31,8 +31,8 @@ export default function ProductList() {
   }
 
   return (
-    <div className="w-full">
-      <Button className="lg:hidden block" onClick={handleAddProduct}>
+    < >
+      <Button className="lg:hidden block mb-2" onClick={handleAddProduct}>
         Add Product
       </Button>
       {isAddingProduct && (
@@ -48,6 +48,6 @@ export default function ProductList() {
           onDelete={() => onDeleteProduct(product.id)}
         />
       ))}
-    </div>
+    </>
   );
 }

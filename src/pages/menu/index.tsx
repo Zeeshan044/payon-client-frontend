@@ -26,7 +26,7 @@ const Menu = () => {
           <Tabs items={TabItems} onTabChange={(value) => setActiveTab(value)} />
         </div>
         <div className="grid grid-cols-5 gap-8 mt-4">
-          <div className="col-span-2 bg-primary/10 rounded-md p-6">
+          <div className="col-span-5 lg:col-span-2 bg-primary/10 rounded-md p-6">
             <div className="flex flex-col gap-3">
               {activeTab === "Categories" ? (
                 <CategoryList onUpdateCategory={onUpdateCategory} />
@@ -35,9 +35,9 @@ const Menu = () => {
               )}
             </div>
           </div>
-          <div className="bg-primary/10 col-span-3 rounded-md p-6">
+          <div className="bg-primary/10 hidden lg:col-span-3 lg:block rounded-md p-6">
             {activeTab === "Categories" ? (
-              <CategoryForm defaultValues={selectedCategory} />
+              <CategoryForm defaultValues={selectedCategory} onClose={() => { }} />
             ) : (
               <ProductForm onClose={() => { }} />
             )}

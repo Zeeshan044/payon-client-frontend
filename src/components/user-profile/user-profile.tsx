@@ -37,7 +37,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="border rounded-2xl p-6 shadow bg-white">
+    <div className="border rounded-2xl ml-2 p-6 shadow bg-white">
       <div>
         <h1 className="text-4xl font-bold mb-6 text-gray-700">Profile</h1>
       </div>

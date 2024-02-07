@@ -60,12 +60,12 @@ const StaffMembers = () => {
     dispatch(openModal({ view: "ADD_STAFF", data: { title: "Add Staff" } }));
   };
 
-  const handleDeleteStaff = () => {};
+  const handleDeleteStaff = () => { };
 
   return (
     <div className="mx-4 mt-10">
       <div className="flex justify-between mb-2 items-center">
-        <h1 className="text-4xl font-bold mb-6">Staff Members</h1>
+        <h1 className="text-2xl font-semibold lg:text-3xl lg:font-bold">Staff Members</h1>
         <Button size="md" className="" onClick={handleAddStaff}>
           Add Staff
         </Button>

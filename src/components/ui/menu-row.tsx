@@ -31,7 +31,7 @@ const MenuRow = ({
       <div className="flex flex-col self-stretch">
         <h3 className="font-bold">{title}</h3>
         <div>
-          <p className="text-sm line-clamp-1">{description}</p>
+          <p className="text-sm line-clamp-2">{description}</p>
         </div>
         {price && (
           <span className="text-primary font-bold">{convertToUSD(price)}</span>

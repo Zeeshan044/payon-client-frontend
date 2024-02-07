@@ -9,9 +9,10 @@ interface Props {
   title?: string;
   footer?: React.ReactNode;
   children?: React.ReactNode;
+  isClose?: boolean;
 }
 
-const Modal: React.FC<Props> = ({ title, children, footer, isOpen }) => {
+const Modal: React.FC<Props> = ({ title, children, footer, isOpen, isClose }) => {
   const dispatch = useDispatch();
 
   return (
@@ -20,9 +21,8 @@ const Modal: React.FC<Props> = ({ title, children, footer, isOpen }) => {
         id="default-modal"
         tabIndex={-1}
         aria-hidden="true"
-        className={`overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 bg-black/50 z-50 justify-center items-center w-full md:inset-0 max-h-full flex ${
-          !isOpen && "hidden"
-        }`}
+        className={`overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 bg-black/50 z-50 justify-center items-center w-full md:inset-0 max-h-full flex ${!isOpen && "hidden"
+          }`}
       >
         <div className="relative p-4 w-full max-w-3xl max-h-full text-black">
           {/* Modal content */}
