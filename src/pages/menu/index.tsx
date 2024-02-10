@@ -6,18 +6,16 @@ import ProductList from "@/components/products/product-list";
 import { CategoryFormValues } from "@/schema/category-form.schema";
 import ProductForm from "@/components/forms/product-form";
 import Layout from "@/components/layout/layout";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
 const TabItems = ["Categories", "Products"];
 
 const Menu = () => {
   const [activeTab, setActiveTab] = useState(TabItems[0]);
-  const [selectedCategory, setSelectedCategory] =
-    useState<CategoryFormValues | null>(null);
-
-  const onUpdateCategory = (category: CategoryFormValues) => {
-    console.log("Update category:", category);
-    setSelectedCategory(category);
-  };
+  const { selectedCategory } = useSelector(
+    (state: RootState) => state.category
+  );
 
   return (
     <>
@@ -28,18 +26,18 @@ const Menu = () => {
         <div className="grid grid-cols-5 gap-8 mt-4">
           <div className="col-span-5 lg:col-span-2 bg-primary/10 rounded-md p-6">
             <div className="flex flex-col gap-3">
-              {activeTab === "Categories" ? (
-                <CategoryList onUpdateCategory={onUpdateCategory} />
-              ) : (
-                <ProductList />
-              )}
+              {activeTab === "Categories" ? <CategoryList /> : <ProductList />}
             </div>
           </div>
           <div className="bg-primary/10 hidden lg:col-span-3 lg:block rounded-md p-6">
             {activeTab === "Categories" ? (
-              <CategoryForm defaultValues={selectedCategory} onClose={() => { }} />
+              <CategoryForm
+                key={selectedCategory?.id || "add-category"}
+                defaultValues={selectedCategory || ({} as CategoryFormValues)}
+                onClose={() => {}}
+              />
             ) : (
-              <ProductForm onClose={() => { }} />
+              <ProductForm onClose={() => {}} />
             )}
           </div>
         </div>

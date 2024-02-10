@@ -32,8 +32,8 @@ export function useCreateCategoryMutation() {
 export function useUpdateCategoryMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (data: ICategoryResponse) =>
-      categoryClient.update(data.id, data),
+    mutationFn: ({ id, data }: { id: number; data: ICategoryRequest }) =>
+      categoryClient.update(id, data),
     onSuccess: () => {
       client.invalidateQueries("categories/getAll");
     },

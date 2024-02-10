@@ -13,7 +13,7 @@ export const categoryClient = {
     return HttpClient.post(API_ENDPOINTS.CATEGORY, data);
   },
   update: (id: number, data: any) => {
-    return HttpClient.put(`${API_ENDPOINTS.CATEGORY}/${id}`, data);
+    return HttpClient.post(`${API_ENDPOINTS.CATEGORY}/${id}?_method=PUT`, data);
   },
   delete: (id: number) => {
     return HttpClient.delete(`${API_ENDPOINTS.CATEGORY}/${id}`);

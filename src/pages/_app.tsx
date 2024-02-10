@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "@/app/store";
 import ManagedModal from "@/components/manages-modal/managed-modal";
-import ProtectedRoute from "@/components/Layout/protected-route";
+import ProtectedRoute from "@/components/layout/protected-route";
 import { ToastContainer } from "react-toastify";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "react-toastify/dist/ReactToastify.css";

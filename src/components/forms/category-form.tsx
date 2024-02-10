@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Input from "@/components/ui/input";
 import Button from "../ui/button";
 import Image from "next/image";
@@ -9,15 +9,23 @@ import {
   CategoryFormValues,
 } from "@/schema/category-form.schema";
 import IMAGES from "@/constants/images";
-import { useCreateCategoryMutation, useUpdateCategoryMutation } from "@/services/data/category.data";
+import {
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+} from "@/services/data/category.data";
+import { useDispatch } from "react-redux";
+import { setSelectedCategory } from "@/features/category/categorySlice";
+import { closeModal } from "@/features/modal/modalSlice";
 
 interface Props {
-  defaultValues?: CategoryFormValues | null;
-  onClose: () => void;
+  defaultValues?: CategoryFormValues;
+  onClose?: () => void;
   onSubmit?: (formData: CategoryFormValues) => Promise<void>;
 }
+
 const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
   const fileRef = React.useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -26,24 +34,19 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
     reset,
   } = useForm({
     resolver: yupResolver(CategoryFormSchema),
-    defaultValues: defaultValues || { name: "", description: "" },
+    defaultValues: defaultValues,
   });
-  const [formData, setFormData] = useState<CategoryFormValues | null>(null);
-  const { mutate: createCategory, isLoading: isLoadingCreate } = useCreateCategoryMutation();
-  const { mutate: updateCategory, isLoading: isLoadingUpdate } = useUpdateCategoryMutation();
+
+  const { mutate: createCategory, isLoading: isLoadingCreate } =
+    useCreateCategoryMutation();
+  const { mutate: updateCategory, isLoading: isLoadingUpdate } =
+    useUpdateCategoryMutation();
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
     src: "",
   });
 
-  useEffect(() => {
-    if (defaultValues) {
-      setFormData(defaultValues);
-    }
-  }, [defaultValues]);
-
   const onSubmit = (data: CategoryFormValues) => {
-    console.log("Image File:", imageInfo.file);
     const formData = new FormData();
     if (imageInfo.file) {
       formData.append("image", imageInfo.file);
@@ -51,13 +54,22 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
     formData.append("name", data.name);
     formData.append("description", data.description);
 
+    // console.log("form data", formData);
+    // console.log("default values", defaultValues);
+
     if (defaultValues) {
-      updateCategory(formData, {
-        onSuccess() {
-          reset();
-          setImageInfo({ file: null, src: "" });
-        },
-      });
+      updateCategory(
+        // @ts-ignore
+        { id: defaultValues.id, data: formData },
+        {
+          onSuccess() {
+            reset();
+            setImageInfo({ file: null, src: "" });
+            dispatch(setSelectedCategory(null));
+            dispatch(closeModal());
+          },
+        }
+      );
     } else {
       createCategory(formData, {
         onSuccess() {
@@ -84,6 +96,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
           <div className="aspect-video rounded bg-primary/50 relative">
             <Image
               src={imageInfo.src || IMAGES.NO_IMAGE}
+              // src={{ src: imageInfo.src || IMAGES.NO_IMAGE }}
               fill
               alt=""
               className="w-full h-full object-cover"
@@ -132,7 +145,6 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
         >
           {defaultValues ? "Update Category" : "Add Category"}
         </Button>
-
       </form>
     </div>
   );
