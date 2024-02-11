@@ -5,6 +5,7 @@ export const ProductFormSchema = yup.object().shape({
   description: yup.string().required("Description is required"),
   ingredients: yup.string().required("Ingredients are required"),
   price: yup.number().required("Price is required"),
+  image: yup.number().required("image is required"),
   category_id: yup.number().required("Category is required"),
 });
 

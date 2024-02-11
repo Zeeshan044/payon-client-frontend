@@ -7,15 +7,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ProductFormSchema, ProductFormValues } from "@/schema/product-form.schema";
 import IMAGES from "@/constants/images";
 import { convertToUSD } from "@/utils";
-import { useCreateProductMutation } from "@/services/data/product.data";
-import { useGetAllCategoriesQuery } from "@/services/data/category.data";
+import { useCreateProductMutation, useGetAllProductsQuery, useUpdateProductMutation } from "@/services/data/product.data";
 import { toast } from "react-toastify";
+import { closeModal } from "@/features/modal/modalSlice";
+import { useDispatch } from "react-redux";
+import { setSelectedProduct } from "@/features/product/productSlice";
 
 interface ProductFormProps {
-  onClose: () => void;
+  defaultValues?: ProductFormValues;
 }
 
-const ProductForm: React.FC<ProductFormProps> = ({ onClose }) => {
+const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
   const fileRef = React.useRef<HTMLInputElement>(null);
   const {
     register,
@@ -24,23 +26,25 @@ const ProductForm: React.FC<ProductFormProps> = ({ onClose }) => {
     reset,
   } = useForm<ProductFormValues>({
     resolver: yupResolver(ProductFormSchema),
+    defaultValues: defaultValues,
   });
 
   const [addons, setAddons] = useState<{ name: string; price: number }[]>([]);
   const [addonName, setAddonName] = useState("");
   const [addonPrice, setAddonPrice] = useState(0);
 
-  const { data, isLoading: isLoadingCategories } = useGetAllCategoriesQuery();
-  const { mutate: createProduct, isLoading } = useCreateProductMutation();
-
+  const { data, isLoading: isLoadingProduct } = useGetAllProductsQuery();
+  const { mutate: createProduct, isLoading: isLoadingCreate } = useCreateProductMutation();
+  const { mutate: updateCategory, isLoading: isLoadingUpdate } =
+    useUpdateProductMutation();
+  const dispatch = useDispatch()
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
-    src: "",
+    src: defaultValues?.image || "",
   });
 
   const onSubmit = (data: ProductFormValues) => {
     const { description, ingredients, name, price, category_id } = data;
-
     const formData = new FormData();
     if (imageInfo.file) {
       formData.append("image", imageInfo.file as Blob);
@@ -51,15 +55,29 @@ const ProductForm: React.FC<ProductFormProps> = ({ onClose }) => {
     formData.append("price", price.toString());
     formData.append("category_id", category_id.toString());
 
-    createProduct(formData, {
-      onSuccess() {
-        reset();
-        setImageInfo({ file: null, src: "" });
-        onClose();
-      },
-    });
-  };
-
+    if (defaultValues) {
+      updateCategory(
+        // @ts-ignore
+        { id: defaultValues.id, data: formData },
+        {
+          onSuccess() {
+            reset();
+            setImageInfo({ file: null, src: "" });
+            dispatch(setSelectedProduct(null));
+            dispatch(closeModal());
+          },
+        }
+      )
+    } else {
+      createProduct(formData, {
+        onSuccess() {
+          reset();
+          setImageInfo({ file: null, src: "" });
+          dispatch(closeModal())
+        },
+      });
+    };
+  }
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       if (e.target.files) {
@@ -192,8 +210,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ onClose }) => {
             </div>
           ))}
         </div>
-        <Button loading={isLoading} className="mt-4 w-full" type="submit">
-          Add Product
+        <Button className="mt-4 w-full" type="submit" loading={isLoadingCreate || isLoadingUpdate}
+        >
+          {defaultValues ? "Update Product" : "Add Product"}
         </Button>
       </form>
     </div>

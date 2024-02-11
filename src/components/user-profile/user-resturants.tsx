@@ -4,17 +4,22 @@ import { openModal } from "@/features/modal/modalSlice";
 import { useDispatch } from "react-redux";
 
 import { HiPlus, HiTrash, HiPencil } from "react-icons/hi";
-import { useGetUserRestaurantsQuery } from "@/services/data/restaurant.data";
+import { useDeleteRestaurantMutation, useGetUserRestaurantsQuery } from "@/services/data/restaurant.data";
 import PageLoader from "../ui/page-loader";
+import { RestaurantFormValues } from "@/schema/restaurant-from.schema";
 
-const UserRestaurants = () => {
+interface Props {
+  defaultValues?: RestaurantFormValues
+}
+const UserRestaurants = ({ defaultValues }: Props) => {
+  const { mutate: deleteRestaurant } = useDeleteRestaurantMutation()
   const dispatch = useDispatch();
   const { data, isLoading } = useGetUserRestaurantsQuery(1);
 
   const handleAddResturant = () => {
     dispatch(
       openModal({
-        view: "ADD_RESTURANT",
+        view: "ADD_RESTAURANT",
         data: { title: "Add Restaurant" },
       })
     );
@@ -22,12 +27,26 @@ const UserRestaurants = () => {
   const handleViewResturant = () => {
     dispatch(
       openModal({
-        view: "VIEW_RESTURANT",
+        view: "VIEW_RESTAURANT",
         data: { title: "Restaurant Details" },
       })
     );
   };
-
+  const handleUpdateResturant = () => {
+    dispatch(
+      openModal({
+        view: "UPDATE_RESTAURANT",
+        data: { title: "Update Restaurant" },
+      })
+    );
+  };
+  const handleDeleteRestaurant = (id: number) => {
+    const confirmation = confirm(
+      "Are you sure you want to delete this Restaurant?"
+    );
+    if (!confirmation) return;
+    deleteRestaurant(id);
+  };
   if (isLoading) {
     return <PageLoader />;
   }
@@ -82,13 +101,13 @@ const UserRestaurants = () => {
                       {restaurant.name}
                     </div>
                   </th>
-                  <td className="px-6 py-4">1</td>
+                  <td className="px-6 py-4">{restaurant.branch}</td>
                   <td className="px-6 py-4">{restaurant.address}</td>
                   <td className="px-6 py-4">{restaurant.email}</td>
                   <td className="px-6 py-4">
                     <div className="flex justify-end gap-4">
-                      <HiTrash className="h-5 w-5 text-red-500 cursor-pointer" />
-                      <HiPencil className="h-5 w-5 text-blue-500 cursor-pointer" onClick={handleViewResturant} />
+                      <HiTrash className="h-5 w-5 text-red-500 cursor-pointer" onClick={() => handleDeleteRestaurant(restaurant.id)} />
+                      <HiPencil className="h-5 w-5 text-blue-500 cursor-pointer" onClick={handleUpdateResturant} />
                     </div>
                   </td>
                 </tr>
@@ -100,58 +119,7 @@ const UserRestaurants = () => {
     </div>
   );
 
-  // return (
-  //     <div className="lg:mr-10 lg:mt-32 m-10 ">
-  //         <div>
-  //             <h1 className="text-3xl font-bold">Restaurants</h1>
-  //             <div className="border-2 bg-slate-300 flex flex-col lg:flex-row items-center justify-between max-w-2xl p-2 md:my-5">
-  //                 <div className="mb-4 md:mr-4">
-  //                     <Image
-  //                         src={IMAGES.NO_IMAGE}
-  //                         alt=""
-  //                         className="w-20 h-20 rounded-full object-cover"
-  //                     />
-  //                     <h2 className="font-bold text-xl mt-2 md:text-right">cheezious</h2>
-  //                 </div>
-  //                 <div className="flex flex-col items-end flex-wrap">
-  //                     <div>
-  //                         <p>Lorem ipsum, dolor sit amet consectetur .....</p>
-  //                         <p>New York, USA</p>
-  //                     </div>
 
-  //                     <div className="mt-5">
-  //                         <Button className="" onClick={handleViewMore}>
-  //                             View More
-  //                         </Button>
-  //                     </div>
-  //                 </div>
-  //             </div>
-  //             <div className="border-2 bg-slate-300 flex flex-col lg:flex-row items-center justify-between max-w-2xl p-2 md:my-5">
-  //                 <div className="mb-4 md:mr-4">
-  //                     <Image
-  //                         src={IMAGES.NO_IMAGE}
-  //                         alt=""
-  //                         className="w-20 h-20 rounded-full object-cover"
-  //                     />
-  //                     <h2 className="font-bold text-xl mt-2 md:text-right">cheezious</h2>
-  //                 </div>
-  //                 <div className="flex flex-col items-end flex-wrap">
-  //                     <div>
-  //                         <p>Lorem ipsum, dolor sit amet consectetur .....</p>
-  //                         <p>New York, USA</p>
-  //                     </div>
-
-  //                     <div className="mt-5">
-  //                         <Button className="" onClick={handleViewMore}>
-  //                             View More
-  //                         </Button>
-  //                     </div>
-  //                 </div>
-  //             </div>
-
-  //         </div>
-  //     </div>
-  // );
 };
 
 export default UserRestaurants;

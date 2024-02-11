@@ -52,3 +52,20 @@ export interface IUserResponse {
   phone: string;
   address: string;
 }
+
+export interface IRestaurantRequest {
+  name: string;
+  description: string;
+  image: string | null;
+  email: string;
+  phone: string;
+  address: string;
+  restaurant_id: number;
+  branch: number;
+}
+
+export interface IRestaurantResponse extends IRestaurantRequest {
+  id: number;
+  created_at: string;
+  updated_at: string;
+}

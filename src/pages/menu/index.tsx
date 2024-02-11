@@ -34,10 +34,9 @@ const Menu = () => {
               <CategoryForm
                 key={selectedCategory?.id || "add-category"}
                 defaultValues={selectedCategory || ({} as CategoryFormValues)}
-                onClose={() => {}}
               />
             ) : (
-              <ProductForm onClose={() => {}} />
+              <ProductForm />
             )}
           </div>
         </div>

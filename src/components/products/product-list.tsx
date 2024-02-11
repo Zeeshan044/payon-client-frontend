@@ -7,6 +7,8 @@ import Button from "../ui/button";
 import ProductForm from "../forms/product-form";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/features/modal/modalSlice";
+import { IProductResponse } from "@/types/api";
+import { setSelectedProduct } from "@/features/product/productSlice";
 
 export default function ProductList() {
   const { data, isLoading } = useGetAllProductsQuery();
@@ -25,19 +27,27 @@ export default function ProductList() {
     if (!confirmation) return;
     deleteProduct(id);
   };
-
+  const onEditHandler = (product: IProductResponse) => {
+    if (window.innerWidth < 1024) {
+      dispatch(
+        openModal({
+          view: "ADD_PRODUCT",
+          data: { title: "Update Product", product },
+        })
+      );
+    }
+    dispatch(setSelectedProduct(product));
+  }
   if (isLoading || isLoadingDelete) {
     return <PageLoader />;
   }
+
 
   return (
     < >
       <Button className="lg:hidden block mb-2" onClick={handleAddProduct}>
         Add Product
       </Button>
-      {isAddingProduct && (
-        <ProductForm onClose={() => setIsAddingProduct(false)} />
-      )}
       {data?.map((product) => (
         <MenuRow
           key={product.id}
@@ -45,6 +55,7 @@ export default function ProductList() {
           description={product.description}
           image={product?.image || IMAGES.NO_IMAGE}
           price={product.price}
+          onEdit={() => onEditHandler(product)}
           onDelete={() => onDeleteProduct(product.id)}
         />
       ))}

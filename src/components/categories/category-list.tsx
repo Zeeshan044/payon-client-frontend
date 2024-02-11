@@ -7,7 +7,7 @@ import MenuRow from "../ui/menu-row";
 import IMAGES from "@/constants/images";
 import { CategoryFormValues } from "@/schema/category-form.schema";
 import { useDispatch } from "react-redux";
-import { openModal } from "@/features/modal/modalSlice";
+import { closeModal, openModal } from "@/features/modal/modalSlice";
 import Button from "../ui/button";
 import { ICategoryResponse } from "@/types/api";
 import { setSelectedCategory } from "@/features/category/categorySlice";

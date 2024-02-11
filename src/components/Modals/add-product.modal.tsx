@@ -3,16 +3,20 @@ import { useQueryClient } from "react-query";
 import { useCreateProductMutation } from "@/services/data/product.data";
 import ProductForm from "../forms/product-form";
 import { ProductFormValues } from "@/schema/product-form.schema";
+import { RootState } from "@/app/store";
+import { useSelector } from "react-redux";
 
-interface AddProductModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onSubmit?: (formData: ProductFormValues) => Promise<void>;
-}
+// interface AddProductModalProps {
+//     isOpen: boolean;
+//     onClose: () => void;
+//     onSubmit?: (formData: ProductFormValues) => Promise<void>;
+// }
 
-const AddProductModal: React.FC<AddProductModalProps> = () => {
+const AddProductModal: React.FC = () => {
     const queryClient = useQueryClient();
     const { mutate } = useCreateProductMutation();
+    const modalState = useSelector((state: RootState) => state.modal);
+
 
     const handleProductSubmit = async (formData: ProductFormValues) => {
         const formDataObject = new FormData();
@@ -27,11 +31,12 @@ const AddProductModal: React.FC<AddProductModalProps> = () => {
     };
 
     return (
-        <Modal isOpen={true}>
-            <div className=" p-10">
-                <ProductForm onClose={() => { handleProductSubmit }} />
-            </div>
-        </Modal>
+        <div className=" p-10">
+            <ProductForm onClose={() => { handleProductSubmit }} defaultValues={modalState.data?.category} />
+        </div>
+        // <Modal isOpen={true}>
+
+        // </Modal>
     );
 };
 

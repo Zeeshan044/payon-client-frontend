@@ -16,9 +16,10 @@ const AddProductModal = lazy(
 const AddRestaurant = lazy(
   () => import("@/components/modals/add-restaurant.modal")
 );
-const ViewRestaurant = lazy(() => import("@/components/modals/view-resturant.modal"))
+const ViewRestaurant = lazy(() => import("@/components/modals/update-restaurant.modal"))
 const AddStaff = lazy(() => import("@/components/modals/add-staff.modal"));
 const AddCategoryModal = lazy(() => import("@/components/modals/add-category.modal"));
+const UpdateRestaurant = lazy(() => import("@/components/modals/update-restaurant.modal"));
 function renderView(view: ModalViews) {
   switch (view) {
     case "VIEW_TABLE":
@@ -28,13 +29,15 @@ function renderView(view: ModalViews) {
     case "VIEW_ORDER":
       return <ViewOrderModal />;
     case "ADD_PRODUCT":
-      return <AddProductModal isOpen={true} onClose={() => { }} />;
+      return <AddProductModal />;
     case "ADD_CATEGORY":
-      return <AddCategoryModal isOpen={true} isClose={true} />;
-    case "ADD_RESTURANT":
+      return <AddCategoryModal />;
+    case "ADD_RESTAURANT":
       return <AddRestaurant />;
-    case "VIEW_RESTURANT":
+    case "VIEW_RESTAURANT":
       return <ViewRestaurant />;
+    case "UPDATE_RESTAURANT":
+      return <UpdateRestaurant />;
     case "ADD_STAFF":
       return <AddStaff />;
     default:

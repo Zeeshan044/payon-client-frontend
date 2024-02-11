@@ -16,6 +16,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setSelectedCategory } from "@/features/category/categorySlice";
 import { closeModal } from "@/features/modal/modalSlice";
+import { useGetAllCategoriesQuery } from "@/services/data/category.data";
 
 interface Props {
   defaultValues?: CategoryFormValues;
@@ -36,26 +37,24 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
     resolver: yupResolver(CategoryFormSchema),
     defaultValues: defaultValues,
   });
+  const { data, isLoading: isLoadingCategories } = useGetAllCategoriesQuery();
 
-  const { mutate: createCategory, isLoading: isLoadingCreate } =
-    useCreateCategoryMutation();
-  const { mutate: updateCategory, isLoading: isLoadingUpdate } =
-    useUpdateCategoryMutation();
+  const { mutate: createCategory, isLoading: isLoadingCreate } = useCreateCategoryMutation();
+  const { mutate: updateCategory, isLoading: isLoadingUpdate } = useUpdateCategoryMutation();
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
-    src: "",
+    src: defaultValues?.image || "",
   });
 
+
   const onSubmit = (data: CategoryFormValues) => {
+    const { description, name } = data;
     const formData = new FormData();
     if (imageInfo.file) {
       formData.append("image", imageInfo.file);
     }
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-
-    // console.log("form data", formData);
-    // console.log("default values", defaultValues);
+    formData.append("name", name);
+    formData.append("description", description);
 
     if (defaultValues) {
       updateCategory(
@@ -75,6 +74,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
         onSuccess() {
           reset();
           setImageInfo({ file: null, src: "" });
+          dispatch(closeModal());
         },
       });
     }
@@ -96,7 +96,6 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
           <div className="aspect-video rounded bg-primary/50 relative">
             <Image
               src={imageInfo.src || IMAGES.NO_IMAGE}
-              // src={{ src: imageInfo.src || IMAGES.NO_IMAGE }}
               fill
               alt=""
               className="w-full h-full object-cover"

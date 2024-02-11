@@ -2,14 +2,14 @@ import React, { use } from "react";
 import Input from "../ui/input";
 import { useDispatch } from "react-redux";
 import { closeModal } from "@/features/modal/modalSlice";
-import { addTable } from "@/features/table/tableSlice";
+// import { addTable } from "@/features/table/tableSlice";
 
 import Button from "../ui/button";
 import { ModalContent, ModalFooter } from "../ui/modal";
 import { useCreateTableMutation } from "@/services/data/table.data";
 
-interface Props {}
-const AddTableModal: React.FC<Props> = ({}) => {
+interface Props { }
+const AddTableModal: React.FC<Props> = ({ }) => {
   const [tableName, setTableName] = React.useState<string>("");
   const [error, setError] = React.useState<string>("");
   const dispatch = useDispatch();

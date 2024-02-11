@@ -6,17 +6,19 @@ import Image from "next/image";
 import IMAGES from "@/constants/images";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UserProfileFormSchema } from "@/schema/userProfile-form.schema";
 import { ModalContent, ModalFooter } from "../ui/modal";
-
-const ViewRestaurant = () => {
+import { RestaurantFormSchema, RestaurantFormValues } from "@/schema/restaurant-from.schema";
+interface Props {
+    defaultValues?: RestaurantFormValues;
+}
+const ViewRestaurant = ({ defaultValues }: Props) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
     } = useForm({
-        resolver: yupResolver(UserProfileFormSchema),
+        resolver: yupResolver(RestaurantFormSchema),
     });
 
     return (
@@ -25,7 +27,7 @@ const ViewRestaurant = () => {
                 <div className="max-w-2xl mx-auto">
                     <div className="aspect-video relative shadow-lg rounded-md border">
                         <Image
-                            src={IMAGES.NO_IMAGE}
+                            src={defaultValues?.image || IMAGES.NO_IMAGE}
                             alt=""
                             className="w-full h-full object-cover rounded-md"
                         />
@@ -36,7 +38,7 @@ const ViewRestaurant = () => {
                         </div>
                         <div className="md:w-40 md:h-40 w-24 h-24 rounded-full absolute -bottom-12 md:-bottom-20 left-1/2 -translate-x-1/2 border shadow">
                             <Image
-                                src={IMAGES.NO_IMAGE}
+                                src={defaultValues?.image || IMAGES.NO_IMAGE}
                                 alt=""
                                 className="w-full h-full rounded-full object-cover"
                             />
@@ -49,53 +51,56 @@ const ViewRestaurant = () => {
                     </div>
                     <div className=" mt-24">
                         <Input
-                            {...register("name")}
+                            value={defaultValues?.name}
                             id="name"
                             name="name"
                             placeholder="name"
                             label="Name"
-                            error={errors.name?.message}
+                            disabled
                         />
                         <Input
-                            {...register("description")}
+                            value={defaultValues?.branch}
+                            id="branch"
+                            name="branch"
+                            placeholder="branch"
+                            label="Branch"
+                            disabled />
+                        <Input
+                            value={defaultValues?.description}
                             id="description"
                             name="description"
                             placeholder="description"
                             label="Description"
-                            error={errors.description?.message}
-                        />
+                            disabled />
                         <Input
-                            {...register("email")}
+                            value={defaultValues?.email}
                             id=""
                             name="email"
                             placeholder="email"
                             label="Email"
-                            error={errors.email?.message}
-                        />
+                            disabled />
                         <Input
-                            {...register("phone")}
+                            value={defaultValues?.phone}
                             id=""
                             name="phone"
                             placeholder="phone"
                             label="Phone"
-                            error={errors.phone?.message}
-                        />
+                            disabled />
                         <Input
-                            {...register("address")}
+                            value={defaultValues?.address}
                             id=""
                             name="address"
                             placeholder="address"
                             label="Address"
-                            error={errors.address?.message}
-                        />
+                            disabled />
                     </div>
                 </div>
             </ModalContent>
-            <ModalFooter>
+            {/* <ModalFooter>
                 <Button className="w-full" type="submit">
                     Update Resturant
                 </Button>
-            </ModalFooter>
+            </ModalFooter> */}
         </form>
     );
 };

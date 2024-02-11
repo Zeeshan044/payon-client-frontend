@@ -14,6 +14,7 @@ import { RootState } from "@/app/store";
 // }
 
 const AddCategoryModal: React.FC = () => {
+
   const modalState = useSelector((state: RootState) => state.modal);
 
   return (

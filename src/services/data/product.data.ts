@@ -29,8 +29,8 @@ export function useCreateProductMutation() {
 export function useUpdateProductMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (data: { id: number; data: IProductRequest }) =>
-      productClient.update(data.id, data.data),
+    mutationFn: ({ id, data }: { id: number; data: IProductRequest }) =>
+      productClient.update(id, data),
     onSuccess: () => {
       client.invalidateQueries(["products"]);
     },

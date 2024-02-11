@@ -23,7 +23,7 @@ const Tables: React.FC<Props> = () => {
   return (
     <>
       <Layout>
-        <div>
+        <div className=" mx-4">
           <div className="flex items-center justify-between border-b mb-8">
             <h2 className=" text-4xl font-bold">Tables</h2>
             <Button onClick={handleOpenModal} className="my-4">
