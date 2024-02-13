@@ -15,7 +15,7 @@ export const productClient = {
     });
   },
   update: (id: number, data: any) => {
-    return HttpClient.put(`${API_ENDPOINTS.PRODUCT}/${id}?_method=PUT`, data);
+    return HttpClient.post(`${API_ENDPOINTS.PRODUCT}/${id}?_method=PUT`, data);
   },
   delete: (id: number) => {
     return HttpClient.delete(`${API_ENDPOINTS.PRODUCT}/${id}`);

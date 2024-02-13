@@ -4,10 +4,17 @@ import Button from "../ui/button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ProductFormSchema, ProductFormValues } from "@/schema/product-form.schema";
+import {
+  ProductFormSchema,
+  ProductFormValues,
+} from "@/schema/product-form.schema";
 import IMAGES from "@/constants/images";
 import { convertToUSD } from "@/utils";
-import { useCreateProductMutation, useGetAllProductsQuery, useUpdateProductMutation } from "@/services/data/product.data";
+import {
+  useCreateProductMutation,
+  useGetAllProductsQuery,
+  useUpdateProductMutation,
+} from "@/services/data/product.data";
 import { toast } from "react-toastify";
 import { closeModal } from "@/features/modal/modalSlice";
 import { useDispatch } from "react-redux";
@@ -18,7 +25,6 @@ import { ICategoryRequest, IProductRequest } from "@/types/api";
 interface ProductFormProps {
   defaultValues?: ProductFormValues;
   // onUpdateImage: (imageSrc: string) => void;
-
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
@@ -28,6 +34,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<ProductFormValues>({
     resolver: yupResolver(ProductFormSchema),
     defaultValues: defaultValues,
@@ -38,9 +45,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
   const [addonPrice, setAddonPrice] = useState(0);
 
   const { data } = useGetAllCategoriesQuery();
-  const { mutate: createProduct, isLoading: isLoadingCreate } = useCreateProductMutation();
-  const { mutate: updateCategory, isLoading: isLoadingUpdate } = useUpdateProductMutation();
-  const dispatch = useDispatch()
+  const { mutate: createProduct, isLoading: isLoadingCreate } =
+    useCreateProductMutation();
+  const { mutate: updateCategory, isLoading: isLoadingUpdate } =
+    useUpdateProductMutation();
+  const dispatch = useDispatch();
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
     src: defaultValues?.image || "",
@@ -68,21 +77,21 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
             setImageInfo({ file: null, src: "" });
             dispatch(setSelectedProduct(null));
             // onUpdateImage(imageInfo.src);
-            // dispatch(closeModal());
+            dispatch(closeModal());
           },
         }
-      )
+      );
     } else {
       createProduct(formData, {
         onSuccess() {
           reset();
           setImageInfo({ file: null, src: "" });
           // onUpdateImage(imageInfo.src);
-          // dispatch(closeModal())
+          dispatch(closeModal());
         },
       });
-    };
-  }
+    }
+  };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       if (e.target.files) {
@@ -90,11 +99,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
           file: e.target.files[0],
           src: URL.createObjectURL(e.target.files[0]),
         });
+        setValue("image", URL.createObjectURL(e.target.files[0]));
       }
     } catch (error) {
       toast.error("Failed to load the image");
     }
   };
+
+  console.log(errors.image?.message, "errors");
 
   return (
     <div className=" ">
@@ -108,6 +120,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
               className="w-full h-full object-cover"
             />
           </div>
+          {errors.image && (
+            <span className="text-xs text-red-500">
+              {errors.image?.message}
+            </span>
+          )}
         </div>
         <div className="mt-2">
           <Button
@@ -215,8 +232,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
             </div>
           ))}
         </div>
-        <Button className="mt-4 w-full" type="submit" loading={isLoadingCreate || isLoadingUpdate}
-        // onClick={() => { dispatch(closeModal()) }}
+        <Button
+          className="mt-4 w-full"
+          type="submit"
+          loading={isLoadingCreate || isLoadingUpdate}
+          // onClick={() => { dispatch(closeModal()) }}
         >
           {defaultValues ? "Update Product" : "Add Product"}
         </Button>

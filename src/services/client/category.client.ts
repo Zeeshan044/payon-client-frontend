@@ -12,10 +12,7 @@ export const categoryClient = {
     );
   },
   create: (data: FormData) => {
-    return HttpClient.post<ICategoryResponse[]>(
-      `${API_ENDPOINTS.CATEGORY}?_method=POST`,
-      data
-    );
+    return HttpClient.post<ICategoryResponse[]>(API_ENDPOINTS.CATEGORY, data);
   },
   update: (id: number, data: any) => {
     return HttpClient.post<ICategoryResponse[]>(

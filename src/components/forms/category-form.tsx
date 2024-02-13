@@ -16,12 +16,10 @@ import {
 import { useDispatch } from "react-redux";
 import { setSelectedCategory } from "@/features/category/categorySlice";
 import { closeModal } from "@/features/modal/modalSlice";
-import { useGetAllCategoriesQuery } from "@/services/data/category.data";
 
 interface Props {
   defaultValues?: CategoryFormValues | null;
   onSubmit?: (formData: CategoryFormValues) => Promise<void>;
-
 }
 
 const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
@@ -38,8 +36,10 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
     defaultValues: defaultValues || { name: "", description: "", image: "" },
   });
 
-  const { mutate: createCategory, isLoading: isLoadingCreate } = useCreateCategoryMutation();
-  const { mutate: updateCategory, isLoading: isLoadingUpdate } = useUpdateCategoryMutation();
+  const { mutate: createCategory, isLoading: isLoadingCreate } =
+    useCreateCategoryMutation();
+  const { mutate: updateCategory, isLoading: isLoadingUpdate } =
+    useUpdateCategoryMutation();
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
     src: defaultValues?.image || IMAGES.NO_IMAGE,
@@ -62,6 +62,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
             reset();
             setImageInfo({ file: null, src: defaultValues?.image });
             dispatch(setSelectedCategory(null));
+            dispatch(closeModal());
           },
         }
       );
@@ -84,7 +85,6 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
       });
     }
   };
-
 
   return (
     <div>
@@ -138,7 +138,6 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
           loading={isLoadingCreate || isLoadingUpdate}
           className="mt-4 w-full"
           type="submit"
-          onClick={() => { dispatch(closeModal()) }}
         >
           {defaultValues ? "Update Category" : "Add Category"}
         </Button>
