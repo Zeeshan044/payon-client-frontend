@@ -10,15 +10,15 @@ const ViewOrderModal = lazy(
 const ViewTableModal = lazy(
   () => import("@/components/modals/view-table.modal")
 );
+const AddCategoryModal = lazy(() => import("@/components/modals/add-category.modal"));
 const AddProductModal = lazy(
   () => import("@/components/modals/add-product.modal")
 );
 const AddRestaurant = lazy(
   () => import("@/components/modals/add-restaurant.modal")
 );
-const ViewRestaurant = lazy(() => import("@/components/modals/update-restaurant.modal"))
+const ViewRestaurant = lazy(() => import("@/components/modals/view-restaurant.modal"))
 const AddStaff = lazy(() => import("@/components/modals/add-staff.modal"));
-const AddCategoryModal = lazy(() => import("@/components/modals/add-category.modal"));
 const UpdateRestaurant = lazy(() => import("@/components/modals/update-restaurant.modal"));
 function renderView(view: ModalViews) {
   switch (view) {

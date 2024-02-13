@@ -101,7 +101,7 @@ const UserRestaurants = ({ defaultValues }: Props) => {
                       {restaurant.name}
                     </div>
                   </th>
-                  <td className="px-6 py-4">{restaurant.branch}</td>
+                  <td className="px-6 py-4">1</td>
                   <td className="px-6 py-4">{restaurant.address}</td>
                   <td className="px-6 py-4">{restaurant.email}</td>
                   <td className="px-6 py-4">

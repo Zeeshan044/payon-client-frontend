@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/components/ui/input";
 import { HiPencil } from "react-icons/hi2";
 import Button from "../ui/button";
@@ -22,32 +22,40 @@ const UpdateRestaurant = ({ defaultValues }: Props) => {
         handleSubmit,
         formState: { errors },
         reset,
+        setValue
     } = useForm({
         resolver: yupResolver(RestaurantFormSchema),
+        defaultValues: defaultValues,
     });
 
     const [imageInfo, setImageInfo] = useState({
         file: null as File | null,
-        src: "",
+        src: defaultValues?.cover_image && defaultValues?.profile_image || "",
     });
     const fileRef = React.useRef<HTMLInputElement>(null);
     const dispatch = useDispatch();
-    const { mutate: updateRestaurant } = useUpdateRestaurantMutation();
+    const { mutate: updateRestaurant, isLoading } = useUpdateRestaurantMutation();
+
     const onSubmit = (data: RestaurantFormValues) => {
-        const { name, branch, email, phone, address } = data;
+        const { name, branch, email, phone, address, description } = data;
         const formData = new FormData();
+        if (imageInfo.file) {
+            formData.append("cover_image", imageInfo.file);
+            formData.append("profile_image", imageInfo.file);
+        }
         formData.append("name", name);
         formData.append("branch", branch);
         formData.append("email", email);
         formData.append("phone", phone);
         formData.append("address", address);
+        formData.append("description", description);
         if (imageInfo.file) {
             formData.append("image", imageInfo.file);
         }
-        {
-            defaultValues && updateRestaurant(
-                // @ts-ignore
-                { id: defaultValues.id, data: formData },
+        if (defaultValues) {
+            updateRestaurant(
+                //@ts-ignore
+                { restaurantId: defaultValues.id, data: formData },
                 {
                     onSuccess() {
                         reset();
@@ -104,61 +112,61 @@ const UpdateRestaurant = ({ defaultValues }: Props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-24">
-                            <Input
-                                {...register("name")}
-                                id="name"
-                                name="name"
-                                placeholder="Name"
-                                label="Name"
-                                error={errors.name?.message}
-                            />
-                            <Input
-                                {...register("branch")}
-                                id="branch"
-                                name="branch"
-                                placeholder="Branch"
-                                label="Branch"
-                                error={errors.branch?.message}
-                            />
-                            <Input
-                                {...register("email")}
-                                id="email"
-                                name="email"
-                                placeholder="Email"
-                                label="Email"
-                                error={errors.email?.message}
-                            />
-                            <Input
-                                {...register("phone")}
-                                id="phone"
-                                name="phone"
-                                placeholder="Phone"
-                                label="Phone"
-                                error={errors.phone?.message}
-                            />
-                            <Input
-                                {...register("address")}
-                                id="address"
-                                name="address"
-                                placeholder="Address"
-                                label="Address"
-                                error={errors.address?.message}
-                            />
-                            <Input
-                                {...register("description")}
-                                id="branch"
-                                name="branch"
-                                placeholder="Branch"
-                                label="Branch"
-                                error={errors.description?.message}
-                            />
-                        </div>
+                    </div>
+                    <div className="mt-24">
+                        <Input
+                            {...register("name")}
+                            id="name"
+                            name="name"
+                            placeholder="Name"
+                            label="Name"
+                            error={errors.name?.message}
+                        />
+                        <Input
+                            {...register("branch")}
+                            id="branch"
+                            name="branch"
+                            placeholder="Branch"
+                            label="Branch"
+                            error={errors.branch?.message}
+                        />
+                        <Input
+                            {...register("email")}
+                            id="email"
+                            name="email"
+                            placeholder="Email"
+                            label="Email"
+                            error={errors.email?.message}
+                        />
+                        <Input
+                            {...register("phone")}
+                            id="phone"
+                            name="phone"
+                            placeholder="Phone"
+                            label="Phone"
+                            error={errors.phone?.message}
+                        />
+                        <Input
+                            {...register("address")}
+                            id="address"
+                            name="address"
+                            placeholder="Address"
+                            label="Address"
+                            error={errors.address?.message}
+                        />
+                        <Input
+                            {...register("description")}
+                            id="description"
+                            name="description"
+                            placeholder="description"
+                            label="description"
+                            error={errors.description?.message}
+                        />
                     </div>
                 </div>
             </ModalContent>
             <ModalFooter>
-                <Button className="w-full" type="submit">
+                <Button className="w-full" type="submit" loading={isLoading}>
                     Update Restaurant
                 </Button>
             </ModalFooter>

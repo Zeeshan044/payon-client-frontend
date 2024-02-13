@@ -1,4 +1,4 @@
-import { IProductResponse, IRestaurantResponse } from "@/types/api";
+import { IRestaurantResponse } from "@/types/api";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface State {

@@ -4,6 +4,14 @@ export interface IAPIResponse<T> {
   message: string;
   data: T;
 }
+export interface ITable {
+  id: string;
+  name: string;
+  restaurant_id: string;
+  qr_link: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface IAPIErrorResponse {
   message: string;
@@ -61,7 +69,7 @@ export interface IRestaurantRequest {
   phone: string;
   address: string;
   restaurant_id: number;
-  branch: number;
+  branch: string;
 }
 
 export interface IRestaurantResponse extends IRestaurantRequest {

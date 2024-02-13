@@ -7,7 +7,7 @@ import MenuRow from "../ui/menu-row";
 import IMAGES from "@/constants/images";
 import { CategoryFormValues } from "@/schema/category-form.schema";
 import { useDispatch } from "react-redux";
-import { closeModal, openModal } from "@/features/modal/modalSlice";
+import { openModal } from "@/features/modal/modalSlice";
 import Button from "../ui/button";
 import { ICategoryResponse } from "@/types/api";
 import { setSelectedCategory } from "@/features/category/categorySlice";
@@ -16,16 +16,19 @@ import { setSelectedCategory } from "@/features/category/categorySlice";
 //   onUpdateCategory: (category: CategoryFormValues) => void;
 // }
 const CategoryList: React.FC = () => {
-  const { data, isLoading } = useGetAllCategoriesQuery();
+  const { data, isLoading, refetch } = useGetAllCategoriesQuery();
+
   const { mutate: deleteCategory, isLoading: isLoadingDelete } =
     useDeleteCategoryMutation();
   const dispatch = useDispatch();
 
-  const handleAddCategory = () => {
+  const handleAddCategory = async () => {
     dispatch(
       openModal({ view: "ADD_CATEGORY", data: { title: "Add Category" } })
     );
+    await refetch()
   };
+
 
   const onDeleteCategory = (id: number) => {
     const confirmation = confirm(

@@ -19,9 +19,9 @@ import { closeModal } from "@/features/modal/modalSlice";
 import { useGetAllCategoriesQuery } from "@/services/data/category.data";
 
 interface Props {
-  defaultValues?: CategoryFormValues;
-  onClose?: () => void;
+  defaultValues?: CategoryFormValues | null;
   onSubmit?: (formData: CategoryFormValues) => Promise<void>;
+
 }
 
 const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
@@ -35,26 +35,23 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
     reset,
   } = useForm({
     resolver: yupResolver(CategoryFormSchema),
-    defaultValues: defaultValues,
+    defaultValues: defaultValues || { name: "", description: "", image: "" },
   });
-  const { data, isLoading: isLoadingCategories } = useGetAllCategoriesQuery();
 
   const { mutate: createCategory, isLoading: isLoadingCreate } = useCreateCategoryMutation();
   const { mutate: updateCategory, isLoading: isLoadingUpdate } = useUpdateCategoryMutation();
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
-    src: defaultValues?.image || "",
+    src: defaultValues?.image || IMAGES.NO_IMAGE,
   });
 
-
   const onSubmit = (data: CategoryFormValues) => {
-    const { description, name } = data;
     const formData = new FormData();
     if (imageInfo.file) {
-      formData.append("image", imageInfo.file);
+      formData.append("image", imageInfo.file as Blob);
     }
-    formData.append("name", name);
-    formData.append("description", description);
+    formData.append("name", data.name);
+    formData.append("description", data.description);
 
     if (defaultValues) {
       updateCategory(
@@ -63,9 +60,8 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
         {
           onSuccess() {
             reset();
-            setImageInfo({ file: null, src: "" });
+            setImageInfo({ file: null, src: defaultValues?.image });
             dispatch(setSelectedCategory(null));
-            dispatch(closeModal());
           },
         }
       );
@@ -88,6 +84,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
       });
     }
   };
+
 
   return (
     <div>
@@ -141,6 +138,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
           loading={isLoadingCreate || isLoadingUpdate}
           className="mt-4 w-full"
           type="submit"
+          onClick={() => { dispatch(closeModal()) }}
         >
           {defaultValues ? "Update Category" : "Add Category"}
         </Button>

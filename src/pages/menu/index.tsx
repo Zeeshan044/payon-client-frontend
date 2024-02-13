@@ -3,11 +3,12 @@ import Tabs from "@/components/ui/tabs";
 import CategoryForm from "@/components/forms/category-form";
 import CategoryList from "@/components/categories/category-list";
 import ProductList from "@/components/products/product-list";
-import { CategoryFormValues } from "@/schema/category-form.schema";
+// import { CategoryFormValues } from "@/schema/category-form.schema";
 import ProductForm from "@/components/forms/product-form";
 import Layout from "@/components/layout/layout";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import { ProductFormValues } from "@/schema/product-form.schema";
 
 const TabItems = ["Categories", "Products"];
 
@@ -15,6 +16,9 @@ const Menu = () => {
   const [activeTab, setActiveTab] = useState(TabItems[0]);
   const { selectedCategory } = useSelector(
     (state: RootState) => state.category
+  );
+  const { selectedProduct } = useSelector(
+    (state: RootState) => state.product
   );
 
   return (
@@ -33,10 +37,13 @@ const Menu = () => {
             {activeTab === "Categories" ? (
               <CategoryForm
                 key={selectedCategory?.id || "add-category"}
-                defaultValues={selectedCategory || ({} as CategoryFormValues)}
+                defaultValues={selectedCategory || null}
               />
             ) : (
-              <ProductForm />
+              <ProductForm
+                key={selectedProduct?.id || "add-product"}
+                defaultValues={selectedProduct || null}
+              />
             )}
           </div>
         </div>

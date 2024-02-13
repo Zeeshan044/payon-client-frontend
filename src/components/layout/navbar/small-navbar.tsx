@@ -28,7 +28,7 @@ const SmallNavbar = () => {
       <div
         className={
           nav
-            ? "w-screen bg-primary absolute top-14 left-0 flex justify-center text-center backdrop-brightness-0 my-2 backdrop-filter z-50"
+            ? "w-screen bg-primary absolute top-14 left-0 flex justify-center text-center backdrop-brightness-0 my-4 backdrop-filter z-50"
             : "absolute left-[-100%]"
         }
       >

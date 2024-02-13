@@ -10,11 +10,10 @@ import { openModal } from "@/features/modal/modalSlice";
 import { IProductResponse } from "@/types/api";
 import { setSelectedProduct } from "@/features/product/productSlice";
 
-export default function ProductList() {
+const ProductList = () => {
   const { data, isLoading } = useGetAllProductsQuery();
   const { mutate: deleteProduct, isLoading: isLoadingDelete } = useDeleteProductMutation();
   const dispatch = useDispatch()
-  const [isAddingProduct, setIsAddingProduct] = useState(false);
 
   const handleAddProduct = () => {
     dispatch(openModal({ view: "ADD_PRODUCT", data: { title: "Add Product" } }));
@@ -62,3 +61,5 @@ export default function ProductList() {
     </>
   );
 }
+
+export default ProductList

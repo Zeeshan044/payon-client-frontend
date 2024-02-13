@@ -8,26 +8,25 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ModalContent, ModalFooter } from "../ui/modal";
 import { RestaurantFormSchema, RestaurantFormValues } from "@/schema/restaurant-from.schema";
+import { closeModal } from "@/features/modal/modalSlice";
 interface Props {
     defaultValues?: RestaurantFormValues;
 }
 const ViewRestaurant = ({ defaultValues }: Props) => {
     const {
-        register,
-        handleSubmit,
         formState: { errors },
-        reset,
     } = useForm({
         resolver: yupResolver(RestaurantFormSchema),
+        defaultValues: defaultValues,
     });
 
     return (
-        <form onSubmit={() => { }}>
+        <form >
             <ModalContent>
                 <div className="max-w-2xl mx-auto">
                     <div className="aspect-video relative shadow-lg rounded-md border">
                         <Image
-                            src={defaultValues?.image || IMAGES.NO_IMAGE}
+                            src={defaultValues?.cover_image || IMAGES.NO_IMAGE}
                             alt=""
                             className="w-full h-full object-cover rounded-md"
                         />
@@ -38,7 +37,7 @@ const ViewRestaurant = ({ defaultValues }: Props) => {
                         </div>
                         <div className="md:w-40 md:h-40 w-24 h-24 rounded-full absolute -bottom-12 md:-bottom-20 left-1/2 -translate-x-1/2 border shadow">
                             <Image
-                                src={defaultValues?.image || IMAGES.NO_IMAGE}
+                                src={defaultValues?.profile_image || IMAGES.NO_IMAGE}
                                 alt=""
                                 className="w-full h-full rounded-full object-cover"
                             />
@@ -96,11 +95,11 @@ const ViewRestaurant = ({ defaultValues }: Props) => {
                     </div>
                 </div>
             </ModalContent>
-            {/* <ModalFooter>
-                <Button className="w-full" type="submit">
-                    Update Resturant
+            <ModalFooter>
+                <Button className="w-full" onClick={() => { closeModal() }}>
+                    close Modal
                 </Button>
-            </ModalFooter> */}
+            </ModalFooter>
         </form>
     );
 };

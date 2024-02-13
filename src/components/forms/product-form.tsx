@@ -12,9 +12,13 @@ import { toast } from "react-toastify";
 import { closeModal } from "@/features/modal/modalSlice";
 import { useDispatch } from "react-redux";
 import { setSelectedProduct } from "@/features/product/productSlice";
+import { useGetAllCategoriesQuery } from "@/services/data/category.data";
+import { ICategoryRequest, IProductRequest } from "@/types/api";
 
 interface ProductFormProps {
   defaultValues?: ProductFormValues;
+  // onUpdateImage: (imageSrc: string) => void;
+
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
@@ -33,17 +37,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
   const [addonName, setAddonName] = useState("");
   const [addonPrice, setAddonPrice] = useState(0);
 
-  const { data, isLoading: isLoadingProduct } = useGetAllProductsQuery();
+  const { data } = useGetAllCategoriesQuery();
   const { mutate: createProduct, isLoading: isLoadingCreate } = useCreateProductMutation();
-  const { mutate: updateCategory, isLoading: isLoadingUpdate } =
-    useUpdateProductMutation();
+  const { mutate: updateCategory, isLoading: isLoadingUpdate } = useUpdateProductMutation();
   const dispatch = useDispatch()
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
     src: defaultValues?.image || "",
   });
 
-  const onSubmit = (data: ProductFormValues) => {
+  const onSubmit = (data: IProductRequest) => {
     const { description, ingredients, name, price, category_id } = data;
     const formData = new FormData();
     if (imageInfo.file) {
@@ -64,7 +67,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
             reset();
             setImageInfo({ file: null, src: "" });
             dispatch(setSelectedProduct(null));
-            dispatch(closeModal());
+            // onUpdateImage(imageInfo.src);
+            // dispatch(closeModal());
           },
         }
       )
@@ -73,7 +77,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
         onSuccess() {
           reset();
           setImageInfo({ file: null, src: "" });
-          dispatch(closeModal())
+          // onUpdateImage(imageInfo.src);
+          // dispatch(closeModal())
         },
       });
     };
@@ -211,6 +216,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
           ))}
         </div>
         <Button className="mt-4 w-full" type="submit" loading={isLoadingCreate || isLoadingUpdate}
+        // onClick={() => { dispatch(closeModal()) }}
         >
           {defaultValues ? "Update Product" : "Add Product"}
         </Button>

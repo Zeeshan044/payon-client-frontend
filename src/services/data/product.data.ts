@@ -31,7 +31,8 @@ export function useUpdateProductMutation() {
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: IProductRequest }) =>
       productClient.update(id, data),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("Update Product successful:", data);
       client.invalidateQueries(["products"]);
     },
   });

@@ -6,14 +6,11 @@ import Image from "next/image";
 import IMAGES from "@/constants/images";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UserProfileFormSchema } from "@/schema/userProfile-form.schema";
 import { ModalContent, ModalFooter } from "../ui/modal";
 import { useCreateRestaurantMutation } from "@/services/data/restaurant.data";
-import { useUpdateCategoryMutation } from "@/services/data/category.data";
 import { RestaurantFormSchema, RestaurantFormValues } from "@/schema/restaurant-from.schema";
 import { closeModal } from "@/features/modal/modalSlice";
 import { useDispatch } from "react-redux";
-import { setSelectedrestaurant } from "@/features/restaurant/restaurantSlice";
 
 
 const AddRestaurant = () => {
@@ -36,26 +33,31 @@ const AddRestaurant = () => {
   });
 
   const onSubmit = (data: RestaurantFormValues) => {
-    const { name, address, branch, email, phone } = data;
+    const { name, address, branch, email, phone, description } = data;
     const formData = new FormData();
     if (imageInfo.file) {
-      formData.append("image", imageInfo.file);
+      formData.append("cover_image", imageInfo.file);
+      formData.append("profile_image", imageInfo.file);
     }
     formData.append("name", name);
     formData.append("branch", branch);
     formData.append("address", address);
     formData.append("email", email);
     formData.append("phone", phone);
-
+    formData.append("descriptiom", description);
+    console.log(formData, "formData");
     createRestaurant(formData, {
-      onSuccess() {
+      onSuccess(data) {
+        console.log("Restaurant added successfully:", data);
         reset();
         setImageInfo({ file: null, src: "" });
         dispatch(closeModal());
       },
+      onError(error) {
+        console.error("Error adding restaurant:", error);
+      }
     });
   }
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImageInfo({
@@ -73,6 +75,7 @@ const AddRestaurant = () => {
             <Image
               src={imageInfo?.src || IMAGES.NO_IMAGE}
               alt=""
+              width={100}
               className="w-full h-full object-cover rounded-md"
               onClick={() => fileRef.current?.click()}
             />
@@ -91,6 +94,7 @@ const AddRestaurant = () => {
               <Image
                 src={imageInfo?.src || IMAGES.NO_IMAGE}
                 alt=""
+                width={100}
                 className="w-full h-full rounded-full object-cover"
                 onClick={() => fileRef.current?.click()}
               />
@@ -144,17 +148,17 @@ const AddRestaurant = () => {
             />
             <Input
               {...register("description")}
-              id="branch"
-              name="branch"
-              placeholder="Branch"
-              label="Branch"
+              id="description"
+              name="description"
+              placeholder="description"
+              label="description"
               error={errors.description?.message}
             />
           </div>
         </div>
       </ModalContent>
       <ModalFooter>
-        <Button className="w-full" type="submit">
+        <Button className="w-full" type="submit" onSubmit={handleSubmit(onSubmit)}>
           Add Restaurant
         </Button>
       </ModalFooter>
