@@ -57,13 +57,13 @@ const ViewRestaurant = ({ defaultValues }: Props) => {
                             label="Name"
                             disabled
                         />
-                        <Input
+                        {/* <Input
                             value={defaultValues?.branch}
                             id="branch"
                             name="branch"
                             placeholder="branch"
                             label="Branch"
-                            disabled />
+                            disabled /> */}
                         <Input
                             value={defaultValues?.description}
                             id="description"

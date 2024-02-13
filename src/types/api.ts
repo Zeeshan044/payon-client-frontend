@@ -52,13 +52,17 @@ export interface IProductResponse extends IProductRequest {
   updated_at: string;
 }
 
-export interface IUserResponse {
+export interface IUserUpdateRequest {
+  image: string | null;
   name: string;
   description: string;
   email: string;
-  image: string | null;
   phone: string;
   address: string;
+}
+
+export interface IUserResponse extends IUserUpdateRequest {
+  id: number;
 }
 
 export interface IRestaurantRequest {

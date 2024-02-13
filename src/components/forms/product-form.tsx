@@ -121,7 +121,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
             />
           </div>
           {errors.image && (
-            <span className="text-xs text-red-500">
+            <span className=" text-sm mb-1 text-red-500">
               {errors.image?.message}
             </span>
           )}
@@ -236,7 +236,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
           className="mt-4 w-full"
           type="submit"
           loading={isLoadingCreate || isLoadingUpdate}
-          // onClick={() => { dispatch(closeModal()) }}
+        // onClick={() => { dispatch(closeModal()) }}
         >
           {defaultValues ? "Update Product" : "Add Product"}
         </Button>

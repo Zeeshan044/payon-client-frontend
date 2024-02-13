@@ -11,11 +11,12 @@ import { RestaurantFormValues } from "@/schema/restaurant-from.schema";
 interface Props {
   defaultValues?: RestaurantFormValues
 }
-const UserRestaurants = ({ defaultValues }: Props) => {
+const UserRestaurants = ({ }: Props) => {
   const { mutate: deleteRestaurant } = useDeleteRestaurantMutation()
   const dispatch = useDispatch();
-  const { data, isLoading } = useGetUserRestaurantsQuery(1);
+  const user_id = localStorage.getItem('user_id') || '';
 
+  const { data, isLoading } = useGetUserRestaurantsQuery(Number(user_id));
   const handleAddResturant = () => {
     dispatch(
       openModal({

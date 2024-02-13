@@ -1,5 +1,5 @@
-import { useQuery } from "react-query";
-import { IUserResponse } from "@/types/api";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { IUserResponse, IUserUpdateRequest } from "@/types/api";
 import { userProfileClient } from "../client/userProfile.client";
 
 export function useGetProfileQuery(id: number) {
@@ -13,6 +13,23 @@ export function useGetProfileQuery(id: number) {
         console.error("Error fetching user data:", error);
         throw error;
       }
+    },
+  });
+}
+
+export function useUpdateProfileMutation() {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      userId,
+      data,
+    }: {
+      userId: number;
+      data: IUserUpdateRequest;
+    }) => userProfileClient.update(userId, data),
+    onSuccess: (data) => {
+      console.log("User updated successfully", data);
+      client.invalidateQueries("user/getAll");
     },
   });
 }

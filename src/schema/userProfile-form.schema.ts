@@ -1,6 +1,7 @@
 import * as yup from "yup";
 
 export const UserProfileFormSchema = yup.object().shape({
+  image: yup.string().nullable().required("Image is required"),
   name: yup.string().required("Name is required"),
   description: yup.string().required("Description is required"),
   email: yup.string().required("Email is required"),

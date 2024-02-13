@@ -98,6 +98,11 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
               className="w-full h-full object-cover"
             />
           </div>
+          {errors.image && (
+            <span className=" text-sm mb-1 text-red-500">
+              {errors.image?.message}
+            </span>
+          )}
         </div>
         <div className="mt-2">
           <Button

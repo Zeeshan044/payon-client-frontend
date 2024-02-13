@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/components/ui/input";
 import { HiPencil } from "react-icons/hi2";
 import Button from "../ui/button";
@@ -19,9 +19,15 @@ const UserProfile = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue
   } = useForm({
     resolver: yupResolver(UserProfileFormSchema),
   });
+  const [profileInfo, setProfileInfo] = useState({
+    file: null as File | null,
+    src: "",
+  });
+  const profileRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("user");
@@ -32,8 +38,20 @@ const UserProfile = () => {
   }, [reset]);
 
   const onSubmit = async (formData: UserProfileFormValues) => {
+    // if (profileInfo.file) {
+    //   formData.append("profile_image", profileInfo.file);
+    // }
     console.log("Updating user data:", formData);
     localStorage.setItem("user", JSON.stringify(formData));
+  };
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setProfileInfo({
+        file: e.target.files[0],
+        src: URL.createObjectURL(e.target.files[0]),
+      });
+      setValue("image", URL.createObjectURL(e.target.files[0]));
+    }
   };
 
   return (
@@ -45,13 +63,21 @@ const UserProfile = () => {
         <div className="flex flex-col items-center">
           <div className="md:w-40 md:h-40 w-24 h-24 rounded-full  border shadow relative mt-8">
             <Image
-              src={IMAGES.NO_IMAGE}
+              src={profileInfo?.src || IMAGES.NO_IMAGE}
               alt=""
               className="w-full h-full rounded-full object-cover"
+              onClick={() => profileRef.current?.click()}
+            />
+            <input
+              type="file"
+              className="hidden"
+              ref={profileRef}
+              onChange={handleImageChange}
             />
             <div className="absolute bottom-0 -right-2 -translate-x-1/2 text-black z-10 bg-blue-500 rounded-full ">
               <div className="h-8 w-8 flex items-center justify-center">
-                <HiPencil className="h-4 w-4 text-white" />
+                <HiPencil className="h-4 w-4 text-white cursor-pointer" onClick={() => profileRef.current?.click()}
+                />
               </div>
             </div>
           </div>

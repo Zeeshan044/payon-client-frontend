@@ -6,4 +6,10 @@ export const userProfileClient = {
   get: (id: number) => {
     return HttpClient.get<IUserResponse>(`${API_ENDPOINTS.USERPROFILE}/${id}`);
   },
+  update: (id: number, userData: any) => {
+    return HttpClient.put<IUserResponse>(
+      `${API_ENDPOINTS.USERPROFILE}/${id}`,
+      userData
+    );
+  },
 };
