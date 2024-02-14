@@ -24,9 +24,6 @@ export function useCreateCategoryMutation() {
       console.log("Create category successful:", data);
       client.invalidateQueries("categories/getAll");
     },
-    onError: (error, variables, context) => {
-      console.error("Create category error:", error, variables, context);
-    },
   });
 }
 export function useUpdateCategoryMutation() {

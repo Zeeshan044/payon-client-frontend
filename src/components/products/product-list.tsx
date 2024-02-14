@@ -4,14 +4,15 @@ import MenuRow from "../ui/menu-row";
 import IMAGES from "@/constants/images";
 import { useDeleteProductMutation, useGetAllProductsQuery } from "@/services/data/product.data";
 import Button from "../ui/button";
-import ProductForm from "../forms/product-form";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/features/modal/modalSlice";
 import { IProductResponse } from "@/types/api";
 import { setSelectedProduct } from "@/features/product/productSlice";
+import { useGetAllAddonsQuery } from "@/services/data/addon.data";
 
 const ProductList = () => {
   const { data, isLoading } = useGetAllProductsQuery();
+  // const { data: addonsData } = useGetAllAddonsQuery()
   const { mutate: deleteProduct, isLoading: isLoadingDelete } = useDeleteProductMutation();
   const dispatch = useDispatch()
 
@@ -54,10 +55,24 @@ const ProductList = () => {
           description={product.description}
           image={product?.image || IMAGES.NO_IMAGE}
           price={product.price}
+          // {...addonsData?.map((addon) => {
+          //   <MenuRow
+          //     key={addon.id}
+          //     AddonName={addon.name}
+          //     AddonPrice={addon.price}
+          //   />
+          // })}
           onEdit={() => onEditHandler(product)}
           onDelete={() => onDeleteProduct(product.id)}
         />
       ))}
+      {/* {addonsData?.map((addon) => {
+        <MenuRow
+          key={addon.id}
+          AddonName={addon.name}
+          AddonPrice={addon.price}
+        />
+      })} */}
     </>
   );
 }

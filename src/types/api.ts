@@ -51,11 +51,19 @@ export interface IProductResponse extends IProductRequest {
   created_at: string;
   updated_at: string;
 }
+export interface IAddonsRequest {
+  name: string;
+  price: number;
+}
 
+export interface IAddonResponse extends IAddonsRequest {
+  id: number;
+  created_at: string;
+  updated_at: string;
+}
 export interface IUserUpdateRequest {
   image: string | null;
   name: string;
-  description: string;
   email: string;
   phone: string;
   address: string;
@@ -63,16 +71,18 @@ export interface IUserUpdateRequest {
 
 export interface IUserResponse extends IUserUpdateRequest {
   id: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface IRestaurantRequest {
   name: string;
   description: string;
-  image: string | null;
+  profile_image: string | null;
+  cover_image: string | null;
   email: string;
   phone: string;
   address: string;
-  restaurant_id: number;
   branch: string;
 }
 

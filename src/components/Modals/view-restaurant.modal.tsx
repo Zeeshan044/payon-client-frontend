@@ -9,25 +9,31 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ModalContent, ModalFooter } from "../ui/modal";
 import { RestaurantFormSchema, RestaurantFormValues } from "@/schema/restaurant-from.schema";
 import { closeModal } from "@/features/modal/modalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 interface Props {
     defaultValues?: RestaurantFormValues;
 }
 const ViewRestaurant = ({ defaultValues }: Props) => {
+    const { selectedRestaurant } = useSelector(
+        (state: RootState) => state.restaurant
+    );
     const {
-        formState: { errors },
-    } = useForm({
+        // formState,
+    } = useForm<RestaurantFormValues>({
         resolver: yupResolver(RestaurantFormSchema),
-        defaultValues: defaultValues,
+        defaultValues: selectedRestaurant,
     });
-
+    const dispatch = useDispatch()
     return (
         <form >
             <ModalContent>
                 <div className="max-w-2xl mx-auto">
                     <div className="aspect-video relative shadow-lg rounded-md border">
                         <Image
-                            src={defaultValues?.cover_image || IMAGES.NO_IMAGE}
+                            src={selectedRestaurant?.cover_image || IMAGES.NO_IMAGE}
                             alt=""
+                            fill
                             className="w-full h-full object-cover rounded-md"
                         />
                         <div className="absolute -bottom-3 right-5 -translate-x-1/2 text-black z-10 bg-primary rounded-full ">
@@ -37,8 +43,9 @@ const ViewRestaurant = ({ defaultValues }: Props) => {
                         </div>
                         <div className="md:w-40 md:h-40 w-24 h-24 rounded-full absolute -bottom-12 md:-bottom-20 left-1/2 -translate-x-1/2 border shadow">
                             <Image
-                                src={defaultValues?.profile_image || IMAGES.NO_IMAGE}
+                                src={selectedRestaurant?.profile_image || IMAGES.NO_IMAGE}
                                 alt=""
+                                fill
                                 className="w-full h-full rounded-full object-cover"
                             />
                             <div className="absolute bottom-0 -right-2 -translate-x-1/2 text-black z-10 bg-blue-500 rounded-full ">
@@ -50,43 +57,43 @@ const ViewRestaurant = ({ defaultValues }: Props) => {
                     </div>
                     <div className=" mt-24">
                         <Input
-                            value={defaultValues?.name}
+                            value={selectedRestaurant?.name}
                             id="name"
                             name="name"
                             placeholder="name"
                             label="Name"
                             disabled
                         />
-                        {/* <Input
-                            value={defaultValues?.branch}
+                        <Input
+                            value={selectedRestaurant?.branch}
                             id="branch"
                             name="branch"
                             placeholder="branch"
                             label="Branch"
-                            disabled /> */}
+                            disabled />
                         <Input
-                            value={defaultValues?.description}
+                            value={selectedRestaurant?.description}
                             id="description"
                             name="description"
                             placeholder="description"
                             label="Description"
                             disabled />
                         <Input
-                            value={defaultValues?.email}
+                            value={selectedRestaurant?.email}
                             id=""
                             name="email"
                             placeholder="email"
                             label="Email"
                             disabled />
                         <Input
-                            value={defaultValues?.phone}
+                            value={selectedRestaurant?.phone}
                             id=""
                             name="phone"
                             placeholder="phone"
                             label="Phone"
                             disabled />
                         <Input
-                            value={defaultValues?.address}
+                            value={selectedRestaurant?.address}
                             id=""
                             name="address"
                             placeholder="address"
@@ -96,8 +103,8 @@ const ViewRestaurant = ({ defaultValues }: Props) => {
                 </div>
             </ModalContent>
             <ModalFooter>
-                <Button className="w-full" onClick={() => { closeModal() }}>
-                    close Modal
+                <Button className="w-full" onClick={() => { dispatch(closeModal()) }} >
+                    Close
                 </Button>
             </ModalFooter>
         </form>

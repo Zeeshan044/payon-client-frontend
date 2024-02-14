@@ -9,7 +9,7 @@ export const RestaurantFormSchema = yup.object().shape({
   description: yup.string().required("Description is required"),
   cover_image: yup.string().nullable().required("Cover image is required"),
   profile_image: yup.string().nullable().required("Profile image is required"),
-  user_id: yup.string().required("User ID is required"),
+  // user_id: yup.string().required("User ID is required"),
 });
 
 export type RestaurantFormValues = yup.InferType<typeof RestaurantFormSchema>;

@@ -7,8 +7,8 @@ export const userProfileClient = {
     return HttpClient.get<IUserResponse>(`${API_ENDPOINTS.USERPROFILE}/${id}`);
   },
   update: (id: number, userData: any) => {
-    return HttpClient.put<IUserResponse>(
-      `${API_ENDPOINTS.USERPROFILE}/${id}`,
+    return HttpClient.get<IUserResponse>(
+      `${API_ENDPOINTS.USERPROFILE}?method=PUT`,
       userData
     );
   },

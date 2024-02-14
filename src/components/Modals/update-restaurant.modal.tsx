@@ -11,56 +11,66 @@ import { useUpdateRestaurantMutation } from "@/services/data/restaurant.data";
 import { RestaurantFormSchema, RestaurantFormValues } from "@/schema/restaurant-from.schema";
 import { setSelectedrestaurant } from "@/features/restaurant/restaurantSlice";
 import { closeModal } from "@/features/modal/modalSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 interface Props {
     defaultValues?: RestaurantFormValues;
 }
 
 const UpdateRestaurant = ({ defaultValues }: Props) => {
+    const { selectedRestaurant } = useSelector(
+        (state: RootState) => state.restaurant
+    );
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
         setValue
-    } = useForm({
+    } = useForm<RestaurantFormValues>({
         resolver: yupResolver(RestaurantFormSchema),
-        defaultValues: defaultValues,
+        defaultValues: selectedRestaurant || "",
     });
+    console.log(selectedRestaurant, "default");
+
     const dispatch = useDispatch();
     const { mutate: updateRestaurant, isLoading } = useUpdateRestaurantMutation();
 
     const [coverInfo, setCoverInfo] = useState({
         file: null as File | null,
-        src: "",
+        src: selectedRestaurant?.cover_image || "",
     });
     const [profileInfo, setProfileInfo] = useState({
         file: null as File | null,
-        src: "",
+        src: selectedRestaurant?.profile_image || "",
     });
     const coverRef = React.useRef<HTMLInputElement>(null);
     const profileRef = React.useRef<HTMLInputElement>(null);
+    const user_id = localStorage.getItem('user_id');
     const onSubmit = (data: RestaurantFormValues) => {
-        const { name, address, email, phone, description } = data;
+        const { name, address, email, branch, phone, description } = data;
         const formData = new FormData();
         if (coverInfo.file) {
-            formData.append("cover_image", coverInfo.file);
+            formData.append("cover_image", coverInfo.file as Blob);
         }
         if (profileInfo.file) {
-            formData.append("profile_image", profileInfo.file);
+            formData.append("profile_image", profileInfo.file as Blob);
         }
         formData.append("name", name);
-        // formData.append("branch", branch);
+        formData.append("branch", branch);
         formData.append("email", email);
         formData.append("phone", phone);
         formData.append("address", address);
         formData.append("description", description);
-        if (defaultValues) {
+        formData.append("user_id", user_id || '');
+        console.log(formData, "formData");
+        if (selectedRestaurant) {
             updateRestaurant(
                 //@ts-ignore
-                { restaurantId: defaultValues.id, data: formData },
+                { id: selectedRestaurant.id, data: formData },
                 {
-                    onSuccess() {
+                    onSuccess(data) {
+                        console.log("Restaurant updated successfully:", data);
                         reset();
                         setCoverInfo({ file: null, src: "" });
                         setProfileInfo({ file: null, src: "" });
@@ -72,17 +82,21 @@ const UpdateRestaurant = ({ defaultValues }: Props) => {
         }
     };
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCoverImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setCoverInfo({
                 file: e.target.files[0],
                 src: URL.createObjectURL(e.target.files[0]),
             });
+            setValue("cover_image", URL.createObjectURL(e.target.files[0]));
+        }
+    };
+    const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
             setProfileInfo({
                 file: e.target.files[0],
                 src: URL.createObjectURL(e.target.files[0]),
             });
-            setValue("cover_image", URL.createObjectURL(e.target.files[0]));
             setValue("profile_image", URL.createObjectURL(e.target.files[0]));
         }
     };
@@ -105,6 +119,7 @@ const UpdateRestaurant = ({ defaultValues }: Props) => {
                         <Image
                             src={coverInfo?.src || IMAGES.NO_IMAGE}
                             alt=""
+                            fill
                             className="w-full h-full object-cover rounded-md"
                             onClick={() => coverRef.current?.click()}
                         />
@@ -112,7 +127,7 @@ const UpdateRestaurant = ({ defaultValues }: Props) => {
                             type="file"
                             className="hidden"
                             ref={coverRef}
-                            onChange={handleImageChange}
+                            onChange={handleCoverImageChange}
                         />
                         <div className="absolute -bottom-3 right-5 -translate-x-1/2 text-black z-10 bg-primary rounded-full ">
                             <div className="h-8 w-8 flex items-center justify-center">
@@ -124,6 +139,7 @@ const UpdateRestaurant = ({ defaultValues }: Props) => {
                             <Image
                                 src={profileInfo?.src || IMAGES.NO_IMAGE}
                                 alt=""
+                                fill
                                 className="w-full h-full rounded-full object-cover"
                                 onClick={() => profileRef.current?.click()}
                             />
@@ -131,7 +147,7 @@ const UpdateRestaurant = ({ defaultValues }: Props) => {
                                 type="file"
                                 className="hidden"
                                 ref={profileRef}
-                                onChange={handleImageChange}
+                                onChange={handleProfileImageChange}
                             />
                             <div className="absolute bottom-0 -right-2 -translate-x-1/2 text-black z-10 bg-blue-500 rounded-full ">
                                 <div className="h-8 w-8 flex items-center justify-center">
@@ -150,14 +166,14 @@ const UpdateRestaurant = ({ defaultValues }: Props) => {
                             label="Name"
                             error={errors.name?.message}
                         />
-                        {/* <Input
+                        <Input
                             {...register("branch")}
                             id="branch"
                             name="branch"
                             placeholder="Branch"
                             label="Branch"
                             error={errors.branch?.message}
-                        /> */}
+                        />
                         <Input
                             {...register("email")}
                             id="email"

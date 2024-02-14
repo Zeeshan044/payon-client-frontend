@@ -1,6 +1,5 @@
 import { API_ENDPOINTS } from "@/constants";
 import { HttpClient } from "../http.service";
-import { Restaurant } from "@/types";
 import { IRestaurantResponse } from "@/types/api";
 import { RestaurantFormValues } from "@/schema/restaurant-from.schema";
 
@@ -8,14 +7,14 @@ export const restaurantClient = {
   getAll: () => {
     return HttpClient.get<IRestaurantResponse[]>(API_ENDPOINTS.RESTAURANT);
   },
-  getUserRestaurants: (userId: number) => {
+  getUserRestaurants: (user_id: number) => {
     return HttpClient.get<IRestaurantResponse[]>(
-      `${API_ENDPOINTS.RESTAURANT}?user_id=${userId}`
+      `${API_ENDPOINTS.RESTAURANT}?user_id=${user_id}`
     );
   },
-  get: (restaurantId: number) => {
-    return HttpClient.get<IRestaurantResponse[]>(
-      `${API_ENDPOINTS.RESTAURANT}/${restaurantId}`
+  get: (id: number) => {
+    return HttpClient.get<IRestaurantResponse>(
+      `${API_ENDPOINTS.RESTAURANT}/${id}`
     );
   },
   create: (data: FormData) => {
@@ -24,15 +23,15 @@ export const restaurantClient = {
       data
     );
   },
-  update: (restaurantId: number, data: any) => {
+  update: (id: number, data: any) => {
     return HttpClient.post<IRestaurantResponse[]>(
-      `${API_ENDPOINTS.RESTAURANT}/${restaurantId}`,
+      `${API_ENDPOINTS.RESTAURANT}/${id}?_method=PUT`,
       data
     );
   },
-  delete: (restaurantId: number) => {
+  delete: (id: number) => {
     return HttpClient.delete<IRestaurantResponse[]>(
-      `${API_ENDPOINTS.RESTAURANT}/${restaurantId}`
+      `${API_ENDPOINTS.RESTAURANT}/${id}`
     );
   },
 };

@@ -2,11 +2,11 @@ import { IRestaurantResponse } from "@/types/api";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface State {
-  selectedrestaurant: IRestaurantResponse | null;
+  selectedRestaurant: IRestaurantResponse | null;
 }
 
 const initialState: State = {
-  selectedrestaurant: null,
+  selectedRestaurant: null,
 };
 
 const restaurantSlice = createSlice({
@@ -17,7 +17,7 @@ const restaurantSlice = createSlice({
       state,
       action: PayloadAction<IRestaurantResponse | null>
     ) => {
-      state.selectedrestaurant = action.payload;
+      state.selectedRestaurant = action.payload;
     },
   },
 });

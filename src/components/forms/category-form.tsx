@@ -19,7 +19,7 @@ import { closeModal } from "@/features/modal/modalSlice";
 
 interface Props {
   defaultValues?: CategoryFormValues | null;
-  onSubmit?: (formData: CategoryFormValues) => Promise<void>;
+  // onSubmit?: (formData: CategoryFormValues) => Promise<void>;
 }
 
 const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
@@ -31,6 +31,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue
   } = useForm({
     resolver: yupResolver(CategoryFormSchema),
     defaultValues: defaultValues || { name: "", description: "", image: "" },
@@ -42,7 +43,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
     useUpdateCategoryMutation();
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
-    src: defaultValues?.image || IMAGES.NO_IMAGE,
+    src: defaultValues?.image || "",
   });
 
   const onSubmit = (data: CategoryFormValues) => {
@@ -60,7 +61,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
         {
           onSuccess() {
             reset();
-            setImageInfo({ file: null, src: defaultValues?.image });
+            setImageInfo({ file: null, src: "" });
             dispatch(setSelectedCategory(null));
             dispatch(closeModal());
           },
@@ -83,6 +84,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
         file: e.target.files[0],
         src: URL.createObjectURL(e.target.files[0]),
       });
+      setValue("image", URL.createObjectURL(e.target.files[0]));
     }
   };
 

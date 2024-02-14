@@ -26,8 +26,6 @@ const AddRestaurant = () => {
   } = useForm({
     resolver: yupResolver(RestaurantFormSchema),
   });
-  // const { user } = useAuth();
-
   const { mutate: createRestaurant, isLoading } = useCreateRestaurantMutation();
   const dispatch = useDispatch();
   const [coverInfo, setCoverInfo] = useState({
@@ -40,9 +38,10 @@ const AddRestaurant = () => {
   });
   const coverRef = React.useRef<HTMLInputElement>(null);
   const profileRef = React.useRef<HTMLInputElement>(null);
+  const user_id = localStorage.getItem('user_id');
+  // console.log(user_id, "user id from add restaurant");
   const onSubmit = (data: RestaurantFormValues) => {
     const { name, address, branch, email, phone, description } = data;
-    const user_Id = localStorage.getItem('user_id');
     const formData = new FormData();
     if (coverInfo.file) {
       formData.append("cover_image", coverInfo.file);
@@ -55,8 +54,8 @@ const AddRestaurant = () => {
     formData.append("address", address);
     formData.append("email", email);
     formData.append("phone", phone);
-    formData.append("descriptiom", description);
-    formData.append('user_id', user_Id || '');
+    formData.append("description", description);
+    formData.append('user_id', user_id || '');
     console.log(formData, "formData");
     createRestaurant(formData, {
       onSuccess(data) {
@@ -64,7 +63,6 @@ const AddRestaurant = () => {
         reset();
         setCoverInfo({ file: null, src: "" });
         setProfileInfo({ file: null, src: "" });
-
         dispatch(closeModal());
       },
       onError(error) {
@@ -203,7 +201,7 @@ const AddRestaurant = () => {
         <Button
           className="w-full"
           type="submit"
-          onSubmit={handleSubmit(onSubmit)}
+          loading={isLoading}
         >
           Add Restaurant
         </Button>

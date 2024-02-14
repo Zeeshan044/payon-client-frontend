@@ -3,12 +3,10 @@ import Tabs from "@/components/ui/tabs";
 import CategoryForm from "@/components/forms/category-form";
 import CategoryList from "@/components/categories/category-list";
 import ProductList from "@/components/products/product-list";
-// import { CategoryFormValues } from "@/schema/category-form.schema";
 import ProductForm from "@/components/forms/product-form";
 import Layout from "@/components/layout/layout";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
-import { ProductFormValues } from "@/schema/product-form.schema";
 
 const TabItems = ["Categories", "Products"];
 

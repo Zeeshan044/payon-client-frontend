@@ -29,7 +29,6 @@ const CategoryList: React.FC = () => {
     await refetch()
   };
 
-
   const onDeleteCategory = (id: number) => {
     const confirmation = confirm(
       "Are you sure you want to delete this item? This will delete all the products in this category."
@@ -43,7 +42,7 @@ const CategoryList: React.FC = () => {
       dispatch(
         openModal({
           view: "ADD_CATEGORY",
-          data: { title: "Update Category", category },
+          // data: { category },
         })
       );
     }

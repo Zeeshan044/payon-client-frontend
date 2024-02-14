@@ -4,30 +4,34 @@ import { HiPencil } from "react-icons/hi2";
 import Button from "../ui/button";
 import Image from "next/image";
 import IMAGES from "@/constants/images";
-import { useGetProfileQuery } from "@/services/data/userProfile.data";
-import { IUserResponse } from "@/types/api";
+import { useUpdateProfileMutation } from "@/services/data/userProfile.data";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   UserProfileFormSchema,
   UserProfileFormValues,
 } from "@/schema/userProfile-form.schema";
-
-const UserProfile = () => {
+interface Props {
+  defaultValues?: UserProfileFormValues | null;
+}
+const UserProfile = ({ defaultValues }: Props) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
     setValue
-  } = useForm({
+  } = useForm<UserProfileFormValues>({
     resolver: yupResolver(UserProfileFormSchema),
+    defaultValues: defaultValues
   });
-  const [profileInfo, setProfileInfo] = useState({
+  const [image, setImage] = useState({
     file: null as File | null,
-    src: "",
+    src: defaultValues?.image || IMAGES.NO_IMAGE,
   });
-  const profileRef = React.useRef<HTMLInputElement>(null);
+  const { mutate: updateProfile, isLoading: isLoadingUpdate } =
+    useUpdateProfileMutation();
+  const imageRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("user");
@@ -36,17 +40,33 @@ const UserProfile = () => {
       reset(userData);
     }
   }, [reset]);
+  console.log(defaultValues, "defaultValues of user");
+  const onSubmit = async (userData: UserProfileFormValues) => {
+    const formData = new FormData();
+    if (image.file) {
+      formData.append("image", image.file as Blob);
+    }
+    console.log("Updating user data:", userData);
 
-  const onSubmit = async (formData: UserProfileFormValues) => {
-    // if (profileInfo.file) {
-    //   formData.append("profile_image", profileInfo.file);
-    // }
-    console.log("Updating user data:", formData);
-    localStorage.setItem("user", JSON.stringify(formData));
+    const storedUserData = JSON.parse(localStorage.getItem("user") || "");
+    if (storedUserData) {
+      updateProfile({
+        id: storedUserData.id, data: userData,
+      },
+        {
+          onSuccess: () => {
+            console.log("Updated user data:", userData);
+            localStorage.setItem("user", JSON.stringify(userData));
+            setImage({ file: null, src: "" });
+          },
+        });
+    }
   };
+
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setProfileInfo({
+      setImage({
         file: e.target.files[0],
         src: URL.createObjectURL(e.target.files[0]),
       });
@@ -63,20 +83,26 @@ const UserProfile = () => {
         <div className="flex flex-col items-center">
           <div className="md:w-40 md:h-40 w-24 h-24 rounded-full  border shadow relative mt-8">
             <Image
-              src={profileInfo?.src || IMAGES.NO_IMAGE}
+              src={image?.src || IMAGES.NO_IMAGE}
               alt=""
+              fill
               className="w-full h-full rounded-full object-cover"
-              onClick={() => profileRef.current?.click()}
+              onClick={() => imageRef.current?.click()}
             />
+            {errors.image?.message && (
+              <div className="text-red-500 text-sm">
+                {errors.image?.message}
+              </div>
+            )}
             <input
               type="file"
               className="hidden"
-              ref={profileRef}
+              ref={imageRef}
               onChange={handleImageChange}
             />
             <div className="absolute bottom-0 -right-2 -translate-x-1/2 text-black z-10 bg-blue-500 rounded-full ">
               <div className="h-8 w-8 flex items-center justify-center">
-                <HiPencil className="h-4 w-4 text-white cursor-pointer" onClick={() => profileRef.current?.click()}
+                <HiPencil className="h-4 w-4 text-white cursor-pointer" onClick={() => imageRef.current?.click()}
                 />
               </div>
             </div>
@@ -114,7 +140,7 @@ const UserProfile = () => {
               label="Address"
               error={errors.address?.message}
             />
-            <Button className="w-full mt-6 " type="submit">
+            <Button className="w-full mt-6 " type="submit" loading={isLoadingUpdate}>
               Update
             </Button>
           </div>

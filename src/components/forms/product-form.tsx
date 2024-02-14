@@ -24,7 +24,6 @@ import { ICategoryRequest, IProductRequest } from "@/types/api";
 
 interface ProductFormProps {
   defaultValues?: ProductFormValues;
-  // onUpdateImage: (imageSrc: string) => void;
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
@@ -54,7 +53,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
     file: null as File | null,
     src: defaultValues?.image || "",
   });
-
+  console.log(defaultValues, "in product");
   const onSubmit = (data: IProductRequest) => {
     const { description, ingredients, name, price, category_id } = data;
     const formData = new FormData();
@@ -76,7 +75,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
             reset();
             setImageInfo({ file: null, src: "" });
             dispatch(setSelectedProduct(null));
-            // onUpdateImage(imageInfo.src);
             dispatch(closeModal());
           },
         }
@@ -86,23 +84,18 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
         onSuccess() {
           reset();
           setImageInfo({ file: null, src: "" });
-          // onUpdateImage(imageInfo.src);
           dispatch(closeModal());
         },
       });
     }
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (e.target.files) {
-        setImageInfo({
-          file: e.target.files[0],
-          src: URL.createObjectURL(e.target.files[0]),
-        });
-        setValue("image", URL.createObjectURL(e.target.files[0]));
-      }
-    } catch (error) {
-      toast.error("Failed to load the image");
+    if (e.target.files) {
+      setImageInfo({
+        file: e.target.files[0],
+        src: URL.createObjectURL(e.target.files[0]),
+      });
+      setValue("image", URL.createObjectURL(e.target.files[0]));
     }
   };
 
@@ -236,7 +229,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
           className="mt-4 w-full"
           type="submit"
           loading={isLoadingCreate || isLoadingUpdate}
-        // onClick={() => { dispatch(closeModal()) }}
         >
           {defaultValues ? "Update Product" : "Add Product"}
         </Button>

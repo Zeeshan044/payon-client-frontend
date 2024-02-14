@@ -2,20 +2,17 @@ import React from "react";
 import Button from "../ui/button";
 import { openModal } from "@/features/modal/modalSlice";
 import { useDispatch } from "react-redux";
-
 import { HiPlus, HiTrash, HiPencil } from "react-icons/hi";
 import { useDeleteRestaurantMutation, useGetUserRestaurantsQuery } from "@/services/data/restaurant.data";
 import PageLoader from "../ui/page-loader";
-import { RestaurantFormValues } from "@/schema/restaurant-from.schema";
+import { setSelectedrestaurant } from "@/features/restaurant/restaurantSlice";
+import { IRestaurantResponse } from "@/types/api";
 
-interface Props {
-  defaultValues?: RestaurantFormValues
-}
-const UserRestaurants = ({ }: Props) => {
+
+const UserRestaurants = () => {
   const { mutate: deleteRestaurant } = useDeleteRestaurantMutation()
   const dispatch = useDispatch();
   const user_id = localStorage.getItem('user_id') || '';
-
   const { data, isLoading } = useGetUserRestaurantsQuery(Number(user_id));
   const handleAddResturant = () => {
     dispatch(
@@ -25,21 +22,23 @@ const UserRestaurants = ({ }: Props) => {
       })
     );
   };
-  const handleViewResturant = () => {
+  const handleViewResturant = (restaurant: IRestaurantResponse) => {
     dispatch(
       openModal({
         view: "VIEW_RESTAURANT",
-        data: { title: "Restaurant Details" },
+        data: { title: "Restaurant Details", restaurant },
       })
     );
+    dispatch(setSelectedrestaurant(restaurant));
   };
-  const handleUpdateResturant = () => {
+  const handleUpdateResturant = (restaurant: IRestaurantResponse) => {
     dispatch(
       openModal({
         view: "UPDATE_RESTAURANT",
         data: { title: "Update Restaurant" },
       })
     );
+    dispatch(setSelectedrestaurant(restaurant));
   };
   const handleDeleteRestaurant = (id: number) => {
     const confirmation = confirm(
@@ -97,7 +96,7 @@ const UserRestaurants = ({ }: Props) => {
                   >
                     <div
                       className="hover:text-primary duration-200 cursor-pointer"
-                      onClick={handleViewResturant}
+                      onClick={() => handleViewResturant(restaurant)}
                     >
                       {restaurant.name}
                     </div>
@@ -108,7 +107,7 @@ const UserRestaurants = ({ }: Props) => {
                   <td className="px-6 py-4">
                     <div className="flex justify-end gap-4">
                       <HiTrash className="h-5 w-5 text-red-500 cursor-pointer" onClick={() => handleDeleteRestaurant(restaurant.id)} />
-                      <HiPencil className="h-5 w-5 text-blue-500 cursor-pointer" onClick={handleUpdateResturant} />
+                      <HiPencil className="h-5 w-5 text-blue-500 cursor-pointer" onClick={() => handleUpdateResturant(restaurant)} />
                     </div>
                   </td>
                 </tr>
@@ -119,8 +118,5 @@ const UserRestaurants = ({ }: Props) => {
       </div>
     </div>
   );
-
-
 };
-
 export default UserRestaurants;
