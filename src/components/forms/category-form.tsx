@@ -16,6 +16,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setSelectedCategory } from "@/features/category/categorySlice";
 import { closeModal } from "@/features/modal/modalSlice";
+import { toast } from "react-toastify";
 
 interface Props {
   defaultValues?: CategoryFormValues | null;
@@ -64,6 +65,8 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
             setImageInfo({ file: null, src: "" });
             dispatch(setSelectedCategory(null));
             dispatch(closeModal());
+            toast.success("Category updated successfully");
+
           },
         }
       );
@@ -73,6 +76,7 @@ const CategoryForm: React.FC<Props> = ({ defaultValues }) => {
           reset();
           setImageInfo({ file: null, src: "" });
           dispatch(closeModal());
+          toast.success("Category added successfully");
         },
       });
     }

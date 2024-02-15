@@ -9,6 +9,7 @@ import { openModal } from "@/features/modal/modalSlice";
 import { IProductResponse } from "@/types/api";
 import { setSelectedProduct } from "@/features/product/productSlice";
 import { useGetAllAddonsQuery } from "@/services/data/addon.data";
+import { toast } from "react-toastify";
 
 const ProductList = () => {
   const { data, isLoading } = useGetAllProductsQuery();
@@ -26,6 +27,8 @@ const ProductList = () => {
     );
     if (!confirmation) return;
     deleteProduct(id);
+    toast.success("Product deleted successfully");
+
   };
   const onEditHandler = (product: IProductResponse) => {
     if (window.innerWidth < 1024) {

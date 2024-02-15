@@ -13,6 +13,7 @@ import { setSelectedrestaurant } from "@/features/restaurant/restaurantSlice";
 import { closeModal } from "@/features/modal/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import { toast } from "react-toastify";
 interface Props {
     defaultValues?: RestaurantFormValues;
 }
@@ -76,6 +77,8 @@ const UpdateRestaurant = ({ defaultValues }: Props) => {
                         setProfileInfo({ file: null, src: "" });
                         dispatch(setSelectedrestaurant(null));
                         dispatch(closeModal());
+                        toast.success("Restaurant updated successfully");
+
                     },
                 }
             );

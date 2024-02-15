@@ -14,6 +14,7 @@ import {
 } from "@/schema/restaurant-from.schema";
 import { closeModal } from "@/features/modal/modalSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 
 const AddRestaurant = () => {
@@ -64,6 +65,8 @@ const AddRestaurant = () => {
         setCoverInfo({ file: null, src: "" });
         setProfileInfo({ file: null, src: "" });
         dispatch(closeModal());
+        toast.success("Restaurant added successfully");
+
       },
       onError(error) {
         console.error("Error adding restaurant:", error);

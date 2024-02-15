@@ -76,6 +76,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
             setImageInfo({ file: null, src: "" });
             dispatch(setSelectedProduct(null));
             dispatch(closeModal());
+            toast.success("Product updated successfully");
+
           },
         }
       );
@@ -85,6 +87,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
           reset();
           setImageInfo({ file: null, src: "" });
           dispatch(closeModal());
+          toast.success("Product added successfully");
         },
       });
     }

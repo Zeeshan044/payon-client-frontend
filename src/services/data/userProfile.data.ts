@@ -22,9 +22,9 @@ export function useUpdateProfileMutation() {
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: IUserUpdateRequest }) =>
       userProfileClient.update(id, data),
-    onSuccess: (data) => {
+    onSuccess: (data, id) => {
       console.log("User updated successfully", data);
-      client.invalidateQueries("user/getAll");
+      client.invalidateQueries("user");
     },
   });
 }

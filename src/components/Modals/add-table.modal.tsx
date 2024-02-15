@@ -7,6 +7,7 @@ import { closeModal } from "@/features/modal/modalSlice";
 import Button from "../ui/button";
 import { ModalContent, ModalFooter } from "../ui/modal";
 import { useCreateTableMutation } from "@/services/data/table.data";
+import { toast } from "react-toastify";
 
 interface Props { }
 const AddTableModal: React.FC<Props> = ({ }) => {
@@ -32,6 +33,7 @@ const AddTableModal: React.FC<Props> = ({ }) => {
         {
           onSuccess(data, variables, context) {
             dispatch(closeModal());
+            toast.success("Table added successfully");
           },
         }
       );

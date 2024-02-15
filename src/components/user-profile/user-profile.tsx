@@ -11,11 +11,15 @@ import {
   UserProfileFormSchema,
   UserProfileFormValues,
 } from "@/schema/userProfile-form.schema";
+import { toast } from "react-toastify";
 interface Props {
   defaultValues?: UserProfileFormValues | null;
 }
+
 const UserProfile = ({ defaultValues }: Props) => {
-  const {
+  const [storedUserData, setStoredUserData] = useState<UserProfileFormValues>(
+    JSON.parse(localStorage.getItem("user") || "{}")
+  ); const {
     register,
     handleSubmit,
     formState: { errors },
@@ -23,24 +27,33 @@ const UserProfile = ({ defaultValues }: Props) => {
     setValue
   } = useForm<UserProfileFormValues>({
     resolver: yupResolver(UserProfileFormSchema),
-    defaultValues: defaultValues
+    defaultValues: {},
   });
+  console.log(defaultValues?.image, "ye image ha");
+  console.log(storedUserData, "ye stored image ha");
+  useEffect(() => {
+    reset(storedUserData);
+  }, [storedUserData, reset]);
   const [image, setImage] = useState({
     file: null as File | null,
-    src: defaultValues?.image || IMAGES.NO_IMAGE,
+    src: storedUserData?.image || IMAGES.NO_IMAGE,
   });
+  console.log(storedUserData?.image, "image from storedUserData");
   const { mutate: updateProfile, isLoading: isLoadingUpdate } =
     useUpdateProfileMutation();
   const imageRef = React.useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("user");
-    if (storedUserData) {
-      const userData = JSON.parse(storedUserData);
-      reset(userData);
-    }
-  }, [reset]);
-  console.log(defaultValues, "defaultValues of user");
+  // useEffect(() => {
+  //   const storedUserData = JSON.parse(localStorage.getItem("user") || "{}");
+  //   reset(storedUserData);
+  //   if (storedUserData.image) {
+  //     setImage({
+  //       file: null,
+  //       src: storedUserData.image,
+  //     });
+  //   }
+  // }, [reset]);
+
   const onSubmit = async (userData: UserProfileFormValues) => {
     const formData = new FormData();
     if (image.file) {
@@ -49,6 +62,7 @@ const UserProfile = ({ defaultValues }: Props) => {
     console.log("Updating user data:", userData);
 
     const storedUserData = JSON.parse(localStorage.getItem("user") || "");
+    console.log(storedUserData, "defaultValues of user");
     if (storedUserData) {
       updateProfile({
         id: storedUserData.id, data: userData,
@@ -56,26 +70,35 @@ const UserProfile = ({ defaultValues }: Props) => {
         {
           onSuccess: () => {
             console.log("Updated user data:", userData);
-            localStorage.setItem("user", JSON.stringify(userData));
-            setImage({ file: null, src: "" });
+            const updatedUserData = { ...storedUserData, ...userData };
+            localStorage.setItem("user", JSON.stringify(updatedUserData));
+            reset(updatedUserData);
+            if (updatedUserData.image) {
+              setImage({
+                file: null,
+                src: updatedUserData.image || IMAGES.NO_IMAGE,
+              });
+              setValue("image", updatedUserData.image);
+            }
+            toast.success("User updated successfully");
           },
         });
     }
   };
 
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+      const file = e.target.files[0];
       setImage({
-        file: e.target.files[0],
-        src: URL.createObjectURL(e.target.files[0]),
+        file,
+        src: URL.createObjectURL(file),
       });
-      setValue("image", URL.createObjectURL(e.target.files[0]));
+      setValue("image", URL.createObjectURL(file));
     }
   };
 
   return (
-    <div className="border rounded-2xl ml-2 p-6 shadow bg-white">
+    <div className="border rounded-2xl mx-4 mb-4 gap-2 p-6 shadow bg-white">
       <div>
         <h1 className="text-4xl font-bold mb-6 text-gray-700">Profile</h1>
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Order, TableOrderState } from "@/types";
-import Layout from "@/components/Layout/layout";
+import Layout from "@/components/layout/layout";
 import OrderCard from "@/components/ui/order-card";
 import Overlay from "@/components/ui/overlay";
 import Spinner from "@/components/ui/spinner";
@@ -8,7 +8,7 @@ import { ORDERS_DATA } from "@/data/orders";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/features/modal/modalSlice";
 
-interface Props {}
+interface Props { }
 
 const TableOrders: React.FC<Props> = () => {
   const dispatch = useDispatch();

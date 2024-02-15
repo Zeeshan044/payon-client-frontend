@@ -52,14 +52,14 @@ const UserRestaurants = () => {
   }
 
   return (
-    <div className="border rounded-2xl p-6 shadow bg-white">
+    <div className="border rounded-2xl p-6 mt-4 lg:mt-0 shadow bg-white mx-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-bold mb-6 text-gray-700">Restaurants</h1>
-        <div>
+        <h1 className="text-2xl font-bold md:text-4xl  mb-4 ">Restaurants</h1>
+        <div className=" mb-2">
           <Button onClick={handleAddResturant}>
             <HiPlus className="w-4 h-4" />
-            <span>Add</span>
+            <span className="hidden md:block">Add</span>
           </Button>
         </div>
       </div>
@@ -67,8 +67,8 @@ const UserRestaurants = () => {
       {/* Body */}
       <div>
         <div className="relative overflow-x-auto">
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 rounded-2xl overflow-hidden">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-200">
+          <table className="w-full text-sm text-left rtl:text-right  rounded-2xl overflow-hidden">
+            <thead className="text-xs  uppercase bg-gray-200">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Restaurant Name

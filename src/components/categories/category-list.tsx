@@ -11,6 +11,7 @@ import { openModal } from "@/features/modal/modalSlice";
 import Button from "../ui/button";
 import { ICategoryResponse } from "@/types/api";
 import { setSelectedCategory } from "@/features/category/categorySlice";
+import { toast } from "react-toastify";
 
 // interface CategoryListProps {
 //   onUpdateCategory: (category: CategoryFormValues) => void;
@@ -35,6 +36,8 @@ const CategoryList: React.FC = () => {
     );
     if (!confirmation) return;
     deleteCategory(id);
+    toast.success("Category deleted successfully");
+
   };
 
   const onEditHandler = (category: ICategoryResponse) => {

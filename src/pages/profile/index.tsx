@@ -6,7 +6,7 @@ const Profile = () => {
 
   return (
     <Layout>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-16">
+      <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-8 pt-16">
         <div>
           <UserProfile />
         </div>

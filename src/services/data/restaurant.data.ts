@@ -1,18 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { API_ENDPOINTS } from "@/constants";
 import { restaurantClient } from "../client/restaurant.client";
-import { IRestaurantRequest, IRestaurantResponse } from "@/types/api";
+import { IRestaurantRequest } from "@/types/api";
 
 export function useGetUserRestaurantsQuery(user_id: number) {
   return useQuery({
     queryKey: [API_ENDPOINTS.RESTAURANT, "USER_RESTAURANTS"],
     queryFn: () => restaurantClient.getUserRestaurants(user_id),
-  });
-}
-export function useGetRestaurantQuery(id: number) {
-  return useQuery({
-    queryKey: ["restaurant", id],
-    queryFn: () => restaurantClient.get(id),
   });
 }
 
