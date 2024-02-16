@@ -3,6 +3,7 @@ import Layout from "@/components/layout/layout";
 import StatCard from "@/components/ui/stat-card";
 import StatChart from "@/components/ui/stat-revenue-chart";
 import AverageOrdersChart from "@/components/ui/stat-averageOrders-chart";
+import DoughnutChart from "@/components/ui/dougnout-chart";
 
 const Stats: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const Stats: React.FC = () => {
         <div className=" grid grid-cols-1 md:grid-cols-2 gap-6">
           <StatChart title="Revenue" />
           <AverageOrdersChart title=" Average Order" />
+          <DoughnutChart />
         </div>
       </div>
     </Layout>

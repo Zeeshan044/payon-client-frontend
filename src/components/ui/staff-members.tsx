@@ -11,6 +11,8 @@ import IMAGES from "@/constants/images";
 import Button from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/features/modal/modalSlice";
+import { IoPencilSharp } from "react-icons/io5";
+import { MdDelete } from "react-icons/md";
 
 const StaffMembers = () => {
   const staffMembers = [
@@ -60,70 +62,75 @@ const StaffMembers = () => {
     dispatch(openModal({ view: "ADD_STAFF", data: { title: "Add Staff" } }));
   };
 
-  const handleDeleteStaff = () => { };
+  const handleDeleteStaff = () => {};
 
   return (
-    <div className="mx-4 mt-10">
-      <div className="flex justify-between mb-2 items-center">
-        <h1 className="text-2xl font-semibold lg:text-3xl lg:font-bold">Staff Members</h1>
-        <Button size="md" className="" onClick={handleAddStaff}>
-          Add Staff
-        </Button>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {staffMembers.map((staff) => (
-          <div key={staff.id} className="bg-slate-100 p-4 rounded-md shadow-md">
-            <div className="flex items-center mb-4 justify-between">
-              <Image
-                src={IMAGES.NO_IMAGE}
-                alt=""
-                className="w-20 h-20 rounded-full object-cover"
-              />
-              {/* <div className="text-green-500 font-bold">{staff.isActive ? "Active" : "Not Active"}</div> */}
-            </div>
-            <h2 className="text-lg font-bold">{staff.name}</h2>
-            <p className="text-gray-500">{staff.role}</p>
-            <div className="flex items-center mt-2">
-              <FaEnvelope className="mr-2" />
-              <p>{staff.email}</p>
-            </div>
-            <div className="flex items-center mt-2">
-              <FaPhone className="mr-2" />
-              <p>{staff.phone}</p>
-            </div>
-            <div className="flex items-center mt-2">
-              <FaBuilding className="mr-2" />
-              <p>{staff.restaurant}</p>
-            </div>
-            <div className="flex items-center mt-2">
-              <FaCalendar className="mr-2" />
-              <p>{staff.startDate}</p>
-            </div>
-            <div className="flex items-center mt-2">
-              <FaClock className="mr-2" />
-              <p>{staff.workingHours}</p>
-            </div>
-            <div className="flex items-center mt-2">
-              <FaCalendar className="mr-2" />
-              <p>Days Off: {staff.daysOff.join(", ")}</p>
-            </div>
-            <div className="flex justify-between mt-4 items-center">
-              <Button
-                className="text-blue-500"
-                onClick={() => handleEditStaff()}
-              >
-                Edit
-              </Button>
-              <Button
-                className="!bg-red-400"
-                onClick={() => handleDeleteStaff()}
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+      <table className="w-full text-sm text-left text-gray-500">
+        <thead className="text-xs text-white uppercase bg-primary">
+          <tr>
+            <th scope="col" className="py-3 px-6">
+              Name
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Email
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Role
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Date
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Status
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Company
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {staffMembers.map((item, index) => (
+            <tr key={index} className="bg-white border-b">
+              <td className="py-4 px-6">{item.name}</td>
+              <td className="py-4 px-6">{item.email}</td>
+              <td className="py-4 px-6">{item.role}</td>
+              <td className="py-4 px-6">{item.startDate}</td>
+              <td className="py-4 px-6">
+                <span
+                  className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                    item.isActive === true
+                      ? "bg-green-100 text-green-800"
+                      : item.isActive === false
+                  }`}
+                >
+                  {item.isActive ? "active" : "inactive"}
+                </span>
+              </td>
+              <td className="py-4 px-6">{item.restaurant}</td>
+              <td className="py-4 px-6 flex">
+                <Button
+                  variant="secondary"
+                  onClick={handleEditStaff}
+                  className="mr-2"
+                >
+                  <IoPencilSharp />
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={handleDeleteStaff}
+                  className="mr-2"
+                >
+                  <MdDelete />
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
