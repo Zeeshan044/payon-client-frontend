@@ -32,34 +32,27 @@ const TableOrders: React.FC<Props> = () => {
     }
   };
 
-  const renderLane = (state: TableOrderState) => (
-    <div className="bg-gray-100 p-3 shadow-md">
-      <div className="text-2xl uppercase md:text-4xl font-bold">
-        <h2 className=" text-4xl font-bold">{computeName(state)}</h2>
-      </div>
-      {true && (
-        <>
-          {ORDERS_DATA.filter((order) => order.state === state).map((order) => (
-            <div key={`${order.id}`} className="mt-5">
-              <OrderCard
-                tableName={order.table.name}
-                orderCount={order.order_items.length}
-                amount={order.total_price}
-                onClick={() => handleViewOrder(order.id, order)}
-              />
-            </div>
-          ))}
-        </>
-      )}
-    </div>
-  );
   return (
     <Layout>
-      <div className="grid gap-8 lg:grid-cols-3 md:grid-cols-2">
-        {renderLane("pending")}
-        {renderLane("confirmed")}
-        {renderLane("completed")}
+      <div className=" grid gap-2 lg:grid-cols-3 md:grid-cols-2">
+        {true && (
+          <>
+            {ORDERS_DATA.map((order) => (
+              <div key={`${order.id}`} className="mt-5">
+                <OrderCard
+                  tableName={order.table.name}
+                  orderCount={order.order_items.length}
+                  amount={order.total_price}
+                  state={order.state}
+                  createdAt={order.created_at}
+                  onClick={() => handleViewOrder(order.id, order)}
+                />
+              </div>
+            ))}
+          </>
+        )}
       </div>
+
       <Overlay>
         <Spinner fill="#FFF" size={96} />
       </Overlay>
