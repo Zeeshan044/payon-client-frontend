@@ -6,16 +6,23 @@ export const categoryClient = {
   getAll: () => {
     return HttpClient.get<ICategoryResponse[]>(API_ENDPOINTS.CATEGORY);
   },
-  get: (id: number) => {
-    return HttpClient.get(`${API_ENDPOINTS.CATEGORY}/${id}`);
+  get: (id: string) => {
+    return HttpClient.get<ICategoryResponse[]>(
+      `${API_ENDPOINTS.CATEGORY}/${id}`
+    );
   },
   create: (data: FormData) => {
-    return HttpClient.post(API_ENDPOINTS.CATEGORY, data);
+    return HttpClient.post<ICategoryResponse[]>(API_ENDPOINTS.CATEGORY, data);
   },
   update: (id: number, data: any) => {
-    return HttpClient.put(`${API_ENDPOINTS.CATEGORY}/${id}`, data);
+    return HttpClient.post<ICategoryResponse[]>(
+      `${API_ENDPOINTS.CATEGORY}/${id}?_method=PUT`,
+      data
+    );
   },
   delete: (id: number) => {
-    return HttpClient.delete(`${API_ENDPOINTS.CATEGORY}/${id}`);
+    return HttpClient.delete<ICategoryResponse[]>(
+      `${API_ENDPOINTS.CATEGORY}/${id}`
+    );
   },
 };

@@ -9,9 +9,9 @@ export function useGetAllCategoriesQuery() {
   });
 }
 
-export function useGetCategoryQuery(id: number) {
+export function useGetCategoryQuery(id: string) {
   return useQuery({
-    queryKey: ["categories/get", id],
+    queryKey: ["categories/getOne", id],
     queryFn: () => categoryClient.get(id),
   });
 }
@@ -20,23 +20,23 @@ export function useCreateCategoryMutation() {
   const client = useQueryClient();
   return useMutation({
     mutationFn: (data: FormData) => categoryClient.create(data),
-    onSuccess: () => {
+    onSuccess: (data, variables, context) => {
+      console.log("Create category successful:", data);
       client.invalidateQueries("categories/getAll");
     },
   });
 }
-
 export function useUpdateCategoryMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (data: ICategoryResponse) =>
-      categoryClient.update(data.id, data),
-    onSuccess: () => {
+    mutationFn: ({ id, data }: { id: number; data: ICategoryRequest }) =>
+      categoryClient.update(id, data),
+    onSuccess: (data) => {
+      console.log("update category successful:", data);
       client.invalidateQueries("categories/getAll");
     },
   });
 }
-
 export function useDeleteCategoryMutation() {
   const client = useQueryClient();
   return useMutation({

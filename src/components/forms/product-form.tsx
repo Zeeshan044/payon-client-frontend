@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Input from "@/components/ui/input";
-import Button from "../../ui/button";
+import Button from "../ui/button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,46 +10,102 @@ import {
 } from "@/schema/product-form.schema";
 import IMAGES from "@/constants/images";
 import { convertToUSD } from "@/utils";
+import {
+  useCreateProductMutation,
+  useGetAllProductsQuery,
+  useUpdateProductMutation,
+} from "@/services/data/product.data";
+import { toast } from "react-toastify";
+import { closeModal } from "@/features/modal/modalSlice";
+import { useDispatch } from "react-redux";
+import { setSelectedProduct } from "@/features/product/productSlice";
+import { useGetAllCategoriesQuery } from "@/services/data/category.data";
+import { ICategoryRequest, IProductRequest } from "@/types/api";
 
-const ProductForm: React.FC = () => {
+interface ProductFormProps {
+  defaultValues?: ProductFormValues;
+}
+
+const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
   const fileRef = React.useRef<HTMLInputElement>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm<ProductFormValues>({
+    resolver: yupResolver(ProductFormSchema),
+    defaultValues: defaultValues,
+  });
 
   const [addons, setAddons] = useState<{ name: string; price: number }[]>([]);
   const [addonName, setAddonName] = useState("");
   const [addonPrice, setAddonPrice] = useState(0);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(ProductFormSchema),
-  });
-
+  const { data } = useGetAllCategoriesQuery();
+  const { mutate: createProduct, isLoading: isLoadingCreate } =
+    useCreateProductMutation();
+  const { mutate: updateCategory, isLoading: isLoadingUpdate } =
+    useUpdateProductMutation();
+  const dispatch = useDispatch();
   const [imageInfo, setImageInfo] = useState({
     file: null as File | null,
-    src: "",
+    src: defaultValues?.image || "",
   });
+  console.log(defaultValues, "in product");
+  const onSubmit = (data: IProductRequest) => {
+    const { description, ingredients, name, price, category_id } = data;
+    const formData = new FormData();
+    if (imageInfo.file) {
+      formData.append("image", imageInfo.file as Blob);
+    }
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("ingredients", ingredients);
+    formData.append("price", price.toString());
+    formData.append("category_id", category_id.toString());
 
-  const onSubmit = (data: ProductFormValues) => {
-    console.log(data);
-  };
+    if (defaultValues) {
+      updateCategory(
+        // @ts-ignore
+        { id: defaultValues.id, data: formData },
+        {
+          onSuccess() {
+            reset();
+            setImageInfo({ file: null, src: "" });
+            dispatch(setSelectedProduct(null));
+            dispatch(closeModal());
+            toast.success("Product updated successfully");
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const file = e.target.files?.[0] || null;
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) =>
-        setImageInfo({ file, src: event.target?.result as string });
-      reader.readAsDataURL(file);
+          },
+        }
+      );
     } else {
-      setImageInfo({ file: null, src: "" });
+      createProduct(formData, {
+        onSuccess() {
+          reset();
+          setImageInfo({ file: null, src: "" });
+          dispatch(closeModal());
+          toast.success("Product added successfully");
+        },
+      });
+    }
+  };
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImageInfo({
+        file: e.target.files[0],
+        src: URL.createObjectURL(e.target.files[0]),
+      });
+      setValue("image", URL.createObjectURL(e.target.files[0]));
     }
   };
 
+  console.log(errors.image?.message, "errors");
+
   return (
-    <div>
+    <div className=" ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="aspect-video rounded bg-slate-100 relative">
@@ -60,6 +116,11 @@ const ProductForm: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
+          {errors.image && (
+            <span className=" text-sm mb-1 text-red-500">
+              {errors.image?.message}
+            </span>
+          )}
         </div>
         <div className="mt-2">
           <Button
@@ -112,17 +173,18 @@ const ProductForm: React.FC = () => {
           <label htmlFor="category">Choose Category</label>
           <select
             className="w-full rounded-md bg-slate-200 px-3 py-2"
-            name="category"
             id="category"
             defaultValue={"default"}
+            {...register("category_id")}
           >
             <option value="default" disabled>
               Select Category
             </option>
-            <option value="cat1">Select Category</option>
-            <option value="cat2">Category 1</option>
-            <option value="cat3">Category 2</option>
-            <option value="cat4">Category 3</option>
+            {data?.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -166,8 +228,12 @@ const ProductForm: React.FC = () => {
             </div>
           ))}
         </div>
-        <Button className="mt-4 w-full" type="submit">
-          Add Product
+        <Button
+          className="mt-4 w-full"
+          type="submit"
+          loading={isLoadingCreate || isLoadingUpdate}
+        >
+          {defaultValues ? "Update Product" : "Add Product"}
         </Button>
       </form>
     </div>

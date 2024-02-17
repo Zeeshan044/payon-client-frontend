@@ -1,13 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import Layout from "@/components/Layout/layout";
+import Layout from "@/components/layout/layout";
 import TableCard from "@/components/ui/table-card";
 import { openModal } from "@/features/modal/modalSlice";
 import Button from "@/components/ui/button";
 import { useGetAllTablesQuery } from "@/services/data/table.data";
 import PageLoader from "@/components/ui/page-loader";
 
-interface Props {}
+interface Props { }
 
 const Tables: React.FC<Props> = () => {
   const { data, isLoading } = useGetAllTablesQuery();
@@ -23,7 +23,7 @@ const Tables: React.FC<Props> = () => {
   return (
     <>
       <Layout>
-        <div>
+        <div className=" mx-4">
           <div className="flex items-center justify-between border-b mb-8">
             <h2 className=" text-4xl font-bold">Tables</h2>
             <Button onClick={handleOpenModal} className="my-4">

@@ -2,14 +2,15 @@ import React, { use } from "react";
 import Input from "../ui/input";
 import { useDispatch } from "react-redux";
 import { closeModal } from "@/features/modal/modalSlice";
-import { addTable } from "@/features/table/tableSlice";
+// import { addTable } from "@/features/table/tableSlice";
 
 import Button from "../ui/button";
 import { ModalContent, ModalFooter } from "../ui/modal";
 import { useCreateTableMutation } from "@/services/data/table.data";
+import { toast } from "react-toastify";
 
-interface Props {}
-const AddTableModal: React.FC<Props> = ({}) => {
+interface Props { }
+const AddTableModal: React.FC<Props> = ({ }) => {
   const [tableName, setTableName] = React.useState<string>("");
   const [error, setError] = React.useState<string>("");
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const AddTableModal: React.FC<Props> = ({}) => {
         {
           onSuccess(data, variables, context) {
             dispatch(closeModal());
+            toast.success("Table added successfully");
           },
         }
       );

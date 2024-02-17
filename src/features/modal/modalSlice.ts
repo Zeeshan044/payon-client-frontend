@@ -1,6 +1,16 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type ModalViews = "VIEW_TABLE" | "ADD_TABLE" | "VIEW_ORDER" | null;
+export type ModalViews =
+  | "VIEW_TABLE"
+  | "ADD_TABLE"
+  | "VIEW_ORDER"
+  | "ADD_PRODUCT"
+  | "ADD_RESTAURANT"
+  | "VIEW_RESTAURANT"
+  | "UPDATE_RESTAURANT"
+  | "ADD_STAFF"
+  | "ADD_CATEGORY"
+  | null;
 
 interface ModalState {
   isOpen: boolean;

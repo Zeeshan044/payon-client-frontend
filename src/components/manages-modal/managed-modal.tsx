@@ -3,15 +3,23 @@ import { useSelector } from "react-redux";
 import { ModalViews } from "@/features/modal/modalSlice";
 import { RootState } from "@/app/store";
 import Modal from "../ui/modal";
-
-const AddTableModal = lazy(() => import("@/components/Modals/add-table.modal"));
+const AddTableModal = lazy(() => import("@/components/modals/add-table.modal"));
 const ViewOrderModal = lazy(
-  () => import("@/components/Modals/view-order.modal")
+  () => import("@/components/modals/view-order.modal")
 );
 const ViewTableModal = lazy(
-  () => import("@/components/Modals/view-table.modal")
+  () => import("@/components/modals/view-table.modal")
 );
-
+const AddCategoryModal = lazy(() => import("@/components/modals/add-category.modal"));
+const AddProductModal = lazy(
+  () => import("@/components/modals/add-product.modal")
+);
+const AddRestaurant = lazy(
+  () => import("@/components/modals/add-restaurant.modal")
+);
+const ViewRestaurant = lazy(() => import("@/components/modals/view-restaurant.modal"))
+const AddStaff = lazy(() => import("@/components/modals/add-staff.modal"));
+const UpdateRestaurant = lazy(() => import("@/components/modals/update-restaurant.modal"));
 function renderView(view: ModalViews) {
   switch (view) {
     case "VIEW_TABLE":
@@ -20,6 +28,18 @@ function renderView(view: ModalViews) {
       return <AddTableModal />;
     case "VIEW_ORDER":
       return <ViewOrderModal />;
+    case "ADD_PRODUCT":
+      return <AddProductModal />;
+    case "ADD_CATEGORY":
+      return <AddCategoryModal />;
+    case "ADD_RESTAURANT":
+      return <AddRestaurant />;
+    case "VIEW_RESTAURANT":
+      return <ViewRestaurant />;
+    case "UPDATE_RESTAURANT":
+      return <UpdateRestaurant />;
+    case "ADD_STAFF":
+      return <AddStaff />;
     default:
       return <></>;
   }

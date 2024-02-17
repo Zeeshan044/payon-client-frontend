@@ -12,9 +12,9 @@ import {
 } from "@/components/SvgIcon";
 
 import Link from "next/link";
-import SmallNavbar from "./SmallNavbar";
 import { useRouter } from "next/router";
 import { useLogoutMutation } from "@/services/data/auth.data";
+import SmallNavbar from "@/components/layout/navbar/small-navbar";
 
 export const navbarItems = [
   {

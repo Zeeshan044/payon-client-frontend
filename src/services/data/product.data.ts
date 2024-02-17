@@ -19,7 +19,7 @@ export function useGetProductQuery(id: number) {
 export function useCreateProductMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (data: IProductRequest) => productClient.create(data),
+    mutationFn: (data: FormData) => productClient.create(data),
     onSuccess: () => {
       client.invalidateQueries(["products"]);
     },
@@ -29,9 +29,10 @@ export function useCreateProductMutation() {
 export function useUpdateProductMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (data: { id: number; data: IProductRequest }) =>
-      productClient.update(data.id, data.data),
-    onSuccess: () => {
+    mutationFn: ({ id, data }: { id: number; data: IProductRequest }) =>
+      productClient.update(id, data),
+    onSuccess: (data) => {
+      console.log("Update Product successful:", data);
       client.invalidateQueries(["products"]);
     },
   });

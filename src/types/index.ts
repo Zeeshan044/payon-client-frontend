@@ -1,5 +1,5 @@
 export interface IUser {
-  id: number;
+  id: string;
   name: string;
   email: string;
   image: null | string;
@@ -110,6 +110,20 @@ export interface Order {
   table: Table;
   order_items: OrderItem[];
   customer: Customer;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Restaurant {
+  id: number;
+  user_id: number;
+  name: string;
+  description: string;
+  cover_image: string;
+  profile_image: string;
+  email: string;
+  phone: string;
+  address: string;
   created_at: string;
   updated_at: string;
 }

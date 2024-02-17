@@ -20,13 +20,15 @@ function LoginPage() {
       { email, password },
       {
         onSuccess(data, variables, context) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("user_id", data.user.id);
           toast.success("Login success");
           router.push(ROUTES.dashboard);
         },
       }
     );
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-primary flex-col gap-y-2 px-8">
       <BrandLogoFull className="w-40" />

@@ -7,8 +7,11 @@ export function useLoginMutation() {
       authClient.login({ email, password }),
     onSuccess: (data) => {
       if (!data) return;
+      console.log("Data received on successful login:", data);
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("user_id", data.user.id);
+      // console.log("Token:", data.token);
     },
   });
 }
@@ -18,6 +21,8 @@ export function useLogoutMutation() {
     mutationFn: ({}: any) => authClient.logout(),
     onSuccess: () => {
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("user_id");
     },
   });
 }

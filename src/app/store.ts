@@ -1,13 +1,17 @@
 import menuSlice from "@/features/menu/menuSlice";
 import modalSlice from "@/features/modal/modalSlice";
-import tableSlice from "@/features/table/tableSlice";
+import categorySlice from "@/features/category/categorySlice";
 import { configureStore } from "@reduxjs/toolkit";
+import productSlice from "@/features/product/productSlice";
+import restaurantSlice from "@/features/restaurant/restaurantSlice";
 
 export const store = configureStore({
   reducer: {
     menu: menuSlice,
     modal: modalSlice,
-    table: tableSlice,
+    category: categorySlice,
+    product: productSlice,
+    restaurant: restaurantSlice,
   },
 });
 
