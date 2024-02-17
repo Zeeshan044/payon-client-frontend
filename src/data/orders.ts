@@ -61,7 +61,7 @@ export const ORDERS_DATA: Order[] = [
     updated_at: "2021-01-01",
   },
   {
-    id: 1,
+    id: 2,
     total_price: 140,
     status: "paid",
     state: "confirmed",
@@ -102,7 +102,7 @@ export const ORDERS_DATA: Order[] = [
     updated_at: "2021-01-01",
   },
   {
-    id: 1,
+    id: 3,
     total_price: 176,
     status: "paid",
     state: "pending",
