@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Button from "./button";
 
 interface Props {
   items: string[];
@@ -15,17 +14,19 @@ const Tabs: React.FC<Props> = ({ items, onTabChange }) => {
   };
 
   return (
-    <div className="flex gap-3 p-1 bg-primary/10 rounded-md">
+    <div className="flex gap-3 p-1">
       {items.map((item, index) => (
-        <Button
+        <button
           key={item}
           onClick={() => handleTabToggle(item)}
-          className={`duration-100 ${
-            activeTab === item ? "" : "bg-slate-300 !text-gray-700"
+          className={`px-4 py-2 text-sm font-semibold rounded-md ${
+            activeTab === item
+              ? "bg-primary text-white "
+              : "text-gray-700 bg-white shadow-md"
           }`}
         >
           {item}
-        </Button>
+        </button>
       ))}
     </div>
   );

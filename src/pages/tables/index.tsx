@@ -7,7 +7,7 @@ import Button from "@/components/ui/button";
 import { useGetAllTablesQuery } from "@/services/data/table.data";
 import PageLoader from "@/components/ui/page-loader";
 
-interface Props { }
+interface Props {}
 
 const Tables: React.FC<Props> = () => {
   const { data, isLoading } = useGetAllTablesQuery();
@@ -33,7 +33,7 @@ const Tables: React.FC<Props> = () => {
           {isLoading ? (
             <PageLoader />
           ) : (
-            <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-20">
+            <div className="grid w-full bg-primary/10 lg:grid-cols-4 md:grid-cols-2 gap-20">
               <>
                 {(data || []).map((table, index) => {
                   return <TableCard key={index} table={table} />;

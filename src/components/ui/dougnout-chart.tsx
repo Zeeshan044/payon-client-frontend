@@ -3,7 +3,7 @@ import { Pie } from "react-chartjs-2";
 import { Chart } from "chart.js/auto";
 
 const data = {
-  labels: ["Red", "Blue", "Yellow"],
+  labels: ["Revenue", "Orders", "Avererge Order"],
   datasets: [
     {
       label: "My First Dataset",

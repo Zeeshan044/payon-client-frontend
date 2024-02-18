@@ -22,7 +22,11 @@ export function useGetOneTableQuery(id: string) {
 export function useCreateTableMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (data: { name: string; restaurant_id: string }) => {
+    mutationFn: (data: {
+      name: string;
+      restaurant_id: string;
+      capacity: string;
+    }) => {
       return tableClient.create(data);
     },
     onSuccess: () => {
