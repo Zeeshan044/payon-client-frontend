@@ -12,6 +12,18 @@ interface Props {
   state: string;
   createdAt: string;
 }
+const computeName = (value: string) => {
+  switch (value) {
+    case "pending":
+      return "InProgress";
+    case "confirmed":
+      return "Completed";
+    case "completed":
+      return "Served";
+    default:
+      return "";
+  }
+};
 
 const OrderCard: React.FC<Props> = ({
   tableName,
@@ -23,22 +35,23 @@ const OrderCard: React.FC<Props> = ({
 }) => {
   return (
     <div className="bg-white shadow-md rounded-lg p-6 max-w-sm mx-auto">
-      <div className="text-sm mb-2">
-        <div className="h-[70px] flex items-center justify-center text-white w-[70px] rounded-xl bg-primary">
-          <span> {tableName}</span>
+      <div className="text-sm mb-2 flex justify-between items-center">
+        <div className="h-[70px] flex items-center justify-center  w-[70px]">
+          <span className="text-black text-bold text-[20px]"> {tableName}</span>
         </div>
-      </div>
-      <div className="flex justify-between items-center mb-4">
         <span className="text-sm font-semibold">Order #925</span>
+      </div>
+      <div className="flex justify-between items-center mb-4 mt-5">
         <span
           className={`${
             state === "pending" ? "bg-red-500" : "bg-green-500"
-          } text-white text-xs font-bold rounded-md px-2 py-1 flex items-center justify-center gap-1`}
+          } text-white text-xs font-bold rounded-md px-2 py-1 flex items-center justify-between gap-1`}
         >
-          {state === "pending" ? <IoMdStopwatch /> : <FaCheckDouble />} {state}
+          {state === "pending" ? <IoMdStopwatch /> : <FaCheckDouble />}{" "}
+          {computeName(state)}
         </span>
       </div>
-      <div className="text-sm mb-2">
+      <div className="text-sm flex justify-between mb-2">
         <div>{createdAt}</div>
         <div>06:12 PM</div>
       </div>

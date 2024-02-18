@@ -21,20 +21,11 @@ const TableOrders: React.FC<Props> = () => {
     );
   };
 
-  const computeName = (value: string) => {
-    switch (value) {
-      case "pending":
-        return "Action needed";
-      case "confirmed":
-        return "Sent to kitchen";
-      case "completed":
-        return "Served";
-      default:
-        return "";
-    }
-  };
   return (
     <Layout>
+      <div className="flex items-center justify-between  mb-8">
+        <h2 className=" text-4xl font-bold">Orders</h2>
+      </div>
       <Tabs tab={activeTab} onTabChange={setActiveTab} />
       <div className=" grid gap-2 lg:grid-cols-3 md:grid-cols-2">
         {true && (
