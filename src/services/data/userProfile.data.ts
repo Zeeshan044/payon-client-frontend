@@ -20,7 +20,7 @@ export function useGetProfileQuery(id: number) {
 export function useUpdateProfileMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: IUserUpdateRequest }) =>
+    mutationFn: ({ id, data }: { id: number; data: any }) =>
       userProfileClient.update(id, data),
     onSuccess: (data, id) => {
       console.log("User updated successfully", data);

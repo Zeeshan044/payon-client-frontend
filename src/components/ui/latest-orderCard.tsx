@@ -6,8 +6,8 @@ const StaffMemberCard = () => {
       <div className="text-black text-2xl mb-4">Kitchen Shift</div>
 
       <div
-        className="bg-[#5271FF] p-4 rounded-lg mb-4"
-        style={{ borderRight: "6px solid purple" }}
+        className="bg-[#697EFF]  p-4 rounded-lg mb-4"
+        style={{ borderRight: "6px solid #0305FF" }}
       >
         <div className="flex items-center justify-between mb-2">
           <div className="text-white font-bold">Kyle Delmarque</div>
@@ -17,8 +17,8 @@ const StaffMemberCard = () => {
       </div>
 
       <div
-        className="bg-[#5271FF] p-4 rounded-lg mb-4"
-        style={{ borderRight: "6px solid purple" }}
+        className="bg-[#697EFF]  p-4 rounded-lg mb-4"
+        style={{ borderRight: "6px solid #0305FF" }}
       >
         <div className="flex items-center justify-between mb-2">
           <div className="text-white font-bold">Herdine Mclaren</div>
@@ -28,8 +28,8 @@ const StaffMemberCard = () => {
       </div>
 
       <div
-        className="bg-[#5271FF] p-4 rounded-lg"
-        style={{ borderRight: "6px solid purple" }}
+        className="bg-[#697EFF]  p-4 rounded-lg"
+        style={{ borderRight: "6px solid #0305FF" }}
       >
         <div className="flex items-center justify-between mb-2">
           <div className="text-white font-bold">Elisa Van Hudgens</div>

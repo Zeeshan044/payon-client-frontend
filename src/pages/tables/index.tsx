@@ -17,7 +17,26 @@ const Tables: React.FC<Props> = () => {
   const handleOpenModal = () => {
     dispatch(openModal({ view: "ADD_TABLE", data: { title: "Add Table" } }));
   };
-
+  const dataTable = [
+    {
+      id: 1,
+      name: "Table 1",
+      status: "Reserved",
+      time: "19:30",
+    },
+    {
+      id: 2,
+      name: "Table 2",
+      status: "Reserved",
+      time: "19:30",
+    },
+    {
+      id: 3,
+      name: "Table 3",
+      status: "Reserved",
+      time: "19:30",
+    },
+  ];
   console.log(data);
 
   return (
@@ -35,7 +54,7 @@ const Tables: React.FC<Props> = () => {
           ) : (
             <div className="grid w-full bg-primary/10 lg:grid-cols-4 md:grid-cols-2 gap-20">
               <>
-                {(data || []).map((table, index) => {
+                {(dataTable || []).map((table, index) => {
                   return <TableCard key={index} table={table} />;
                 })}
               </>

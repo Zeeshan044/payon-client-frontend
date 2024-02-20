@@ -6,8 +6,8 @@ const OrderDashboardCard = () => {
       <div className="text-black text-2xl mb-4">Latest Order</div>
 
       <div
-        className="bg-[#5271FF] p-4 rounded-lg mb-4"
-        style={{ borderRight: "6px solid purple" }}
+        className="bg-[#697EFF] p-4 rounded-lg mb-4"
+        style={{ borderRight: "6px solid #0305FF" }}
       >
         <div className="flex items-center justify-between mb-2">
           <div className="text-white font-bold">Order #1234</div>
@@ -16,14 +16,14 @@ const OrderDashboardCard = () => {
         <div className="text-purple-200">Order Time: 06:45 PM</div>
       </div>
 
-      <div className="bg-[#5271FF] p-4 rounded-lg mb-4">
+      <div className="bg-[#697EFF] p-4 rounded-lg mb-4">
         <div className="mb-2">
           <div className="text-white font-bold">Customer: John Doe</div>
         </div>
         <div className="text-purple-200">Table No: 5</div>
       </div>
 
-      <div className="bg-[#5271FF] p-4 rounded-lg">
+      <div className="bg-[#697EFF] p-4 rounded-lg">
         <div className="mb-2">
           <div className="text-white font-bold">Items Ordered</div>
         </div>

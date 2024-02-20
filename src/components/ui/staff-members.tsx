@@ -65,7 +65,7 @@ const StaffMembers = () => {
 
   return (
     <div className="mx-4 mt-10">
-      <div className="flex justify-between mb-2 items-center">
+      <div className="flex justify-between  items-center border-b pb-5 mb-10">
         <h1 className="text-2xl font-semibold lg:text-3xl lg:font-bold">
           Staff Members
         </h1>

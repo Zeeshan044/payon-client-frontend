@@ -43,7 +43,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
   const [addons, setAddons] = useState<{ name: string; price: number }[]>([]);
   const [addonName, setAddonName] = useState("");
   const [addonPrice, setAddonPrice] = useState(0);
-  const [alergon, setAlergon] = useState([]);
+  const [alergon, setAlergon] = useState<string[]>([]);
 
   const { data } = useGetAllCategoriesQuery();
   const { mutate: createProduct, isLoading: isLoadingCreate } =
@@ -57,7 +57,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
   });
   console.log(defaultValues, "in product");
   const onSubmit = (data: IProductRequest) => {
-    const { description, ingredients, name, price, category_id } = data;
+    const { description, ingredients, name, price, category_id, alergon } =
+      data;
     const formData = new FormData();
     if (imageInfo.file) {
       formData.append("image", imageInfo.file as Blob);
@@ -67,6 +68,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
     formData.append("ingredients", ingredients);
     formData.append("price", price.toString());
     formData.append("category_id", category_id.toString());
+    if (alergon.length > 0) {
+      alergon.forEach((alergen) => {
+        formData.append("alergon[]", alergen);
+      });
+    }
 
     if (defaultValues) {
       updateCategory(
@@ -162,6 +168,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
           placeholder="What's in it?"
           error={errors.ingredients?.message}
         />
+        <p>Allergens</p>
         <div className="grid grid-cols-12 gap-4 p-4">
           <div className="col-span-4">
             <Checkbox

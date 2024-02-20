@@ -25,7 +25,7 @@ const TableCard: React.FC<Props> = ({ table }) => {
         <div className="ball"></div>
         <div className="ball"></div>
       </div>
-      <div className="bg-white p-4 rounded-lg shadow-lg z-10 border-l-4 border-yellow-500 ">
+      <div className="bg-white p-4 rounded-lg shadow-lg z-10 border-l-4 border-primary ">
         <div className="flex items-center">
           <div className="text-lg font-semibold">{table.name}</div>
           <div className="text-sm text-gray-500 ml-2">Reserved</div>
