@@ -44,6 +44,7 @@ export interface IProductRequest {
   price: number;
   category_id: number;
   ingredients: string;
+  alergon: string[];
 }
 
 export interface IProductResponse extends IProductRequest {
@@ -62,7 +63,7 @@ export interface IAddonResponse extends IAddonsRequest {
   updated_at: string;
 }
 export interface IUserUpdateRequest {
-  image: string | null;
+  image: File | null;
   name: string;
   email: string;
   phone: string;

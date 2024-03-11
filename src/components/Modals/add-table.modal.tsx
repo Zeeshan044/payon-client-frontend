@@ -9,9 +9,10 @@ import { ModalContent, ModalFooter } from "../ui/modal";
 import { useCreateTableMutation } from "@/services/data/table.data";
 import { toast } from "react-toastify";
 
-interface Props { }
-const AddTableModal: React.FC<Props> = ({ }) => {
+interface Props {}
+const AddTableModal: React.FC<Props> = ({}) => {
   const [tableName, setTableName] = React.useState<string>("");
+  const [capacity, setCapacity] = React.useState<string>("");
   const [error, setError] = React.useState<string>("");
   const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ const AddTableModal: React.FC<Props> = ({ }) => {
       const restaurant_id = user.id;
 
       mutate(
-        { name: tableName, restaurant_id },
+        { name: tableName, restaurant_id, capacity },
         {
           onSuccess(data, variables, context) {
             dispatch(closeModal());
@@ -52,6 +53,17 @@ const AddTableModal: React.FC<Props> = ({ }) => {
           className="mb-2 "
           onChange={(e) => setTableName(e.target.value)}
           value={tableName}
+          error={error}
+        />
+        <Input
+          id="capacity"
+          type="text"
+          label="Capcity"
+          name="Capcity"
+          placeholder="Capcity"
+          className="mb-2 "
+          onChange={(e) => setCapacity(e.target.value)}
+          value={capacity}
           error={error}
         />
       </ModalContent>

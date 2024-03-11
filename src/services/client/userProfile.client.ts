@@ -8,7 +8,7 @@ export const userProfileClient = {
   },
   update: (id: number, userData: any) => {
     return HttpClient.post<IUserResponse>(
-      `${API_ENDPOINTS.USERPROFILE}?method=PUT`,
+      `${API_ENDPOINTS.USERPROFILE}/${id}?_method=PUT`,
       userData
     );
   },

@@ -19,12 +19,13 @@ interface Props {
 const UserProfile = ({ defaultValues }: Props) => {
   const [storedUserData, setStoredUserData] = useState<UserProfileFormValues>(
     JSON.parse(localStorage.getItem("user") || "{}")
-  ); const {
+  );
+  const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    setValue
+    setValue,
   } = useForm<UserProfileFormValues>({
     resolver: yupResolver(UserProfileFormSchema),
     defaultValues: {},
@@ -56,17 +57,26 @@ const UserProfile = ({ defaultValues }: Props) => {
 
   const onSubmit = async (userData: UserProfileFormValues) => {
     const formData = new FormData();
-    if (image.file) {
-      formData.append("image", image.file as Blob);
-    }
-    console.log("Updating user data:", userData);
 
+    // Append user data fields to formData
+    Object.entries(userData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    // Append image file to formData
+    if (image.file) {
+      formData.append("image", image.file);
+    }
+
+    console.log("Updating user data:", userData);
     const storedUserData = JSON.parse(localStorage.getItem("user") || "");
-    console.log(storedUserData, "defaultValues of user");
+
     if (storedUserData) {
-      updateProfile({
-        id: storedUserData.id, data: userData,
-      },
+      updateProfile(
+        {
+          id: storedUserData.id,
+          data: formData, // Send formData instead of userData directly
+        },
         {
           onSuccess: () => {
             console.log("Updated user data:", userData);
@@ -82,13 +92,15 @@ const UserProfile = ({ defaultValues }: Props) => {
             }
             toast.success("User updated successfully");
           },
-        });
+        }
+      );
     }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
+      console.log(file, "file");
       setImage({
         file,
         src: URL.createObjectURL(file),
@@ -125,7 +137,9 @@ const UserProfile = ({ defaultValues }: Props) => {
             />
             <div className="absolute bottom-0 -right-2 -translate-x-1/2 text-black z-10 bg-blue-500 rounded-full ">
               <div className="h-8 w-8 flex items-center justify-center">
-                <HiPencil className="h-4 w-4 text-white cursor-pointer" onClick={() => imageRef.current?.click()}
+                <HiPencil
+                  className="h-4 w-4 text-white cursor-pointer"
+                  onClick={() => imageRef.current?.click()}
                 />
               </div>
             </div>
@@ -163,7 +177,11 @@ const UserProfile = ({ defaultValues }: Props) => {
               label="Address"
               error={errors.address?.message}
             />
-            <Button className="w-full mt-6 " type="submit" loading={isLoadingUpdate}>
+            <Button
+              className="w-full mt-6 "
+              type="submit"
+              loading={isLoadingUpdate}
+            >
               Update
             </Button>
           </div>

@@ -3,16 +3,18 @@ import Button from "../ui/button";
 import { openModal } from "@/features/modal/modalSlice";
 import { useDispatch } from "react-redux";
 import { HiPlus, HiTrash, HiPencil } from "react-icons/hi";
-import { useDeleteRestaurantMutation, useGetUserRestaurantsQuery } from "@/services/data/restaurant.data";
+import {
+  useDeleteRestaurantMutation,
+  useGetUserRestaurantsQuery,
+} from "@/services/data/restaurant.data";
 import PageLoader from "../ui/page-loader";
 import { setSelectedrestaurant } from "@/features/restaurant/restaurantSlice";
 import { IRestaurantResponse } from "@/types/api";
 
-
 const UserRestaurants = () => {
-  const { mutate: deleteRestaurant } = useDeleteRestaurantMutation()
+  const { mutate: deleteRestaurant } = useDeleteRestaurantMutation();
   const dispatch = useDispatch();
-  const user_id = localStorage.getItem('user_id') || '';
+  const user_id = localStorage.getItem("user_id") || "";
   const { data, isLoading } = useGetUserRestaurantsQuery(Number(user_id));
   const handleAddResturant = () => {
     dispatch(
@@ -56,12 +58,7 @@ const UserRestaurants = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold md:text-4xl  mb-4 ">Restaurants</h1>
-        <div className=" mb-2">
-          <Button onClick={handleAddResturant}>
-            <HiPlus className="w-4 h-4" />
-            <span className="hidden md:block">Add</span>
-          </Button>
-        </div>
+        <div className=" mb-2"></div>
       </div>
 
       {/* Body */}
@@ -106,8 +103,10 @@ const UserRestaurants = () => {
                   <td className="px-6 py-4">{restaurant.email}</td>
                   <td className="px-6 py-4">
                     <div className="flex justify-end gap-4">
-                      <HiTrash className="h-5 w-5 text-red-500 cursor-pointer" onClick={() => handleDeleteRestaurant(restaurant.id)} />
-                      <HiPencil className="h-5 w-5 text-blue-500 cursor-pointer" onClick={() => handleUpdateResturant(restaurant)} />
+                      <HiPencil
+                        className="h-5 w-5 text-blue-500 cursor-pointer"
+                        onClick={() => handleUpdateResturant(restaurant)}
+                      />
                     </div>
                   </td>
                 </tr>

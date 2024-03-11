@@ -14,7 +14,7 @@ const StatCard: React.FC<Props> = ({ title, value }) => {
           <div className="text-3xl font-semibold text-gray-900">{value}</div>
           <div className="text-sm font-medium text-blue-600 flex items-center">
             <svg
-              className="w-4 h-4 text-blue-600 fill-current mr-1"
+              className="w-4 h-2 text-blue-400 fill-current "
               viewBox="0 0 20 20"
             >
               <path d="M5 14l5 5 5-5H5z"></path>
@@ -23,10 +23,10 @@ const StatCard: React.FC<Props> = ({ title, value }) => {
           </div>
         </div>
         <div className="relative">
-          <div className="w-16 h-16 flex items-center justify-center">
+          <div className="w-16 h-32 flex items-center justify-center">
             <span className="text-lg font-semibold text-blue-600">+74%</span>
           </div>
-          <div className="absolute top-0 left-0 w-18 h-16">
+          <div className="absolute top-[30px] left-0 w-18 h-16">
             <svg
               className="transform -rotate-90 w-full h-full"
               viewBox="0 0 32 32"

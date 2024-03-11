@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { setSelectedProduct } from "@/features/product/productSlice";
 import { useGetAllCategoriesQuery } from "@/services/data/category.data";
 import { ICategoryRequest, IProductRequest } from "@/types/api";
+import Checkbox from "../ui/checkbox";
 
 interface ProductFormProps {
   defaultValues?: ProductFormValues;
@@ -42,6 +43,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
   const [addons, setAddons] = useState<{ name: string; price: number }[]>([]);
   const [addonName, setAddonName] = useState("");
   const [addonPrice, setAddonPrice] = useState(0);
+  const [alergon, setAlergon] = useState<string[]>([]);
 
   const { data } = useGetAllCategoriesQuery();
   const { mutate: createProduct, isLoading: isLoadingCreate } =
@@ -55,7 +57,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
   });
   console.log(defaultValues, "in product");
   const onSubmit = (data: IProductRequest) => {
-    const { description, ingredients, name, price, category_id } = data;
+    const { description, ingredients, name, price, category_id, alergon } =
+      data;
     const formData = new FormData();
     if (imageInfo.file) {
       formData.append("image", imageInfo.file as Blob);
@@ -65,6 +68,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
     formData.append("ingredients", ingredients);
     formData.append("price", price.toString());
     formData.append("category_id", category_id.toString());
+    if (alergon.length > 0) {
+      alergon.forEach((alergen) => {
+        formData.append("alergon[]", alergen);
+      });
+    }
 
     if (defaultValues) {
       updateCategory(
@@ -77,7 +85,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
             dispatch(setSelectedProduct(null));
             dispatch(closeModal());
             toast.success("Product updated successfully");
-
           },
         }
       );
@@ -103,7 +110,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
   };
 
   console.log(errors.image?.message, "errors");
-
+  console.log(alergon, "alergon");
   return (
     <div className=" ">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -161,6 +168,196 @@ const ProductForm: React.FC<ProductFormProps> = ({ defaultValues }) => {
           placeholder="What's in it?"
           error={errors.ingredients?.message}
         />
+        <p>Allergens</p>
+        <div className="grid grid-cols-12 gap-4 p-4">
+          <div className="col-span-4">
+            <Checkbox
+              label="Egg"
+              name="Egg"
+              value="Egg"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Dairy"
+              name="Dairy"
+              value="Dairy"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Sugar"
+              name="Sugar"
+              value="Sugar"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Nuts"
+              name="Nuts"
+              value="Nuts"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Soy"
+              name="Soy"
+              value="Soy"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Gluten"
+              name="Gluten"
+              value="Gluten"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Sugar"
+              name="Sugar"
+              value="Sugar"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Peanut"
+              name="Peanut"
+              value="Peanut"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Corn"
+              name="Corn"
+              value="Corn"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Fish"
+              name="Fish"
+              value="Fish"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Shelfish"
+              name="Shelfish"
+              value="Shelfish"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Molluscs"
+              name="Molluscs"
+              value="Molluscs"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Honey"
+              name="Honey"
+              value="Honey"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Sesame"
+              name="Sesame"
+              value="Sesame"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Calery"
+              name="Calery"
+              value="Calery"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="So2"
+              name="So2"
+              value="So2"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+          <div className="col-span-4">
+            <Checkbox
+              label="Mushroom"
+              name="Mushroom"
+              value="Mushroom"
+              defaultChecked={false}
+              onChange={(e: any) =>
+                setAlergon((prev) => [...prev, e.target.value])
+              }
+            />
+          </div>
+        </div>
         <Input
           {...register("price")}
           id="price"

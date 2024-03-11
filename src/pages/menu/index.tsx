@@ -7,6 +7,7 @@ import ProductForm from "@/components/forms/product-form";
 import Layout from "@/components/layout/layout";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import { Heading } from "@/components/ui/heading";
 
 const TabItems = ["Categories", "Products"];
 
@@ -15,13 +16,12 @@ const Menu = () => {
   const { selectedCategory } = useSelector(
     (state: RootState) => state.category
   );
-  const { selectedProduct } = useSelector(
-    (state: RootState) => state.product
-  );
+  const { selectedProduct } = useSelector((state: RootState) => state.product);
 
   return (
     <>
       <Layout>
+        <Heading title="Menu" />
         <div>
           <Tabs items={TabItems} onTabChange={(value) => setActiveTab(value)} />
         </div>
