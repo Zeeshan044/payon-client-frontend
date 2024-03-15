@@ -22,17 +22,23 @@ const TableOrders: React.FC<Props> = () => {
   };
 
   return (
+    <div className="orders-page-background">
     <Layout>
       <div className="flex items-center justify-between  mb-8">
-        <h2 className=" text-4xl font-bold">Orders</h2>
+        <h2 className="text-4xl font-bold container mt-[20px]">Orders</h2>
       </div>
+      <div className="container">
+      <p className="border-bottom-order-page mt-[-15px]"></p>
+      </div>
+      <div className="container">
       <Tabs tab={activeTab} onTabChange={setActiveTab} />
-      <div className=" grid gap-2 lg:grid-cols-3 md:grid-cols-2">
+      </div>
+      <div className="container grid gap-5 lg:grid-cols-3 md:grid-cols-2">
         {true && (
           <>
             {activeTab === "all"
               ? ORDERS_DATA.map((order) => (
-                  <div key={`${order.id}`} className="mt-5">
+                  <div key={`${order.id}`} className="mt-9">
                     <OrderCard
                       tableName={order.table.name}
                       orderCount={order.order_items.length}
@@ -45,7 +51,7 @@ const TableOrders: React.FC<Props> = () => {
                 ))
               : ORDERS_DATA.filter((order) => order.state === activeTab).map(
                   (order) => (
-                    <div key={`${order.id}`} className="mt-5">
+                    <div key={`${order.id}`} className="mt-9">
                       <OrderCard
                         tableName={order.table.name}
                         orderCount={order.order_items.length}
@@ -65,6 +71,7 @@ const TableOrders: React.FC<Props> = () => {
         <Spinner fill="#FFF" size={96} />
       </Overlay>
     </Layout>
+    </div>
   );
 };
 

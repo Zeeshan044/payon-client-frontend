@@ -53,3 +53,58 @@ body {
   }
 
 }
+.orders-page-background{
+  background: rgba(240, 240, 236, 1);
+}
+.border-bottom-order-page{
+  border-bottom: 1px solid rgba(82, 82, 82, 0.25)
+}
+.rounded-cards{
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 24.5px;
+}
+.table-name{
+  background: rgba(82, 113, 255, 1);
+border-radius: 10px;
+}
+.in-progress{
+  background: rgba(82, 113, 255, 0.15);
+  color: rgba(23, 23, 23, 1);
+
+}
+.cooking{
+font-size: 8px;
+font-weight: 500;
+line-height: 10px;
+letter-spacing: -0.02em;
+color: rgba(82, 113, 255, 1);
+}
+.items-headings{
+font-size: 14px;
+font-weight: 400;
+line-height: 17px;
+letter-spacing: -0.02em;
+color: rgba(151, 151, 151, 1);
+}
+.itmes-names span{
+font-size: 12px;
+font-weight: 400;
+line-height: 16px;
+letter-spacing: -0.02em;
+color: rgba(23, 23, 23, 1);
+}
+.mark-ready{
+padding: 8px 20px 8px 20px;
+border-radius: 4px;
+background: rgba(82, 113, 255, 0.1);
+font-size: 12px;
+font-weight: 500;
+line-height: 14px;
+letter-spacing: -0.02em;
+color: rgba(82, 113, 255, 1);
+}
+.order-pop-up{
+  background: rgba(82, 113, 255, 0.12);
+  box-shadow: 0px 4px 40px 0px rgba(136, 122, 166, 0.08);
+border-radius: 20px;
+}

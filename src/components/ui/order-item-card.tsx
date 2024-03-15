@@ -1,35 +1,46 @@
 import React from "react";
 import { Order, OrderItem, PaymentMode } from "@/types";
 interface Props {
-  data: OrderItem;
-  index: number;
+  data: 1;
+  index: 1;
 }
 
-const OrderItemCard: React.FC<Props> = ({ data, index }) => {
-  const {} = data;
+const OrderItemCard=() => {
   return (
-    <div className="border rounded-md shadow bg-gray-100 p-3">
-      <div className="bg-black leading-none text-white rounded-full h-5 w-5 font-bold flex items-center justify-center mb-2">
-        {index}
-      </div>
-      <div>
-        <div className="flex items-center justify-between font-bold">
-          <span>{data.name}</span>
-          <span>{data.price}</span>
-        </div>
-        <div className="font-bold">Addons:</div>
-        <div className="pl-2">
-          {data.addons.map((addon) => (
-            <div
-              key={addon.id}
-              className="flex items-center justify-between font-medium"
-            >
-              <span>{addon.name}</span>
-              <span>+{addon.price}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className="order-pop-up m-3 p-4">
+   <h3 className="text-[16px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>Order Details</h3>
+   <div className="flex justify-between mt-2">
+   <span className="text-[13px] font-normal">Chicken Cheese Naan with Raita<span className="block text-10 font-semibold">$23.56</span></span>
+   <span className="text-[15px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>1x</span>
+   </div>
+   <div className="flex justify-between mt-2">
+   <span className="text-[13px] font-normal">Chicken Cheese Naan with Raita<span className="block text-10 font-semibold">$23.56</span></span>
+   <span className="text-[15px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>1x</span>
+   </div>
+   <div className="flex justify-between mt-2">
+   <span className="text-[13px] font-normal">Chicken Cheese Naan with Raita<span className="block text-10 font-semibold">$23.56</span></span>
+   <span className="text-[15px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>1x</span>
+   </div>
+   <div className="flex justify-between mt-2">
+   <span className="text-[13px] font-normal">Chicken Cheese Naan with Raita<span className="block text-10 font-semibold">$23.56</span></span>
+   <span className="text-[15px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>1x</span>
+   </div>
+   <div className="flex justify-between mt-2">
+   <span className="text-[13px] font-normal">Chicken Cheese Naan with Raita<span className="block text-10 font-semibold">$23.56</span></span>
+   <span className="text-[15px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>1x</span>
+   </div>
+   <div  className="flex justify-between mt-2">
+   <span className="text-[13px] font-normal">Items(5)</span>
+   <span className="text-[15px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>$600.00</span>
+   </div>
+   <div  className="flex justify-between mt-2">
+   <span className="text-[13px] font-normal">Tax(5%)</span>
+   <span className="text-[14px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>$30.00</span>
+   </div>
+   <div  className="flex justify-between mt-2">
+   <span className="text-[15px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>Total</span>
+   <span className="text-[16px] font-bold" style={{color:'rgba(32, 32, 32, 1)'}}>$630.00</span>
+   </div>
     </div>
   );
 };
