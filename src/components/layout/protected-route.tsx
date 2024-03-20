@@ -7,25 +7,25 @@ interface Props {
 }
 
 const ProtectedRoute: React.FC<Props> = ({ children }) => {
-  const router = useRouter();
-  const [loading, setLoading] = React.useState(true);
-  const publicRoutes = React.useMemo(() => ["login", "forgot-password"], []);
-  const url = router.pathname.split("/")[1];
+  // const router = useRouter();
+  // const [loading, setLoading] = React.useState(true);
+  // const publicRoutes = React.useMemo(() => ["login", "forgot-password"], []);
+  // const url = router.pathname.split("/")[1];
 
-  React.useEffect(() => {
-    const isAuthenticated = localStorage.getItem("token");
-    if (!isAuthenticated && !publicRoutes.includes(url)) {
-      router.push("/login");
-    }
-    if (isAuthenticated && publicRoutes.includes(url)) {
-      router.push("/orders");
-    }
-    setLoading(false);
-  }, [url, publicRoutes, router]);
+  // React.useEffect(() => {
+  //   const isAuthenticated = localStorage.getItem("token");
+  //   if (!isAuthenticated && !publicRoutes.includes(url)) {
+  //     router.push("/login");
+  //   }
+  //   if (isAuthenticated && publicRoutes.includes(url)) {
+  //     router.push("/orders");
+  //   }
+  //   setLoading(false);
+  // }, [url, publicRoutes, router]);
 
-  if (loading) {
-    return <PageLoader />;
-  }
+  // if (loading) {
+  //   return <PageLoader />;
+  // }
 
   return <>{children}</>;
 };

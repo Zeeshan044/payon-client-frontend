@@ -49,9 +49,9 @@ const UserRestaurants = () => {
     if (!confirmation) return;
     deleteRestaurant(id);
   };
-  if (isLoading) {
-    return <PageLoader />;
-  }
+  // if (isLoading) {
+  //   return <PageLoader />;
+  // }
 
   return (
     <div className="border rounded-2xl p-6 mt-4 lg:mt-0 shadow bg-white mx-4">

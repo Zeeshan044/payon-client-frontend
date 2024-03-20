@@ -86,14 +86,14 @@ line-height: 17px;
 letter-spacing: -0.02em;
 color: rgba(151, 151, 151, 1);
 }
-.itmes-names span{
+.items-names span{
 font-size: 12px;
 font-weight: 400;
 line-height: 16px;
 letter-spacing: -0.02em;
 color: rgba(23, 23, 23, 1);
 }
-.mark-ready{
+/* .mark-ready{
 padding: 8px 20px 8px 20px;
 border-radius: 4px;
 background: rgba(82, 113, 255, 0.1);
@@ -102,7 +102,7 @@ font-weight: 500;
 line-height: 14px;
 letter-spacing: -0.02em;
 color: rgba(82, 113, 255, 1);
-}
+} */
 .order-pop-up{
   background: rgba(82, 113, 255, 0.12);
   box-shadow: 0px 4px 40px 0px rgba(136, 122, 166, 0.08);
