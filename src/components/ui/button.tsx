@@ -4,7 +4,7 @@ import { LuLoader } from "react-icons/lu";
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   children?: ReactNode;
-  variant?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger" | "cancel";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
 }
@@ -49,6 +49,9 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
         break;
       case "danger":
         variantClass = "bg-red-500 text-white";
+        break;
+      case "cancel":
+        variantClass = "bg-[#E2E8F0] text-black";
         break;
       default:
         variantClass = "bg-primary text-white";

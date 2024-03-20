@@ -9,6 +9,8 @@ export type ModalViews =
   | "VIEW_RESTAURANT"
   | "UPDATE_RESTAURANT"
   | "ADD_STAFF"
+  | "UPDATE_STAFF"
+  | "DELETE_STAFF"
   | "ADD_CATEGORY"
   | null;
 

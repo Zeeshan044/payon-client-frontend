@@ -19,6 +19,8 @@ const AddRestaurant = lazy(
 );
 const ViewRestaurant = lazy(() => import("@/components/modals/view-restaurant.modal"))
 const AddStaff = lazy(() => import("@/components/modals/add-staff.modal"));
+const UpdateStaff = lazy(() => import("@/components/modals/update-staff.modal"));
+const DeleteStaff = lazy(() => import("@/components/modals/delete-staff.modal"));
 const UpdateRestaurant = lazy(() => import("@/components/modals/update-restaurant.modal"));
 function renderView(view: ModalViews) {
   switch (view) {
@@ -40,6 +42,10 @@ function renderView(view: ModalViews) {
       return <UpdateRestaurant />;
     case "ADD_STAFF":
       return <AddStaff />;
+    case "UPDATE_STAFF":
+      return <UpdateStaff />
+    case "DELETE_STAFF":
+      return <DeleteStaff />
     default:
       return <></>;
   }

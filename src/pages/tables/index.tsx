@@ -7,10 +7,10 @@ import Button from "@/components/ui/button";
 import { useGetAllTablesQuery } from "@/services/data/table.data";
 import PageLoader from "@/components/ui/page-loader";
 
-interface Props {}
+interface Props { }
 
 const Tables: React.FC<Props> = () => {
-  const { data, isLoading } = useGetAllTablesQuery();
+  // const { data, isLoading } = useGetAllTablesQuery();
 
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ const Tables: React.FC<Props> = () => {
       time: "19:30",
     },
   ];
-  console.log(data);
+  // console.log(data);
 
   return (
     <>
@@ -49,17 +49,17 @@ const Tables: React.FC<Props> = () => {
               Add Table
             </Button>
           </div>
-          {isLoading ? (
+          {/* {isLoading ? (
             <PageLoader />
-          ) : (
-            <div className="grid w-full bg-primary/10 lg:grid-cols-4 md:grid-cols-2 gap-20">
-              <>
-                {(dataTable || []).map((table, index) => {
-                  return <TableCard key={index} table={table} />;
-                })}
-              </>
-            </div>
-          )}
+          ) : ( */}
+          <div className="grid w-full bg-primary/10 lg:grid-cols-4 md:grid-cols-2 gap-20">
+            <>
+              {(dataTable || []).map((table, index) => {
+                return <TableCard key={index} table={table} />;
+              })}
+            </>
+          </div>
+          {/* )} */}
         </div>
       </Layout>
     </>
