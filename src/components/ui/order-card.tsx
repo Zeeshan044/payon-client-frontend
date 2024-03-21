@@ -50,9 +50,8 @@ const OrderCard: React.FC<Props> = ({
         </div>
         <div>
           <span
-            className={`${
-              state === "pending" ? "bg-red-500" : "in-progress"
-            } text-white text-xs rounded px-2 py-1 flex items-center gap-1 w-fit`}
+            className={`${state === "pending" ? "bg-red-500" : "in-progress"
+              } text-white text-xs rounded px-2 py-1 flex items-center gap-1 w-fit`}
           >
             {state === "pending" ? <IoMdStopwatch /> : <FaCheckDouble />}{" "}
             {computeName(state)}
@@ -110,8 +109,7 @@ const OrderCard: React.FC<Props> = ({
         </Button>
         <Button
           onClick={onClick}
-          className="grow rounded-sm text-sm"
-          style={{ padding: "6px 32px 8px 32px" }}
+          className="grow rounded-sm text-sm px-8 py-2"
         >
           See Details
         </Button>

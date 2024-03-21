@@ -178,11 +178,11 @@ const UserProfile = ({ defaultValues }: Props) => {
               error={errors.address?.message}
             />
             <Button
-              className="w-full mt-6 "
+              className="w-full mt-6 bg-gradient-to-r from-[#40AFFF] to-[#5271FF]"
               type="submit"
               loading={isLoadingUpdate}
             >
-              Update
+              Update Profile
             </Button>
           </div>
         </div>

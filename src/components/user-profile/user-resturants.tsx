@@ -49,37 +49,39 @@ const UserRestaurants = () => {
     if (!confirmation) return;
     deleteRestaurant(id);
   };
-  // if (isLoading) {
-  //   return <PageLoader />;
-  // }
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
   return (
-    <div className="border rounded-2xl p-6 mt-4 lg:mt-0 shadow bg-white mx-4">
+    <div
+    // className="border rounded-2xl p-6 mt-4 lg:mt-0 shadow bg-white mx-4"
+    >
       {/* Header */}
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold md:text-4xl  mb-4 ">Restaurants</h1>
         <div className=" mb-2"></div>
-      </div>
+      </div> */}
 
       {/* Body */}
-      <div>
+      <div className="border rounded-2xl mb-4 gap-2 pb-6 shadow bg-white">
         <div className="relative overflow-x-auto">
-          <table className="w-full text-sm text-left rtl:text-right  rounded-2xl overflow-hidden">
-            <thead className="text-xs  uppercase bg-gray-200">
+          <table className="w-full text-sm text-left rtl:text-right bg-blue-500 text-white rounded-t-2xl overflow-hidden">
+            <thead className="text-xs  uppercase ">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-5 py-5">
                   Restaurant Name
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-5 py-5">
                   Branch
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-5 py-5">
                   Address
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-5 py-5">
                   Email
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-5 py-5">
                   Actions
                 </th>
               </tr>
@@ -98,7 +100,7 @@ const UserRestaurants = () => {
                       {restaurant.name}
                     </div>
                   </th>
-                  <td className="px-6 py-4">1</td>
+                  <td className="px-6 py-4">Lahore</td>
                   <td className="px-6 py-4">{restaurant.address}</td>
                   <td className="px-6 py-4">{restaurant.email}</td>
                   <td className="px-6 py-4">
