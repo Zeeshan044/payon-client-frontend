@@ -7,10 +7,6 @@ export function useGetAllProductsQuery() {
     queryKey: ["products"],
     queryFn: productClient.getAll,
   });
-  console.log(data, "Data");
-  console.log(error, "error");
-  console.log(isLoading, "Loading");
-
   return { data, isLoading, error };
 }
 
