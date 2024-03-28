@@ -16,7 +16,6 @@ import CalenderImg from "@/assets/images/calender.svg"
 import PhoneImg from "@/assets/images/phone.svg"
 import RestaurantImg from "@/assets/images/restaurant.svg"
 import TimeImg from "@/assets/images/time.svg"
-import Add from "@/assets/images/add.svg"
 import edit from "@/assets/images/edit.svg"
 import Delete from "@/assets/images/delete.svg"
 
@@ -26,7 +25,7 @@ import { openModal } from "@/features/modal/modalSlice";
 // import BreadCrumb from "./bredcrumb";
 
 const StaffMembers = () => {
-  const staffMembers = [
+  const [staffMembers, setStaffMembers] = useState([
     {
       id: 1,
       name: "John Doe",
@@ -38,6 +37,7 @@ const StaffMembers = () => {
       workingHours: "9 AM - 5 PM",
       daysOff: ["Saturday", "Sunday"],
       isActive: true,
+      isModalOpen: false,
     },
     {
       id: 2,
@@ -50,6 +50,7 @@ const StaffMembers = () => {
       workingHours: "9 AM - 5 PM",
       daysOff: ["Saturday", "Sunday"],
       isActive: false,
+      isModalOpen: false,
     },
     {
       id: 3,
@@ -62,21 +63,25 @@ const StaffMembers = () => {
       workingHours: "9 AM - 5 PM",
       daysOff: ["Saturday", "Sunday"],
       isActive: true,
+      isModalOpen: false,
     },
 
-  ];
+  ]);
   const dispatch = useDispatch();
+  const handleToggleModal = (id: number) => {
+    setStaffMembers((prevStaffMembers) =>
+      prevStaffMembers.map((staff) =>
+        staff.id === id ? { ...staff, isModalOpen: !staff.isModalOpen } : staff
+      )
+    );
+  };
+
   const handleAddStaff = () => {
     dispatch(openModal({ view: "ADD_STAFF", data: { title: "Add Staff" } }));
   };
 
   const handleEditStaff = () => {
     dispatch(openModal({ view: "UPDATE_STAFF", data: { title: "Update Staff" } }));
-  };
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleToggleModal = () => {
-    setIsModalOpen(!isModalOpen);
   };
 
   const handleDeleteStaff = () => {
@@ -85,7 +90,7 @@ const StaffMembers = () => {
   };
 
   return (
-    <div className="mx-4 mt-10">
+    <div className=" mt-10">
       <div className="flex justify-between  items-center border-b pb-5 mb-10">
         <h1 className="text-2xl font-semibold lg:text-3xl lg:font-bold">
           Staff Members
@@ -100,7 +105,7 @@ const StaffMembers = () => {
         </div>
 
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-[100px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {staffMembers.map((staff) => (
           <div key={staff.id} className=" p-4 rounded-xl bg-white filter drop-shadow-md">
             <div className="flex mb-4 justify-between ">
@@ -109,12 +114,12 @@ const StaffMembers = () => {
                 alt=""
                 className="w-20 h-20 rounded-full object-cover border-2"
               />
-              <div onClick={handleToggleModal}>
+              <div onClick={() => handleToggleModal(staff.id)}>
                 <BsThreeDots className=" mt-3 w-5 cursor-pointer" />
-                {isModalOpen && (
+                {staff.isModalOpen && (
                   <div className=" fixed right-0 drop-shadow-md left-44 top-12 bg-opacity-50 flex  justify-center font-medium text-xs">
-                    <div className="bg-white rounded-lg py-4">
-                      <div onClick={() => handleEditStaff()} className="flex gap-2 mb-2 px-1 cursor-pointer">
+                    <div className="bg-white rounded-lg py-4 ">
+                      <div onClick={() => handleEditStaff()} className="flex gap-2 mb-2 px-1 cursor-pointer ">
                         <Image src={edit} alt="" />
                         <a className="text-[#202020]">Edit</a>
                       </div>

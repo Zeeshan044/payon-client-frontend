@@ -17,26 +17,30 @@ const Tables: React.FC<Props> = () => {
   const handleOpenModal = () => {
     dispatch(openModal({ view: "ADD_TABLE", data: { title: "Add Table" } }));
   };
-  const dataTable = [
+  const dataTable: { id: number, name: string, status: string, time: string, capacity: 4 | 2 | 6 }[] = [
     {
       id: 1,
       name: "Table 1",
       status: "Reserved",
       time: "19:30",
+      capacity: 4,
     },
     {
       id: 2,
       name: "Table 2",
       status: "Reserved",
       time: "19:30",
+      capacity: 6,
     },
     {
       id: 3,
       name: "Table 3",
       status: "Reserved",
       time: "19:30",
+      capacity: 2,
     },
   ];
+
   // console.log(data);
 
   return (
@@ -52,12 +56,28 @@ const Tables: React.FC<Props> = () => {
           {/* {isLoading ? (
             <PageLoader />
           ) : ( */}
-          <div className="grid w-full bg-primary/10 lg:grid-cols-4 md:grid-cols-2 gap-20">
+          {/* <div className="grid w-full bg-primary/10 lg:grid-cols-4 md:grid-cols-2 gap-20">
             <>
               {(dataTable || []).map((table, index) => {
                 return <TableCard key={index} table={table} />;
               })}
             </>
+          </div> */}
+          <div className="grid w-full bg-primary/10 lg:grid-cols-4 md:grid-cols-2 gap-20">
+            {dataTable.map((table, index) => {
+              let type: "ROUND" | "RECTANGULAR" | "BAR";
+              let capacity: 2 | 4 | 6;
+              if (table.capacity === 4) {
+                type = "ROUND";
+              } else if (table.capacity === 2) {
+                type = "RECTANGULAR";
+                capacity = 2;
+              } else if (table.capacity === 6) {
+                type = "RECTANGULAR";
+                capacity = 6;
+              }
+              return <TableCard key={index} table={table} type={type} capacity={capacity} />;
+            })}
           </div>
           {/* )} */}
         </div>

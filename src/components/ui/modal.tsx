@@ -31,7 +31,7 @@ const Modal: React.FC<Props> = ({ title, children, footer, isOpen, isClose }) =>
           <div className="relative bg-white rounded-2xl shadow ">
             {/* Modal header */}
             <div className="flex items-center gap-3 p-4 md:py-5 md:px-8 border-b rounded-t ">
-              <div className="rounded-full bg-blue-500 p-2"
+              <div className="rounded-full bg-blue-500 p-2 cursor-pointer"
                 onClick={() => dispatch(closeModal())}>
                 <Image src={Back} alt="back" />
               </div>

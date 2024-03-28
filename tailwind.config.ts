@@ -13,6 +13,10 @@ const config: Config = {
         white: "#FFFFFF",
         darkGrey: "#525252",
         dark: "#202020",
+        cardBg: "#887AA614",
+        charcoalGray: "#555555",
+        fadeDark: "#3A3F51",
+        menuBorder: "#E0E0E0",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

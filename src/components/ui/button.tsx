@@ -5,7 +5,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   children?: ReactNode;
   variant?: "primary" | "secondary" | "danger" | "cancel";
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl" | "xxl";
   loading?: boolean;
 }
 
@@ -35,14 +35,16 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
       case "lg":
         sizeClass = "px-4 py-2 text-lg";
         break;
-      default:
-        sizeClass = "px-3 py-2";
+      case "xl":
+        sizeClass = "px-10 py-2";
+      case "xxl":
+        sizeClass = "px-14 py-2";
         break;
     }
 
     switch (variant) {
       case "primary":
-        variantClass = "bg-primary text-white";
+        variantClass = "font-semibold text-white bg-gradient-to-r from-[#5271FF] to-[#40AFFF]";
         break;
       case "secondary":
         variantClass = "bg-gray-200 text-gray-800";
@@ -64,7 +66,7 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
           {...props}
           ref={ref}
           onClick={onClick}
-          className={`rounded-md cursor-pointer flex gap-2 items-center justify-center ${sizeClass} ${variantClass} ${className}`}
+          className={`rounded-md cursor-pointer flex items-center justify-center ${sizeClass} ${variantClass} ${className}`}
         >
           {isLoading && <LuLoader className="animate-spin" />}
           {children}

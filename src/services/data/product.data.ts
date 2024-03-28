@@ -1,12 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { productClient } from "../client/product.client";
-import { IProductRequest } from "@/types/api";
+import { IProductRequest, IProductResponse } from "@/types/api";
 
 export function useGetAllProductsQuery() {
-  return useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["products"],
     queryFn: productClient.getAll,
   });
+  console.log(data, "Data");
+  console.log(error, "error");
+  console.log(isLoading, "Loading");
+
+  return { data, isLoading, error };
 }
 
 export function useGetProductQuery(id: number) {

@@ -18,7 +18,7 @@ const UpdateStaff = () => {
                 <p>Staff Image</p>
                 <div className=" bg-slate-100 gap-1 w-16 h-16 flex flex-col items-center justify-center rounded relative">
                     {/* <Image src={upload} alt="picture" className=" -top-1 -right-0 absolute" /> */}
-                    <div className=" rounded-full  -top-1 -right-0 absolute bg-blue-600 p-1">
+                    <div className=" rounded-full -top-1 -right-0 absolute bg-blue-600 p-1 cursor-pointer">
                         <FaPen className=" w-2 h-2 text-white" />
                     </div>
                     <Image src={Profile} alt="picture" className=" " />
@@ -38,7 +38,7 @@ const UpdateStaff = () => {
             <ModalFooter>
                 <div className="flex justify-end items-end gap-3">
                     <Button onClick={() => dispatch(closeModal())}
- variant="cancel" className=" w-[146px]" type="submit">Cancel</Button>
+                        variant="cancel" className=" w-[146px]" type="submit">Cancel</Button>
                     <Button className="flex w-[146px] bg-gradient-to-r from-[#5271FF] to-[#40AFFF]" type="submit">Update Staff</Button>
                 </div>
 

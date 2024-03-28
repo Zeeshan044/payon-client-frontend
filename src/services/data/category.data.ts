@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { categoryClient } from "../client/category.client";
 import { ICategoryRequest, ICategoryResponse } from "@/types/api";
+import { toast } from "react-toastify";
 
 export function useGetAllCategoriesQuery() {
   return useQuery({
@@ -42,7 +43,12 @@ export function useDeleteCategoryMutation() {
   return useMutation({
     mutationFn: (id: number) => categoryClient.delete(id),
     onSuccess: () => {
+      console.log("Deletion successful");
       client.invalidateQueries("categories/getAll");
+    },
+    onError: (error) => {
+      console.error("Error deleting category:", error);
+      toast.error("Error deleting category");
     },
   });
 }

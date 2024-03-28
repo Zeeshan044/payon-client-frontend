@@ -23,12 +23,12 @@ const CategoryList: React.FC = () => {
     useDeleteCategoryMutation();
   const dispatch = useDispatch();
 
-  const handleAddCategory = async () => {
-    dispatch(
-      openModal({ view: "ADD_CATEGORY", data: { title: "Add Category" } })
-    );
-    await refetch()
-  };
+  // const handleAddCategory = async () => {
+  //   dispatch(
+  //     openModal({ view: "ADD_CATEGORY", data: { title: "Add Category" } })
+  //   );
+  //   await refetch()
+  // };
 
   const onDeleteCategory = (id: number) => {
     const confirmation = confirm(
@@ -37,18 +37,23 @@ const CategoryList: React.FC = () => {
     if (!confirmation) return;
     deleteCategory(id);
     toast.success("Category deleted successfully");
-
+  };
+  const handleDeleteCategory = (id: number) => {
+    dispatch(
+      openModal({
+        view: "DELETE_CATEGORY",
+        data: { selectedCategory: id, title: "Delete Category" }
+      })
+    );
   };
 
-  const onEditHandler = (category: ICategoryResponse) => {
-    if (window.innerWidth < 1024) {
-      dispatch(
-        openModal({
-          view: "ADD_CATEGORY",
-          // data: { category },
-        })
-      );
-    }
+  const handleUpdateCategory = (category: ICategoryResponse) => {
+    dispatch(
+      openModal({
+        view: "UPDATE_CATEGORY",
+        data: { title: "Update Category", category }
+      })
+    );
     dispatch(setSelectedCategory(category));
   };
 
@@ -58,18 +63,16 @@ const CategoryList: React.FC = () => {
 
   return (
     <>
-      <Button className="lg:hidden block mb-2" onClick={handleAddCategory}>
+      {/* <Button className="lg:hidden block mb-2" onClick={handleAddCategory}>
         Add Category
-      </Button>
-
-      {data?.map((category) => (
+      </Button> */}
+      {data?.data.map((category) => (
         <MenuRow
           key={category.id}
           title={category.name}
-          description={category.description}
-          image={category?.image || IMAGES.NO_IMAGE}
-          onEdit={() => onEditHandler(category)}
-          onDelete={() => onDeleteCategory(category.id)}
+          // description={category.description}
+          onEdit={() => handleUpdateCategory(category)}
+          onDelete={() => handleDeleteCategory(category.id)}
         />
       ))}
     </>

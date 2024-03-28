@@ -1,78 +1,75 @@
-import IMAGES from "@/constants/images";
+import React, { useState, useEffect, useRef } from "react";
 import { convertToUSD } from "@/utils";
 import Image from "next/image";
-import React from "react";
 import { HiTrash, HiPencil } from "react-icons/hi2";
+import edit from "@/assets/images/edit.svg";
+import Delete from "@/assets/images/delete.svg";
+import Toggle from "@/assets/images/threeDots.svg";
+import DropdownMenu from "./dropdown";
 
 interface Props {
   title?: string;
   description?: string;
+  ingredients?: string;
   price?: number;
   image?: string;
   onClick?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;
   AddonName?: string;
-  AddonPrice?: number
-
+  AddonPrice?: number;
 }
 
 const MenuRow = ({
   title,
   description,
+  ingredients,
   price,
   image,
   onClick,
   onDelete,
   onEdit,
   AddonName,
-  AddonPrice
+  AddonPrice,
 }: Props) => {
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleToggleClick = () => {
+    setOpenDropdown((prev) => !prev);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setOpenDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div>
-
       <div
-        onClick={onClick}
-        className="flex items-center justify-between bg-white p-2 mb-3 rounded-md shadow"
+        className="flex items-center justify-between bg-white py-2 px-4 border cursor-pointer rounded-md shadow"
       >
-        <div className="flex flex-col self-stretch">
-          <h3 className="font-bold">{title}</h3>
-          <div>
-            <p className="text-sm line-clamp-2">{description}</p>
-          </div>
-          {price && (
-            <span className="text-primary font-bold">{convertToUSD(price)}</span>
-          )}
-          {AddonName && (
-            <span className="text-primary font-bold">{AddonName}</span>
-          )}
-        </div>
+        <h3 className="text-base font-normal">{title}</h3>
         <div className="flex gap-3">
-          <div className="aspect-[4/3] w-24 rounded bg-primary/50 overflow-hidden relative shadow">
-            <img
-              // fill
-              src={image || IMAGES.NO_IMAGE}
-              alt={title}
-              className="w-full h-full object-cover"
-            />
+          <div className="relative" ref={dropdownRef}>
+            <button onClick={() => handleToggleClick()}>
+              <Image src={Toggle} alt="toggle" />
+            </button>
+            {openDropdown && (
+              <DropdownMenu isOpen={openDropdown} onEdit={onEdit} onDelete={onDelete} />
+            )}
           </div>
-          <div className="flex flex-col justify-around">
-            <HiTrash
-              className="text-red-500 h-5 w-5 cursor-pointer"
-              onClick={onDelete}
-            />
-            <HiPencil
-              className="text-blue-500 h-5 w-5 cursor-pointer"
-              onClick={onEdit}
-            />
-          </div>
-          {AddonPrice && (
-            <span className="text-primary font-bold">{convertToUSD(AddonPrice)}</span>
-          )}
         </div>
       </div>
     </div>
-
   );
 };
 

@@ -82,6 +82,13 @@ export interface Addon {
   created_at: string;
   updated_at: string;
 }
+export interface Allergens {
+  id: number;
+  name: string;
+  price: number;
+  created_at: string;
+  updated_at: string;
+}
 
 export interface OrderItem {
   id: number;

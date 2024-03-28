@@ -104,6 +104,7 @@ const OrderCard: React.FC<Props> = ({
         <Button
           className="mark-ready grow rounded-sm text-sm"
           variant="secondary"
+          size="sm"
         >
           Mark as Ready
         </Button>

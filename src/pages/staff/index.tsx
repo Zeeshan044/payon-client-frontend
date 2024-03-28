@@ -5,7 +5,9 @@ import StaffMembers from "@/components/ui/staff-members";
 const Staff = () => {
   return (
     <Layout>
-      <StaffMembers />
+      <div className="container mx-auto my-4">
+        <StaffMembers />
+      </div>
     </Layout>
   );
 };

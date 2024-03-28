@@ -11,8 +11,14 @@ const ViewTableModal = lazy(
   () => import("@/components/modals/view-table.modal")
 );
 const AddCategoryModal = lazy(() => import("@/components/modals/add-category.modal"));
+const UpdateCategoryModal = lazy(() => import("@/components/modals/update-category.modal"));
+const DeleteCategoryModal = lazy(() => import("@/components/modals/delete-category.modal"));
+
 const AddProductModal = lazy(
   () => import("@/components/modals/add-product.modal")
+);
+const UpdateProductModal = lazy(
+  () => import("@/components/modals/update-product.modal")
 );
 const AddRestaurant = lazy(
   () => import("@/components/modals/add-restaurant.modal")
@@ -32,8 +38,16 @@ function renderView(view: ModalViews) {
       return <ViewOrderModal />;
     case "ADD_PRODUCT":
       return <AddProductModal />;
+    case "UPDATE_PRODUCT":
+      return <UpdateProductModal />;
+    case "UPDATE_PRODUCT":
+      return <AddCategoryModal />;
     case "ADD_CATEGORY":
       return <AddCategoryModal />;
+    case "UPDATE_CATEGORY":
+      return <UpdateCategoryModal />;
+    case "DELETE_CATEGORY":
+      return <DeleteCategoryModal />;
     case "ADD_RESTAURANT":
       return <AddRestaurant />;
     case "VIEW_RESTAURANT":

@@ -4,7 +4,7 @@ import { IProductRequest, IProductResponse } from "@/types/api";
 
 export const productClient = {
   getAll: () => {
-    return HttpClient.get<IProductResponse[]>(API_ENDPOINTS.PRODUCT);
+    return HttpClient.get<IProductResponse>(API_ENDPOINTS.PRODUCT);
   },
   get: (id: number) => {
     return HttpClient.get<IProductResponse>(`${API_ENDPOINTS.PRODUCT}/${id}`);

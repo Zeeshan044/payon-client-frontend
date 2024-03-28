@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 // Create an Axios instance
 const Axios: AxiosInstance = axios.create({
-  baseURL: "process.env.NEXT_PUBLIC_BASE_URL",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: {
     "Content-Type": "multipart/form-data",
     "ngrok-skip-browser-warning": "true",
@@ -73,8 +73,9 @@ export class HttpClient {
 
   static async get<T>(url: string, params?: unknown) {
     const response = await Axios.get<IAPIResponse<T>>(url, { params });
-    console.log(response);
-    return response.data.data;
+    console.log(url);
+    console.log(response.data);
+    return response.data;
   }
 
   static async post<T>(

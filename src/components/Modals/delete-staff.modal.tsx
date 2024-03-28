@@ -18,7 +18,7 @@ const DeleteStaff = () => {
                 <div className="flex justify-end items-end gap-3">
                     <Button onClick={() => dispatch(closeModal())}
                         variant="cancel" className=" w-[146px]" type="submit">Cancel</Button>
-                    <Button className="flex w-[146px] bg-gradient-to-r from-[#5271FF] to-[#40AFFF]" type="submit">Update Staff</Button>
+                    <Button onClick={() => dispatch(closeModal())} className="flex w-[146px] bg-gradient-to-r from-[#5271FF] to-[#40AFFF]" type="submit">Delete Staff</Button>
                 </div>
             </ModalContent>
         </form>

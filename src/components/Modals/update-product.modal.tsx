@@ -1,3 +1,9 @@
+import {
+    useGetAllCategoriesQuery,
+    useUpdateCategoryMutation,
+} from "@/services/data/category.data";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 import React, { useState } from "react";
 import Input from "@/components/ui/input";
 import Button from "../ui/button";
@@ -5,65 +11,54 @@ import Select from "react-select";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-    ProductFormSchema,
-    ProductFormValues,
-} from "@/schema/product-form.schema";
-import { convertToUSD } from "@/utils";
-import {
-    useCreateProductMutation,
-} from "@/services/data/product.data";
 import { toast } from "react-toastify";
 import { closeModal } from "@/features/modal/modalSlice";
-import { useDispatch } from "react-redux";
-import { useGetAllCategoriesQuery } from "@/services/data/category.data";
-import { useGetAllAddonsQuery } from "@/services/data/addon.data";
-
-import { IProductRequest } from "@/types/api";
-import Checkbox from "../ui/checkbox";
-import { ModalContent, ModalFooter } from "../ui/modal";
+import { ModalContent } from "../ui/modal";
 import upload from "@/assets/images/image.svg"
 import { useGetAllAllergensQuery } from "@/services/data/allergen.data";
+import { ProductFormSchema, ProductFormValues } from "@/schema/product-form.schema";
+import { useGetAllAddonsQuery } from "@/services/data/addon.data";
+import { setSelectedProduct } from "@/features/product/productSlice";
+import { IProductRequest } from "@/types/api";
+import { useUpdateProductMutation } from "@/services/data/product.data";
+interface Props {
+    defaultValues?: ProductFormValues | null;
+}
 
-
-
-const AddProduct = () => {
+const UpdateProduct: React.FC<Props> = ({ defaultValues }) => {
     const fileRef = React.useRef<HTMLInputElement>(null);
+    const dispatch = useDispatch();
+    const { selectedProduct } = useSelector(
+        (state: RootState) => state.product
+    );
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
-        setValue,
+        setValue
     } = useForm<ProductFormValues>({
         resolver: yupResolver(ProductFormSchema),
+        defaultValues: selectedProduct || "",
     });
-
+    console.log(selectedProduct, "Selected product");
     const [selectedAddons, setSelectedAddons] = useState<{ label: string; value: string }[]>([]);
     const [selectedAllergens, setSelectedAllergens] = useState<{ label: string; value: string }[]>([]);
-
-    // const [addon, setAddon] = useState("");
-    // const [addonPrice, setAddonPrice] = useState(0);
-    // const [alergon, setAlergon] = useState<string[]>([]);
 
     const { data } = useGetAllCategoriesQuery();
     const { data: addonsData } = useGetAllAddonsQuery();
     const { data: allergensData } = useGetAllAllergensQuery();
 
-    console.log(addonsData, "All Addon");
-    console.log(allergensData, "All Allergens");
-
-    const { mutate: createProduct, isLoading: isLoadingCreate } =
-        useCreateProductMutation();
-    const dispatch = useDispatch();
+    const { mutate: UpdateProduct, isLoading: isLoadingUpdate } =
+        useUpdateProductMutation();
     const [imageInfo, setImageInfo] = useState({
         file: null as File | null,
         src: "",
     });
     const onSubmit = (data: IProductRequest) => {
+        const formData = new FormData();
         const { description, ingredients, name, price, category_id } =
             data;
-        const formData = new FormData();
         if (imageInfo.file) {
             formData.append("image", imageInfo.file as Blob);
         }
@@ -72,23 +67,25 @@ const AddProduct = () => {
         formData.append("ingredients", ingredients);
         formData.append("price", price.toString());
         formData.append("category_id", category_id.toString());
-        selectedAllergens.forEach(allergen => {
-            formData.append("allergens[]", allergen.value);
-        });
         selectedAddons.forEach(addon => {
             formData.append("addons[]", addon.value);
         });
-        createProduct(formData, {
-            onSuccess() {
-                reset();
-                setImageInfo({ file: null, src: "" });
-                setSelectedAllergens([]);
-                setSelectedAddons([]);
-                // setAddonPrice(0);
-                dispatch(closeModal());
-                toast.success("Product added successfully");
-            },
-        });
+
+        if (selectedProduct) {
+            UpdateProduct(
+                // @ts-ignore
+                { id: selectedProduct.id, data: formData },
+                {
+                    onSuccess() {
+                        console.log("Product updated successfully:", data);
+                        reset();
+                        dispatch(setSelectedProduct(null));
+                        dispatch(closeModal());
+                        toast.success("Product updated successfully");
+                    },
+                }
+            );
+        }
     };
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -100,16 +97,15 @@ const AddProduct = () => {
         }
     };
 
-    console.log(errors.image?.message, "errors");
-    // console.log(alergon, "alergon");
     return (
         <div className=" ">
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <ModalContent>
+            <ModalContent>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <p className=" text-base font-medium">Product Image</p>
                     <div className=" bg-slate-100 gap-1 w-16 h-16 flex flex-col cursor-pointer items-center justify-center rounded" onClick={() => fileRef.current?.click()}
                     >
                         <input
+                            // {...register()}
                             ref={fileRef}
                             hidden
                             type="file"
@@ -209,18 +205,17 @@ const AddProduct = () => {
                         </div>
                     </div>
 
-
-                </ModalContent>
-                <ModalFooter>
-                    <div className="flex justify-end items-end gap-3">
-                        <Button onClick={() => dispatch(closeModal())}
-                            variant="cancel" size="xxl" type="submit">Cancel</Button>
-                        <Button loading={isLoadingCreate} size="xl" type="submit">Add Product</Button>
-                    </div>
-                </ModalFooter>
-            </form>
-        </div >
+                    <Button
+                        className="mt-4 w-full"
+                        type="submit"
+                        loading={isLoadingUpdate}
+                    >
+                        Update Product
+                    </Button>
+                </form>
+            </ModalContent>
+        </div>
     );
 };
 
-export default AddProduct;
+export default UpdateProduct;

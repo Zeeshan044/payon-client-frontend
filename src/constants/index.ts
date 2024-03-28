@@ -3,8 +3,9 @@ export const API_ENDPOINTS = {
   LOGOUT: "/auth/logout",
   TABLE: "/tables",
   CATEGORY: "/categories",
-  PRODUCT: "/products",
-  USERPROFILE: "/auth/user",
+  PRODUCT: "/restaurants/1/menu",
+  USERPROFILE: "/auth/users/1",
   RESTAURANT: "/restaurants",
   ADDON: "/addons",
+  ALLERGEN: "/allergens",
 };

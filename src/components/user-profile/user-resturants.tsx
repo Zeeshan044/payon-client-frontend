@@ -10,6 +10,8 @@ import {
 import PageLoader from "../ui/page-loader";
 import { setSelectedrestaurant } from "@/features/restaurant/restaurantSlice";
 import { IRestaurantResponse } from "@/types/api";
+import Image from "next/image";
+import Edit from "@/assets/images/editRestaurant.svg"
 
 const UserRestaurants = () => {
   const { mutate: deleteRestaurant } = useDeleteRestaurantMutation();
@@ -78,9 +80,9 @@ const UserRestaurants = () => {
                 <th scope="col" className="px-5 py-5">
                   Address
                 </th>
-                <th scope="col" className="px-5 py-5">
+                {/* <th scope="col" className="px-5 py-5">
                   Email
-                </th>
+                </th> */}
                 <th scope="col" className="px-5 py-5">
                   Actions
                 </th>
@@ -91,7 +93,7 @@ const UserRestaurants = () => {
                 <tr key={restaurant.id} className="bg-white border-b">
                   <th
                     scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap border-r"
                   >
                     <div
                       className="hover:text-primary duration-200 cursor-pointer"
@@ -100,12 +102,12 @@ const UserRestaurants = () => {
                       {restaurant.name}
                     </div>
                   </th>
-                  <td className="px-6 py-4">Lahore</td>
-                  <td className="px-6 py-4">{restaurant.address}</td>
-                  <td className="px-6 py-4">{restaurant.email}</td>
+                  <td className="px-6 py-4 text-black border-r">Lahore Branch</td>
+                  <td className="px-6 py-4 text-black border-r">{restaurant.address}</td>
+                  {/* <td className="px-6 py-4 text-black">{restaurant.email}</td> */}
                   <td className="px-6 py-4">
                     <div className="flex justify-end gap-4">
-                      <HiPencil
+                      <Image src={Edit} alt="icon"
                         className="h-5 w-5 text-blue-500 cursor-pointer"
                         onClick={() => handleUpdateResturant(restaurant)}
                       />
